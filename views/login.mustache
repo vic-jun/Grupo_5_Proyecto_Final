@@ -8,16 +8,20 @@
     <title>Login</title>
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/login.css">
 </head>
 <body>
-    <form action="">
-        <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario">
-        <label for="contrasenia">Contraseña:</label>
-        <input type="password" name="contrasenia">
-        <button>Enviar</button>
-    </form>
+    <form action="" class="contenedor" style="margin-top: 2em; margin-bottom: 2em">
+        <h2>Hola!</h2>
+        <h3>Iniciá sesión o <a href="/registrar/get">creá un usuario</a></h3>
+        <hr class="colorgraph"><br>
 
-    <a href="/registrar/get">Registrarme</a>
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" required>
+        <label for="contrasenia">Contraseña:</label>
+        <input type="password" name="contrasenia" id="contrasenia" required>
+
+        <button type="submit">Ingresar</button>
+    </form>
 </body>
 </html>
