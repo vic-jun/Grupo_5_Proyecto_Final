@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fc086a93-194b-43cb-9242-e598890a3b6b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/css/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/registrar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/footer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/footer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/header.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/registrar.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/registrar.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/templates/footer.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/templates/footer.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/templates/header.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/templates/header.mustache" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2f6beJqMjWQ59bZBjb8TF4biMZ6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JavaScript Debug.index.php.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "VictoriaJ",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs" />
+      <recent name="C:\xampp\htdocs\pokedexPropio" />
+      <recent name="C:\xampp\htdocs\src\model" />
+      <recent name="C:\xampp\htdocs\src" />
+      <recent name="C:\xampp\htdocs\public" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="index.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/htdocs/RamiroValdez/index.php" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.php" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.15026.12" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc086a93-194b-43cb-9242-e598890a3b6b" name="Changes" comment="" />
+      <created>1713124569851</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713124569851</updated>
+      <workItem from="1713124570107" duration="9463000" />
+      <workItem from="1713209328915" duration="10555000" />
+      <workItem from="1713294786579" duration="21382000" />
+      <workItem from="1713391096832" duration="688000" />
+      <workItem from="1713467699545" duration="8401000" />
+      <workItem from="1713644371564" duration="12019000" />
+      <workItem from="1713732808736" duration="14601000" />
+      <workItem from="1713748593276" duration="1134000" />
+      <workItem from="1714067379558" duration="3000" />
+      <workItem from="1714241890946" duration="7248000" />
+      <workItem from="1714340247156" duration="262000" />
+      <workItem from="1714340884488" duration="6850000" />
+      <workItem from="1714510626157" duration="19484000" />
+      <workItem from="1714685068559" duration="2265000" />
+      <workItem from="1714687441693" duration="138000" />
+      <workItem from="1714688560508" duration="6000" />
+      <workItem from="1714848163263" duration="7148000" />
+      <workItem from="1714859941511" duration="1055000" />
+      <workItem from="1716061215127" duration="204000" />
+      <workItem from="1716061427727" duration="3573000" />
+      <workItem from="1716065042747" duration="47000" />
+      <workItem from="1716065184242" duration="702000" />
+      <workItem from="1716066082533" duration="704000" />
+      <workItem from="1716750516134" duration="208000" />
+      <workItem from="1716750732443" duration="11156000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

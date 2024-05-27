@@ -5,19 +5,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Registrarse</title>
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/registrar.css">
 </head>
 <body>
-    <form action="">
+    <form action="" class="contenedor" style="margin-top: 2em; margin-bottom: 2em">
+        <h2>Registrate</h2>
+        <hr class="colorgraph"><br>
+
         <label for="usuario">Nombre de usuario:</label>
-        <input type="text" name="usuario">
-        <label for="correo">Email</label>
-        <input type="email" name="correo">
-        <label for="contrasenia">Contraseña</label>
-        <input type="password" name="contrasenia">
-        <button>Enviar</button>
+        <input type="text" name="usuario" id="usuario" required>
+        <label for="correo">Email:</label>
+        <input type="email" name="correo" id="correo" required>
+        <label for="contrasenia">Contraseña:</label>
+        <input type="password" name="contrasenia" id="contrasenia" required>
+
+        <button type="submit">Registrarme</button>
     </form>
 </body>
 </html>

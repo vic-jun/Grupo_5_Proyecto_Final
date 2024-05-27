@@ -1,0 +1,60 @@
+/* Fondo del cuerpo */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5dc;
+}
+
+/* Estilo del contenedor del formulario */
+.contenedor {
+    padding: 2em;
+    border: 1px solid #6a5acd;
+    border-radius: 0.7em;
+    background-color: #f5f5f5;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor h2 {
+    text-align: center;
+    color: #580296;
+}
+
+/* Estilo de las etiquetas */
+.contenedor label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5em;
+
+    color: #2c014b;
+}
+
+/* Estilo de los campos de entrada */
+.contenedor input[type="text"],
+.contenedor input[type="email"],
+.contenedor input[type="password"] {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #00bfff;
+    border-radius: 0.7em;
+    box-sizing: border-box;
+}
+
+.contenedor button {
+    background-color: #6a5acd;
+    color: white;
+    padding: 0.7em 1.5em;
+    border: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+}
+
+/* Efecto hover en el botón */
+.contenedor button:hover {
+    background-color: #4b0082;
+}

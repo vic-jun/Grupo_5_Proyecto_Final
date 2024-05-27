@@ -1,6 +1,26 @@
 footer {
-    background-color: crimson;
+    background: linear-gradient(to right, #4b0082, #6a5acd); /* Gradiente de violeta oscuro a violeta */
     color: white;
     text-align: center;
     padding: 2em;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    margin-top: 2em;
+}
+
+footer h2 {
+    font-size: 1.5em;
+    margin: 0 0 1em 0;
+    letter-spacing: 0.05em;
+}
+
+.contenedor1,
+.contenedor2 {
+    display: inline-block;
+    margin: 0 1em;
+}
+
+.contenedor1 li,
+.contenedor2 li {
+    list-style-type: none;
+    margin: 0.5em 0;
 }
