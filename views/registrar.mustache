@@ -21,65 +21,82 @@
     </style>
 </head>
 <body>
-    <form action="" class="contenedor" style="margin-top: 2em; margin-bottom: 2em">
+    <form action="registrar/registrarse" class="contenedor" method="post" enctype="multipart/form-data" style="margin-top: 2em; margin-bottom: 2em">
+
         <h2>Registrate</h2>
         <hr class="colorgraph"><br>
 
         <label for="usuario">Nombre de usuario:</label>
         <input type="text" name="usuario" id="usuario" required>
+
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" id="nombre" required>
+
         <label for="apellido">Apellido:</label>
         <input type="text" name="apellido" id="apellido" required>
+
         <label for="correo">Email:</label>
         <input type="email" name="correo" id="correo" required>
+
         <label for="anioDeNacimiento">Año de nacimiento:</label>
         <input type="number" name="anioDeNacimiento" id="anioDeNacimiento" required>
+
+        <br>
+        <label for="genero">Género:</label>
         <select name="genero" id="genero">
             <option value="0" selected>Seleccionar:</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
             <option value="prefieroNoCargarlo">Prefiero no cargarlo</option>
         </select>
+        <br>
         <div id="template">
             <div id="map"></div>
-            <input type="text" id="country-input" readonly />
+            <input type="text" id="country-input" name="pais"/>
+            <input type="text" id="city-input" name="ciudad"/>
         </div>
 
-        <script id="template-script" >
-            <div id="map"></div>
-            <input type="text" id="country-input" readonly />
-        </script>
+
+
+
 
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var template = document.getElementById('template-script').innerHTML;
-                //var rendered = Mustache.render(template);
-               //document.getElementById('template').innerHTML = rendered;
 
-                var map = L.map('map').setView([20, 0], 2);
+      document.addEventListener('DOMContentLoaded', function() {
+        var map = L.map('map').setView([-34.668122302015824, -58.56659305922967], 13);
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-                function onMapClick(e) {
-                    fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}")
+        function onMapClick(e) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
                 .then(response => response.json())
-                            .then(data => {
-                                var country = data.address.country || 'No se encontró el país';
-                                document.getElementById('country-input').value = country;
-                            });
-                }
+                .then(data => {
+                    var country = data.address && data.address.country ? data.address.country : 'No se encontró el país';
+                    var city = data.address && data.address.city ? data.address.city : 'No se encontró la ciudad';
+                    document.getElementById('country-input').value = country;
+                    document.getElementById('city-input').value = city;
+                });
+        }
 
-                map.on('click', onMapClick);
-            });
+          L.marker([-34.668122302015824, -58.56659305922967]).addTo(map)
+                  .bindPopup('Universidad Nacional de La Matanza')
+                  .openPopup();
+        map.on('click', onMapClick);
+    });
+
         </script>
+
+        <label for="file">Foto de perfil:</label>
+        <input type="file" name="foto" id="file" accept="multipart/form-data" required>
+        <br>
         <label for="contrasenia">Contraseña:</label>
         <input type="password" name="contrasenia" id="contrasenia" required>
 
 
         <button type="submit">Registrarme</button>
+
     </form>
 </body>
 </html>

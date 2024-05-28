@@ -6,7 +6,7 @@ class BaseDeDatos
 
     public function __construct($servername, $user, $dbname, $password)
     {
-        $this->baseDeDatos = new mysqli($servername, $user, $dbname, $password);
+        $this->baseDeDatos = new mysqli($servername, $user, $password, $dbname);
 
         if ($this->baseDeDatos->connect_error){
             echo "Error: " . $this->baseDeDatos->connect_error;
