@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/registrar.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <form action="" class="contenedor" style="margin-top: 2em; margin-bottom: 2em">
@@ -17,10 +27,57 @@
 
         <label for="usuario">Nombre de usuario:</label>
         <input type="text" name="usuario" id="usuario" required>
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required>
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" id="apellido" required>
         <label for="correo">Email:</label>
         <input type="email" name="correo" id="correo" required>
+        <label for="anioDeNacimiento">Año de nacimiento:</label>
+        <input type="number" name="anioDeNacimiento" id="anioDeNacimiento" required>
+        <select name="genero" id="genero">
+            <option value="0" selected>Seleccionar:</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="prefieroNoCargarlo">Prefiero no cargarlo</option>
+        </select>
+        <div id="template">
+            <div id="map"></div>
+            <input type="text" id="country-input" readonly />
+        </div>
+
+        <script id="template-script" >
+            <div id="map"></div>
+            <input type="text" id="country-input" readonly />
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var template = document.getElementById('template-script').innerHTML;
+                //var rendered = Mustache.render(template);
+               //document.getElementById('template').innerHTML = rendered;
+
+                var map = L.map('map').setView([20, 0], 2);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                function onMapClick(e) {
+                    fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}")
+                .then(response => response.json())
+                            .then(data => {
+                                var country = data.address.country || 'No se encontró el país';
+                                document.getElementById('country-input').value = country;
+                            });
+                }
+
+                map.on('click', onMapClick);
+            });
+        </script>
         <label for="contrasenia">Contraseña:</label>
         <input type="password" name="contrasenia" id="contrasenia" required>
+
 
         <button type="submit">Registrarme</button>
     </form>

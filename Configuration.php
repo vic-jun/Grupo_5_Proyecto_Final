@@ -28,4 +28,13 @@ include_once "controller/RegistrarController.php";
      public static function getPresenter(){
          return new MustachePresenter("views/templates");
      }
+
+     public static function obtenerBaseDeDatos(){
+         return parse_ini_file("config/base_de_datos.ini");
+     }
+
+     public static function getBaseDeDatos(){
+         $config = self::obtenerBaseDeDatos();
+         return new BaseDeDatos($config["servername"] , $config["user"], $config["dbname"], $config["password"]);
+     }
  }
