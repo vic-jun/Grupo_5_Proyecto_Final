@@ -2,17 +2,14 @@
 
 require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
-class RegistrarModel
-{
+class RegistrarModel{
     private $baseDeDatos;
 
-    public function __construct($baseDeDatos)
-    {
+    public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function registrarse($nombreUsuario, $nombre, $apellido, $email, $password, $pais, $ciudad, $fotoDePerfil, $añoNacimiento, $genero)
-    {
+    public function registrarse($nombreUsuario, $nombre, $apellido, $email, $password, $pais, $ciudad, $fotoDePerfil, $añoNacimiento, $genero){
 
         $rol = "usuario";
         $nombre_foto = "";
@@ -58,6 +55,5 @@ class RegistrarModel
         header("Location: /confirmarEmail?hash=" . $hash);
 
         exit();
-
     }
 }

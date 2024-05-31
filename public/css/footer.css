@@ -1,9 +1,9 @@
 footer {
-    background: linear-gradient(to right, #4b0082, #6a5acd); /* Gradiente de violeta oscuro a violeta */
+    background: linear-gradient(to right, #4b0082, #6a5acd);
     color: white;
     text-align: center;
     padding: 2em;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 2em;
 }
 
@@ -14,13 +14,16 @@ footer h2 {
 }
 
 .contenedor1,
-.contenedor2 {
+.contenedor2,
+.contenedor3 {
     display: inline-block;
     margin: 0 1em;
 }
 
 .contenedor1 li,
-.contenedor2 li {
+.contenedor2 li,
+.contenedor3 li {
     list-style-type: none;
     margin: 0.5em 0;
 }
+
