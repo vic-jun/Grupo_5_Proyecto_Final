@@ -1,6 +1,6 @@
 <?php
 
-require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
+
 
 class RegistrarModel{
     private $baseDeDatos;
@@ -30,15 +30,21 @@ class RegistrarModel{
             if (empty($errors) == true) {
                 $fotoPerfil = $fotoDePerfil;
                 $archivo_temporal = $fotoDePerfil['tmp_name'];
-                $directorio_destino = '/public/img';
-                $nombre_foto = $directorio_destino . $fotoPerfil;
-                move_uploaded_file($archivo_temporal, $directorio_destino . $fotoPerfil);
+                $directorio_destino = $_SERVER['DOCUMENT_ROOT'] . '/public/img';
+
+                if (!is_dir($directorio_destino)) {
+                    mkdir($directorio_destino, 0755, true);
+                }
+
+                $nombre_foto = $directorio_destino . '/' . $fotoPerfil['name'];
+
+                move_uploaded_file($archivo_temporal, $nombre_foto);
             } else {
                 print_r($errors);
             }
         }
 
-        $sql = "INSERT INTO usuario (nombre_de_usuario,nombre,apellido,email,password,pais,ciudad,año_nacimiento,genero,rol, foto) VALUES ($nombreUsuario,$nombre,$apellido,$email,$password,$pais,$ciudad,$añoNacimiento,$genero,$rol,$nombre_foto)";
+        $sql = "INSERT INTO usuario (nombre_de_usuario,nombre,apellido,email,password,pais,ciudad,foto,año_nacimiento,genero,rol) VALUES ('$nombreUsuario','$nombre','$apellido','$email','$password','$pais','$ciudad','$nombre_foto','$añoNacimiento','$genero','$rol')";
 
         include_once ("helper/Logger.php");
         $log = new Logger();
@@ -51,9 +57,6 @@ class RegistrarModel{
 
         file_put_contents('hashes.txt', $hash . PHP_EOL, FILE_APPEND);
 
-        // fixme: eliminar header para manejarlo desde controlador
-        header("Location: /confirmarEmail?hash=" . $hash);
-
-        exit();
+        return array("hash" => $hash, "email" => $email);
     }
 }

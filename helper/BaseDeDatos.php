@@ -13,9 +13,18 @@ class BaseDeDatos
         }
     }
 
-    public function query($sql){
+    public function query($sql)
+    {
         $result = mysqli_query($this->baseDeDatos, $sql);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        if ($result instanceof mysqli_result) {
+            $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } elseif ($result === true) {
+            $rows = true;
+        } else {
+            $rows = "Error: " . mysqli_error($this->baseDeDatos);
+        }
+        return $rows;
     }
 
     public function execute($sql)

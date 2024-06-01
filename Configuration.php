@@ -14,6 +14,7 @@ include_once "models/ConfirmarEmailModel.php";
 include_once "models/LoginModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
+require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
 
  class Configuration {

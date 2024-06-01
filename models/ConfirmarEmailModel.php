@@ -3,20 +3,21 @@
 class ConfirmarEmailModel
 {
 
+    private $resultado;
     public function __construct()
     {
     }
 
     public function confirmarEmail($email, $token)
     {
-        $hash = $_GET['hash'];
+        if($this->buscarHash($token)) {
 
-        if($this->buscarHash($hash)) {
-
-            echo "Email confirmado";
+            $this->resultado = "Email confirmado";
+            return $this->resultado;
 
         }else {
-            echo "Email no confirmado";
+            $this->resultado =  "Email no confirmado";
+            return $this->resultado;
         }
     }
 

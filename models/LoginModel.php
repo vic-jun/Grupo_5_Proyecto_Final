@@ -7,12 +7,11 @@ class LoginModel{
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function validar($email, $password){
-        $sql = "SELECT * FROM usuario WHERE email = '$email' AND password = '$password'";
+    public function validar($usuario, $password){
+        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password'";
         $result = $this->baseDeDatos->query($sql);
-        $row = $result->fetch_assoc();
-        if ($row) {
-            return $row;
+        if ($result){
+            return true;
         } else {
             return false;
         }

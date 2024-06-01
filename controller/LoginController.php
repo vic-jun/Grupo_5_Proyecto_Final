@@ -15,11 +15,11 @@ class LoginController
     }
 
     public function login(){
-        $data = $this->model->validar($_POST["email"], $_POST["password"]);
+        $data = $this->model->validar($_POST["usuario"], $_POST["contrasenia"]);
         if($data){
             session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['email'] = $_POST["email"];
+            $_SESSION['nombre_de_usuario'] = $_POST["nombre_de_usuario"];
             header("Location: /inicio");
             exit();
         } else {
