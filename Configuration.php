@@ -50,7 +50,12 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
      // helpers
      public static function getRouter(){
-         return new Router("getLoginController" , "get");
+
+         if(session_status() == PHP_SESSION_NONE){
+             return new Router("getLoginController" , "get");
+        } else {
+             return new Router("getInicioController" , "get");
+         }
      }
 
      public static function getPresenter(){

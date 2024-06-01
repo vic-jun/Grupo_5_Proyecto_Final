@@ -19,7 +19,7 @@ class LoginController
         if($data){
             session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['nombre_de_usuario'] = $_POST["nombre_de_usuario"];
+            $_SESSION['nombre_de_usuario'] = $_POST["usuario"];
             header("Location: /inicio");
             exit();
         } else {
