@@ -9,18 +9,87 @@
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/registrar.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <form action="" class="contenedor" style="margin-top: 2em; margin-bottom: 2em">
+    <form action="registrar/registrar" class="contenedor" method="post" enctype="multipart/form-data">
+
         <h2>Registrate</h2>
         <hr class="colorgraph"><br>
 
         <label for="usuario">Nombre de usuario:</label>
-        <input type="text" name="usuario" id="usuario" required>
+        <input type="text" name="usuario" id="usuario" value="grupo_5" required>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" value="Grupo" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" id="apellido" value="Cinco" required>
+
         <label for="correo">Email:</label>
-        <input type="email" name="correo" id="correo" required>
+        <input type="email" name="correo" id="correo" value="grupo5@unlam.com" required>
+
+        <label for="anioDeNacimiento">Año de nacimiento:</label>
+        <input type="number" name="anioDeNacimiento" id="anioDeNacimiento" value="2024" required>
+
+        <label for="genero">Género:</label>
+        <select name="genero" id="genero">
+            <option value="0" selected>Seleccionar:</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="prefieroNoCargarlo">Prefiero no cargarlo</option>
+        </select>
+
+        <!-- Mapa para seleccionar pais y ciudad -->
+        <div id="template">
+            <div id="map"></div>
+            <label for="country-input">País:</label>
+            <input type="text" id="country-input" name="pais" />
+            <label for="city-input">Ciudad:</label>
+            <input type="text" id="city-input" name="ciudad"/>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map').setView([-34.668122302015824, -58.56659305922967], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            function onMapClick(e) {
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var country = data.address && data.address.country ? data.address.country : 'No se encontró el país';
+                        var city = data.address && data.address.city ? data.address.city : 'No se encontró la ciudad';
+                        document.getElementById('country-input').value = country;
+                        document.getElementById('city-input').value = city;
+                    });
+            }
+
+            L.marker([-34.668122302015824, -58.56659305922967]).addTo(map)
+                      .bindPopup('Universidad Nacional de La Matanza')
+                      .openPopup();
+            map.on('click', onMapClick);
+
+          });
+        </script>
+
+        <label for="file">Foto de perfil:</label>
+        <input type="file" name="foto" id="file" accept="multipart/form-data" required>
+
         <label for="contrasenia">Contraseña:</label>
-        <input type="password" name="contrasenia" id="contrasenia" required>
+        <input type="password" name="contrasenia" id="contrasenia" value="1234" required>
 
         <button type="submit">Registrarme</button>
     </form>
