@@ -8,10 +8,12 @@ include_once "controller/LoginController.php";
 include_once "controller/RegistrarController.php";
 include_once "controller/ConfirmarEmailController.php";
 include_once "controller/InicioController.php";
+include_once "controller/SeleccionarCategoriaController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
 include_once "models/LoginModel.php";
+include_once "models/SeleccionarCategoriaModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
 require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
@@ -35,6 +37,10 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          //self::getInicioModel()
      }
 
+     public static function getSeleccionarCategoriaController(){
+         return new SeleccionarCategoriaController(self::getSeleccionarCategoriaModel(),self::getPresenter());
+     }
+
      // models
      public static function getRegistrarseModel(){
          return new RegistrarModel(self::getBaseDeDatos());
@@ -46,6 +52,10 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
     public static function getLoginModel(){
         return new LoginModel(self::getBaseDeDatos());
+    }
+
+    public static function getSeleccionarCategoriaModel(){
+        return new SeleccionarCategoriaModel(self::getBaseDeDatos());
     }
 
      // helpers
