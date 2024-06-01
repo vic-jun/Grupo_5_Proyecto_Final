@@ -1,0 +1,87 @@
+/* ESTILO BODY */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5dc;
+}
+
+/* ESTILO NAVEGADOR */
+nav {
+    background-color: rgba(83, 159, 152, 0.64);
+    overflow: hidden;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    color: #111111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: white;
+    background-color: #111;
+}
+
+/* ESTILO MAIN */
+main {
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 5em;
+    margin-top: 5em;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+main h1 {
+    font-size: 2.5em;
+    color: #580296;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+main form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main label {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+main select {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1em;
+}
+
+main button {
+    display: inline-block;
+    color: #fff;
+    background-color: #6a5acd;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    box-shadow: none;
+}
+
+main button:hover {
+    background-color: #4b0082;
+}

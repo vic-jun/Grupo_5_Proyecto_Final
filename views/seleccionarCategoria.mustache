@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/seleccionar_categoria.css">
+    <title>Seleccionar Categoria</title>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/inicio">Inicio</a></li>
+            <li><a href="/perfil">Perfil</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Seleccionar Categoria</h1>
+        <form action="seleccionarCategoria/seleccionar" method="post">
+
+            <label for="categoria">Selecciona una categoría:</label>
+            <select name="categoria" id="categoria">
+                <option value="1">Historia</option>
+                <option value="2">Geografía</option>
+                <option value="3">Ciencia</option>
+                <option value="4">Arte</option>
+                <option value="5">Deportes</option>
+                <option value="6">Entretenimiento</option>
+            </select>
+
+            <button type="submit">Seleccionar</button>
+        </form>
+    </main>
+</body>
+</html>
