@@ -2,9 +2,9 @@
 
     require_once "Configuration.php";
     if (session_status() == PHP_SESSION_NONE) {
-       $router = Configuration::getInicio();
-    }else {
         $router = Configuration::getRouter();
+    }else {
+        $router = Configuration::getInicio();
     }
 
     $controller = isset($_GET["controller"]) ? $_GET["controller"] : "";
