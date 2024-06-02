@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <h2>{{pregunta}}</h2>
+    <h3>{{categoria}} puntos</h3>
+
+    <form action="iniciarPartida/verificar">
+        <input type="hidden" name="categoria" value="{{categoria}}">
+        <input type="hidden"  value="{{correcta}}">
+
+            {{#respuestas}}
+                <input type="radio" name="respuesta" value="{{.}}">{{.}}<br>
+            {{/respuestas}}
+
+        <button type="submit">Responder</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+[24-06-02 10:54:53][INFO] INSERT INTO usuario (nombre_de_usuario,nombre,apellido,email,password,pais,ciudad,foto,año_nacimiento,genero,rol) VALUES ('grupo_5','Grupo','Cinco','grupo5@unlam.com','1234','Argentina','San Justo','C:/xampp/htdocs/Grupo_5_Proyecto_Final/public/img/001.png','2024','masculino','usuario')

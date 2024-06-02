@@ -14,8 +14,10 @@ class LoginController
         $this->presenter->render("views/login.mustache");
     }
 
-    public function login(){
+    public function logearse(){
+
         $data = $this->model->validar($_POST["usuario"], $_POST["contrasenia"]);
+
         if($data){
             session_start();
             $_SESSION['loggedin'] = true;
