@@ -4,23 +4,35 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/iniciar_partida.css">
+    <title>Partida</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="/inicio">Inicio</a></li>
+            <li><a href="/perfil">Perfil</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
 
+    <main>
+        <h1>CATEGORIA: {{categoria}}</h1>
+        <h2>Pregunta:</h2>
+        <h4>✩ {{pregunta}}</h4>
 
-    <h2>{{pregunta}}</h2>
-    <h3>{{categoria}} puntos</h3>
-
-    <form action="iniciarPartida/verificar">
-        <input type="hidden" name="categoria" value="{{categoria}}">
-        <input type="hidden"  value="{{correcta}}">
-
-            {{#respuestas}}
-                <input type="radio" name="respuesta" value="{{.}}">{{.}}<br>
-            {{/respuestas}}
-
-        <button type="submit">Responder</button>
-    </form>
+        <h2>Respuestas:</h2>
+        <form action="iniciarPartida/verificar">
+            <input type="hidden" name="categoria" value="{{categoria}}">
+            <input type="hidden"  value="{{correcta}}">
+                {{#respuestas}}
+                    <input type="radio" id="respuesta-{{.}}" name="respuesta" value="{{.}}">
+                    <label for="respuesta-{{.}}">{{.}}</label><br>
+                {{/respuestas}}
+            <button type="submit">Responder</button>
+        </form>
+    </main>
 </body>
 </html>

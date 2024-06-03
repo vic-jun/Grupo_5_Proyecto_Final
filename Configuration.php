@@ -10,6 +10,7 @@ include_once "controller/ConfirmarEmailController.php";
 include_once "controller/InicioController.php";
 include_once "controller/SeleccionarCategoriaController.php";
 include_once "controller/IniciarPartidaController.php";
+include_once "controller/PerfilController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
@@ -18,7 +19,7 @@ include_once "models/SeleccionarCategoriaModel.php";
 include_once "models/IniciarPartidaModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
-require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
+include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
 
  class Configuration {
@@ -30,6 +31,7 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
      public static function getRegistrarController(){
          return new RegistrarController(self::getRegistrarseModel(), self::getPresenter());
      }
+
      public static function getConfirmarEmailController(){
          return new ConfirmarEmailController(self::getConfirmarEmailModel(), self::getPresenter());
      }
@@ -45,6 +47,10 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
      public static function getIniciarPartidaController(){
          return new IniciarPartidaController(self::getIniciarPartidaModel(),self::getPresenter());
+     }
+
+     public static function getPerfilController(){
+         return new PerfilController(self::getPresenter());
      }
 
      // models
@@ -64,8 +70,7 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
         return new SeleccionarCategoriaModel(self::getBaseDeDatos());
     }
 
-     private static function getIniciarPartidaModel()
-     {
+     private static function getIniciarPartidaModel(){
          return new IniciarPartidaModel(self::getBaseDeDatos());
      }
 
@@ -74,8 +79,7 @@ require_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
              return new Router("getLoginController" , "get");
      }
 
-     public static function getInicio()
-     {
+     public static function getInicio(){
          return new Router("getInicioController", "get");
      }
      public static function getPresenter(){
