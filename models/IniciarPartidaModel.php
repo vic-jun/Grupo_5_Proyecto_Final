@@ -1,16 +1,13 @@
 <?php
 
-class IniciarPartidaModel
-{
+class IniciarPartidaModel{
 
     private $baseDeDatos;
-    public function __construct($baseDeDatos)
-    {
+    public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function iniciarPartida($categoria)
-    {
+    public function iniciarPartida($categoria){
        $resPreg = $this->buscarPreguntas($categoria);
 
        if(is_array($resPreg) && count($resPreg) > 0){
@@ -41,8 +38,7 @@ class IniciarPartidaModel
        }
     }
 
-    public function buscarPreguntas($categoria)
-    {
+    public function buscarPreguntas($categoria){
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -56,8 +52,7 @@ class IniciarPartidaModel
         }
     }
 
-    public function buscarRespuestas($id)
-    {
+    public function buscarRespuestas($id){
         $sql = "SELECT PR.id_respuesta, R.descripcion as descripcion, PR.correcta FROM preguntas_respuestas PR JOIN respuestas R ON R.id = PR.id_respuesta WHERE id_pregunta = '$id'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -70,8 +65,7 @@ class IniciarPartidaModel
         }
     }
 
-public function verificarRespuesta($respuesta, $correcta, $categoria)
-    {
+    public function verificarRespuesta($respuesta, $correcta, $categoria){
         $sql = "SELECT R.id FROM respuestas R JOIN preguntas_respuestas PR ON R.id = PR.id_respuesta WHERE R.descripcion = '$respuesta'";
 
         $result = $this->baseDeDatos->query($sql);
