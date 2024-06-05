@@ -14,6 +14,7 @@
     <form action="login/logearse" class="contenedor" method="post">
 
         <h2>Hola!</h2>
+
         <h3>Iniciá sesión o <a href="/registrar/get">creá un usuario</a></h3>
         <hr class="colorgraph"><br>
 
@@ -24,6 +25,8 @@
         <input type="password" name="contrasenia" id="contrasenia" required>
 
         <button type="submit">Ingresar</button>
+
+        <h3>{{error}}</h3>
     </form>
 </body>
 </html>

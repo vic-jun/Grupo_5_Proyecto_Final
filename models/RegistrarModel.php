@@ -53,6 +53,22 @@ class RegistrarModel{
 
         $hash = hash('sha256', $email . $password);
 
+        $sql1 = "SELECT 1 FROM usuario WHERE email = '$email'";
+        $queryResult = $this->baseDeDatos->query($sql1);
+
+        if(empty($queryResult) == false){
+            return false;
+        }
+
+        $sql2 = "SELECT 1 FROM usuario WHERE nombre_de_usuario = '$nombreUsuario'";
+        $queryResult = $this->baseDeDatos->query($sql2);
+        if(empty($queryResult) == false){
+            return false;
+        }
+
+
+
+
         $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed) 
                 VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$password', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0)";
 

@@ -73,7 +73,7 @@ class IniciarPartidaModel{
         if(is_array($result) && count($result) > 0){
             $respuesta = $result[0];
             if($respuesta['id'] == $correcta){
-                return $categoria;
+                return $inicio = $this->iniciarPartida($categoria);
             } else {
                 return false;
             }

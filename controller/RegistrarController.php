@@ -26,7 +26,7 @@ class RegistrarController
             if ($this->model->emailConfirmado($_POST["correo"])) {
                 $data = array("message" => "El correo ya ha sido confirmado.");
             } else {
-                $data = array("message" => "El correo no ha sido confirmado.");
+                $data = array("message" => "Verifica tu casilla de correo para confirmar tu dirección de correo electrónico.");
             }
             $this->presenter->render("views/confirmarEmail.mustache", $data);
             exit();
