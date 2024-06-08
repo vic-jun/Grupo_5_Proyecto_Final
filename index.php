@@ -1,6 +1,7 @@
 <?php
 
     require_once "Configuration.php";
+
     if (session_status() == PHP_SESSION_NONE) {
         $router = Configuration::getRouter();
     }else {

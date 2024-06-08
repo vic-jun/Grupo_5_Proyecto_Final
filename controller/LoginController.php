@@ -11,7 +11,9 @@ class LoginController
     }
 
     public function get(){
+
         $this->presenter->render("views/login.mustache");
+
     }
 
     public function logearse(){

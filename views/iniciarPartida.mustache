@@ -25,7 +25,6 @@
 
         <h2>Respuestas:</h2>
         <form action="iniciarPartida/verificar">
-            <input type="hidden" name="categoria" value="{{categoria}}">
             <input type="hidden"  value="{{correcta}}">
                 {{#respuestas}}
                     <input type="radio" id="respuesta-{{.}}" name="respuesta" value="{{.}}">

@@ -1,6 +1,7 @@
 <?php
 
 class IniciarPartidaController{
+
     public $model;
 
     public $presenter;
@@ -11,7 +12,13 @@ class IniciarPartidaController{
 
     public function iniciarPartida(){
 
-        $res = $this->model->iniciarPartida($_POST['categoria']);
+        session_start();
+
+        if(isset($_POST['categoria'])){
+            $_SESSION['categoria'] = $_POST['categoria'];
+        }
+
+        $res = $this->model->iniciarPartida($_SESSION['categoria']);
 
         if (is_array($res) && isset($res["pregunta"], $res["respuestas"], $res["correcta"])) {
             $this->presenter->render("views/iniciarPartida.mustache", ['pregunta' => $res["pregunta"], 'respuestas' => $res["respuestas"], 'correcta' => $res["correcta"]]);
@@ -21,13 +28,14 @@ class IniciarPartidaController{
     }
 
     public function verificar(){
-        $respuesta = $this->model->verificarRespuesta($_POST['respuesta'], $_POST['correcta'], $_POST['categoria']);
 
-        if(is_array($respuesta) && isset($respuesta['pregunta'], $respuesta['respuestas'], $respuesta['correcta'])){
-            $this->presenter->render("views/iniciarPartida.mustache", ['pregunta' => $respuesta["pregunta"], 'respuestas' => $respuesta["respuestas"], 'correcta' => $respuesta["correcta"]]);
+        $respuesta = $this->model->verificarRespuesta($_POST['respuesta'], $_POST['correcta']);
+
+        if($respuesta){
+            header("Location: /iniciarPartida");
         }else{
             header("Location: /inicio");
-            exit();
         }
+        exit();
     }
 }
