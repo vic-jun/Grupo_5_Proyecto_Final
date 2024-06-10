@@ -1,6 +1,6 @@
 <?php
 
-class IniciarPartidaModel{
+class JuegoModel{
 
     private $baseDeDatos;
     public function __construct($baseDeDatos){
@@ -8,6 +8,7 @@ class IniciarPartidaModel{
     }
 
     public function iniciarPartida($categoria){
+
        $resPreg = $this->buscarPreguntas($categoria);
 
        if(is_array($resPreg) && count($resPreg) > 0){
@@ -65,7 +66,7 @@ class IniciarPartidaModel{
         }
     }
 
-    public function verificarRespuesta($respuesta, $correcta, $categoria){
+    public function verificarRespuesta($respuesta, $correcta){
         $sql = "SELECT R.id FROM respuestas R JOIN preguntas_respuestas PR ON R.id = PR.id_respuesta WHERE R.descripcion = '$respuesta'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -73,7 +74,7 @@ class IniciarPartidaModel{
         if(is_array($result) && count($result) > 0){
             $respuesta = $result[0];
             if($respuesta['id'] == $correcta){
-                return $categoria;
+                return true;
             } else {
                 return false;
             }

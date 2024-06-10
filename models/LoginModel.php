@@ -8,12 +8,14 @@ class LoginModel{
     }
 
     public function validar($usuario, $password){
-        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password'";
+        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password' AND confirmed = 1";
+
         $result = $this->baseDeDatos->query($sql);
-        if ($result){
-            return true;
-        } else {
+
+        if (empty($result)){
             return false;
+        } else {
+            return true;
         }
     }
 }
