@@ -9,14 +9,14 @@ include_once "controller/RegistrarController.php";
 include_once "controller/ConfirmarEmailController.php";
 include_once "controller/InicioController.php";
 include_once "controller/SeleccionarCategoriaController.php";
-include_once "controller/IniciarPartidaController.php";
+include_once "controller/JuegoController.php";
 include_once "controller/PerfilController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
 include_once "models/LoginModel.php";
 include_once "models/SeleccionarCategoriaModel.php";
-include_once "models/IniciarPartidaModel.php";
+include_once "models/JuegoModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
 include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
@@ -45,8 +45,8 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new SeleccionarCategoriaController(self::getSeleccionarCategoriaModel(),self::getPresenter());
      }
 
-     public static function getIniciarPartidaController(){
-         return new IniciarPartidaController(self::getIniciarPartidaModel(),self::getPresenter());
+     public static function getJuegoController(){
+         return new JuegoController(self::getJuegoModel(),self::getPresenter());
      }
 
      public static function getPerfilController(){
@@ -70,8 +70,8 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
         return new SeleccionarCategoriaModel(self::getBaseDeDatos());
     }
 
-     private static function getIniciarPartidaModel(){
-         return new IniciarPartidaModel(self::getBaseDeDatos());
+     private static function getJuegoModel(){
+         return new JuegoModel(self::getBaseDeDatos());
      }
 
      // helpers

@@ -1,6 +1,6 @@
 <?php
 
-class IniciarPartidaModel{
+class JuegoModel{
 
     private $baseDeDatos;
     public function __construct($baseDeDatos){
