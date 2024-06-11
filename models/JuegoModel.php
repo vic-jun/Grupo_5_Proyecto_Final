@@ -26,10 +26,8 @@ class JuegoModel{
                        break;
                    }
                }
-               $descripciones = array_map(function($respuesta) {
-                   return $respuesta['descripcion'];
-               }, $respuestas);
-               return array('pregunta' => $pregunta, 'respuestas' => $descripciones, "correcta" => $correcta);
+
+               return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta);
            }else{
                return $respuestas;
            }
@@ -67,19 +65,11 @@ class JuegoModel{
     }
 
     public function verificarRespuesta($respuesta, $correcta){
-        $sql = "SELECT R.id FROM respuestas R JOIN preguntas_respuestas PR ON R.id = PR.id_respuesta WHERE R.descripcion = '$respuesta'";
 
-        $result = $this->baseDeDatos->query($sql);
-
-        if(is_array($result) && count($result) > 0){
-            $respuesta = $result[0];
-            if($respuesta['id'] == $correcta){
-                return true;
-            } else {
-                return false;
-            }
+        if($respuesta == $correcta){
+            return true;
         } else {
-            return "No se encontró la respuesta";
+            return false;
         }
     }
 }
