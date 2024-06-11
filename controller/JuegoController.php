@@ -10,7 +10,7 @@ class JuegoController{
         $this->presenter = $presenter;
     }
 
-    public function get()
+    public function partida()
     {
         session_start();
 
@@ -32,10 +32,10 @@ class JuegoController{
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
         if($resultado){
-            header("Location: /Juego");
+            header("Location: /Juego/partida");
         } else {
-            echo "pase por aca";
             header("Location: /Inicio");
         }
+        exit();
     }
 }

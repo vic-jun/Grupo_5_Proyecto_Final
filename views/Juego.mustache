@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="es-ES">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -24,11 +25,11 @@
         <h4>✩ {{pregunta}}</h4>
 
         <h2>Respuestas:</h2>
-        <form action="juego/verificar">
-            <input type="hidden"  value="{{correcta}}">
+        <form action="/juego/verificar" method="post">
+            <input type="hidden" name="correcta"  value="{{correcta}}">
                 {{#respuestas}}
-                    <input type="radio" id="respuesta-{{.}}" name="respuesta" value="{{.}}">
-                    <label for="respuesta-{{.}}">{{.}}</label><br>
+                    <input type="radio" id="respuesta-{{id_respuesta}}" name="respuesta" value="{{id_respuesta}}">
+                    <label for="respuesta-{{id_respuesta}}">{{descripcion}}</label><br>
                 {{/respuestas}}
             <button type="submit">Responder</button>
         </form>

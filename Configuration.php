@@ -5,12 +5,14 @@ include_once "helper/Router.php";
 include_once "helper/BaseDeDatos.php";
 
 include_once "controller/LoginController.php";
+include_once "controller/LogoutController.php";
 include_once "controller/RegistrarController.php";
 include_once "controller/ConfirmarEmailController.php";
 include_once "controller/InicioController.php";
 include_once "controller/SeleccionarCategoriaController.php";
 include_once "controller/JuegoController.php";
 include_once "controller/PerfilController.php";
+include_once "controller/ErrorController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
@@ -26,6 +28,10 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
      // controllers
      public static function getLoginController(){
          return new LoginController(self::getLoginModel(), self::getPresenter());
+     }
+
+     public static function getLogoutController(){
+         return new LogoutController(self::getPresenter());
      }
 
      public static function getRegistrarController(){
@@ -51,6 +57,10 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
      public static function getPerfilController(){
          return new PerfilController(self::getPresenter());
+     }
+
+     public static function getErrorController(){
+         return new ErrorController(self::getPresenter());
      }
 
      // models
