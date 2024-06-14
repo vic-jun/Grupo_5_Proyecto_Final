@@ -2,37 +2,64 @@
 <html lang="es-ES">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
     <link rel="stylesheet" href="/public/css/iniciar_partida.css">
     <title>Partida</title>
+    <script>
+        let timeLeft = {{time_left}};
+        let timerInterval;
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+
+            function updateTimer() {
+                fetch('/juego/timeLeft')
+                        .then(response => response.json())
+                        .then(data => {
+                            timeLeft = data.time_left;
+                            timerElement.textContent = `Tiempo restante: ${timeLeft} segundos`;
+
+                            if (timeLeft <= 0) {
+                                clearInterval(timerInterval);
+                                alert("Se ha terminado el tiempo!");
+                                window.location.href = "/inicio?timeout=true";
+                            }
+                        });
+            }
+
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        window.onload = startTimer;
+    </script>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/inicio">Inicio</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-            <li><a href="/logout">Cerrar sesión</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 
-    <main>
-        <h1>CATEGORIA: {{categoria}}</h1>
-        <h2>Pregunta:</h2>
-        <h4>✩ {{pregunta}}</h4>
+<main>
+    <h1>CATEGORIA: {{categoria}}</h1>
+    <h2>Pregunta:</h2>
+    <h4>✩ {{pregunta}}</h4>
 
-        <h2>Respuestas:</h2>
-        <form action="/juego/verificar" method="post">
-            <input type="hidden" name="correcta"  value="{{correcta}}">
-                {{#respuestas}}
-                    <input type="radio" id="respuesta-{{id_respuesta}}" name="respuesta" value="{{id_respuesta}}">
-                    <label for="respuesta-{{id_respuesta}}">{{descripcion}}</label><br>
-                {{/respuestas}}
-            <button type="submit">Responder</button>
-        </form>
-    </main>
+    <h2>Respuestas:</h2>
+    <form action="/juego/verificar" method="post">
+        <input type="hidden" name="correcta" value="{{correcta}}">
+        {{#respuestas}}
+            <input type="radio" id="respuesta-{{id_respuesta}}" name="respuesta" value="{{id_respuesta}}">
+            <label for="respuesta-{{id_respuesta}}">{{descripcion}}</label><br>
+        {{/respuestas}}
+        <button type="submit">Responder</button>
+    </form>
+
+    <div id="timer">Tiempo restante: {{time_left}} segundos</div>
+</main>
 </body>
 </html>
