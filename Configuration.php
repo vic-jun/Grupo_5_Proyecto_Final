@@ -21,6 +21,7 @@ include_once "models/LoginModel.php";
 include_once "models/SeleccionarCategoriaModel.php";
 include_once "models/JuegoModel.php";
 include_once "models/RankingModel.php";
+include_once "models/PerfilModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
 include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
@@ -58,7 +59,7 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
      }
 
      public static function getPerfilController(){
-         return new PerfilController(self::getPresenter());
+         return new PerfilController(self::getPresenter(), self::getPerfilModel());
      }
 
      public static function getErrorController(){
@@ -92,6 +93,10 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
      private static function getRankingModel(){
          return new RankingModel(self::getBaseDeDatos());
+     }
+
+     private static function getPerfilModel(){
+         return new PerfilModel(self::getBaseDeDatos());
      }
 
      // helpers

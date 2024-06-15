@@ -28,6 +28,10 @@ class BaseDeDatos{
         mysqli_query($this->baseDeDatos, $sql);
     }
 
+    public function prepare($sql) {
+        return $this->baseDeDatos->prepare($sql);
+    }
+
     public function __destruct(){
         mysqli_close($this->baseDeDatos);
     }
