@@ -15,17 +15,20 @@ class JuegoController
     {
         session_start();
 
-        // Si el tiempo se agotó, resetea el temporizador
         if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
             unset($_SESSION["start_time"]);
+            $this->guardarPuntajeFinal();
+            unset($_SESSION["puntaje"]);
         }
 
-        // Inicia una nueva partida o selecciona una categoría
+        if (!isset($_SESSION["puntaje"])) {
+            $_SESSION["puntaje"] = 0;
+        }
+
         if (!isset($_SESSION["categoria"]) || isset($_POST["categoria"])) {
             $_SESSION["categoria"] = $_POST["categoria"];
         }
 
-        // Reinicia el temporizador para cada nueva pregunta
         $_SESSION["start_time"] = time();
 
         $res = $this->model->iniciarPartida($_SESSION["categoria"]);
@@ -43,6 +46,7 @@ class JuegoController
             exit();
         }
 
+        $pregunta = $_POST["pregunta"];
         $respuesta = $_POST["respuesta"];
         $correcta = $_POST["correcta"];
 
@@ -54,10 +58,13 @@ class JuegoController
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
         if ($resultado) {
-            // No unsets start_time here because partida() will reset it anyway
+            $puntaje = $this->model->generarPuntaje($pregunta);
+            $_SESSION["puntaje"] += $puntaje;
             header("Location: /Juego/partida");
         } else {
-            header("Location: /Inicio");
+            $this->guardarPuntajeFinal();
+            $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
+            unset($_SESSION["puntaje"]);
         }
         exit();
     }
@@ -74,8 +81,18 @@ class JuegoController
             return 0;
         }
 
-        $duration = 30; // Duración del temporizador en segundos
+        $duration = 30;
         $elapsed = time() - $_SESSION["start_time"];
         return max($duration - $elapsed, 0);
     }
+
+    private function guardarPuntajeFinal()
+    {
+        if (isset($_SESSION["idUsuario"]) && isset($_SESSION["puntaje"])) {
+            $idUsuario = $_SESSION["idUsuario"];
+            $puntaje = $_SESSION["puntaje"];
+            $this->model->guardarPuntajeMaximoEnBD($idUsuario, $puntaje);
+        }
+    }
+
 }

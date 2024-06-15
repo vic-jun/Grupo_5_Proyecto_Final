@@ -52,6 +52,7 @@
     <h2>Respuestas:</h2>
     <form action="/juego/verificar" method="post">
         <input type="hidden" name="correcta" value="{{correcta}}">
+        <input type="hidden" name="pregunta" value="{{pregunta}}">
         {{#respuestas}}
             <input type="radio" id="respuesta-{{id_respuesta}}" name="respuesta" value="{{id_respuesta}}">
             <label for="respuesta-{{id_respuesta}}">{{descripcion}}</label><br>

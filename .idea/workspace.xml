@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc086a93-194b-43cb-9242-e598890a3b6b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_05_2024_20_59_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_05_2024_20_59__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_05_2024_20_59__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/resumenPartida.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_05_2024_20_59__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/JuegoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/JuegoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/JuegoModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/JuegoModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/Juego.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/Juego.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,11 +70,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Grupo_5_Proyecto_Final\views" />
       <recent name="C:\xampp\htdocs" />
       <recent name="C:\xampp\htdocs\pokedexPropio" />
       <recent name="C:\xampp\htdocs\src\model" />
       <recent name="C:\xampp\htdocs\src" />
-      <recent name="C:\xampp\htdocs\public" />
     </key>
   </component>
   <component name="RunManager">
@@ -134,6 +135,7 @@
       <workItem from="1717507928562" duration="562000" />
       <workItem from="1717508521017" duration="12623000" />
       <workItem from="1718378095535" duration="3324000" />
+      <workItem from="1718455285317" duration="7451000" />
     </task>
     <servers />
   </component>
