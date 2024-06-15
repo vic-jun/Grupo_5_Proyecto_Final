@@ -1,18 +1,35 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/resumen_partida.css">
+    <title>Resumen Partida</title>
 </head>
 <body>
 
-<h1>Resumen de la partida</h1>
-<h2>Categoria: {{categoria}}</h2>
-<h2>Puntaje total: {{puntaje}}</h2>
-</body>
+    <nav>
+        <ul>
+            <li><a href="/inicio">Inicio</a></li>
+            <li><a href="/ranking">Ranking</a></li>
+            <li><a href="/perfil">Perfil</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
 
+    <main>
+        <h1>Resumen de la partida</h1>
+        <h2>Categoria: {{categoria}}</h2>
+        <h2>Puntaje total: {{puntaje}} puntos</h2>
+        <div class="centrado">
+            <a href="/seleccionarCategoria">Volver a jugar</a>
+        </div>
+    </main>
+
+</body>
 </html>
 

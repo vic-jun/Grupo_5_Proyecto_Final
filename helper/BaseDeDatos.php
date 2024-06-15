@@ -1,11 +1,9 @@
 <?php
 
-class BaseDeDatos
-{
+class BaseDeDatos{
     private $baseDeDatos;
 
-    public function __construct($servername, $user, $dbname, $password)
-    {
+    public function __construct($servername, $user, $dbname, $password){
         $this->baseDeDatos = new mysqli($servername, $user, $password, $dbname);
 
         if ($this->baseDeDatos->connect_error){
@@ -13,8 +11,7 @@ class BaseDeDatos
         }
     }
 
-    public function query($sql)
-    {
+    public function query($sql){
         $result = mysqli_query($this->baseDeDatos, $sql);
 
         if ($result instanceof mysqli_result) {
@@ -27,13 +24,11 @@ class BaseDeDatos
         return $rows;
     }
 
-    public function execute($sql)
-    {
+    public function execute($sql){
         mysqli_query($this->baseDeDatos, $sql);
     }
 
-    public function __destruct()
-    {
+    public function __destruct(){
         mysqli_close($this->baseDeDatos);
     }
 }

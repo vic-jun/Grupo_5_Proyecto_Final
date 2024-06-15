@@ -16,7 +16,6 @@ class SeleccionarCategoriaController{
 
     public function seleccionar(){
         $data = $this->model->seleccionar($_POST["categoria"]);
-
     }
 
 }
