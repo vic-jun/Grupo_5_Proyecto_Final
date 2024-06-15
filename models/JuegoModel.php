@@ -112,7 +112,7 @@ class JuegoModel
         if (is_array($result) && isset($result[0]['puntaje'])) {
             if (is_numeric($result[0]['puntaje']) && $result[0]['puntaje'] < $puntaje) {
                 $sql2 = "UPDATE usuario SET puntaje = '$puntaje' WHERE id = '$idUsuario'";
-                $this->baseDeDatos->execute($sql2);
+                $this->baseDeDatos->query($sql2);
             }
         }
 

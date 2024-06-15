@@ -18,4 +18,10 @@ class LoginModel{
             return true;
         }
     }
+
+    public function buscarIdUsuario ($usuario){
+        $sql = "SELECT id FROM usuario WHERE nombre_de_usuario = '$usuario'";
+        return $this->baseDeDatos->query($sql);
+    }
+
 }

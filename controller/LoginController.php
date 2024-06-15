@@ -22,6 +22,8 @@ class LoginController
             session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['nombre_de_usuario'] = $_POST["usuario"];
+            $idUsuario = $this->model->buscarIdUsuario($_POST["usuario"])[0]["idusuario"];
+            $_SESSION["idUsuario"] = $idUsuario;
             header("Location: /inicio");
             exit();
         } else {
