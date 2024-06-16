@@ -5,10 +5,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inicio</title>
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/inicio.css">
+    <link rel="stylesheet" href="/public/css/ranking.css">
+    <title>Ranking</title>
 </head>
 <body>
 
@@ -22,11 +22,19 @@
     </nav>
 
     <main>
-        <h1>Bienvenido!</h1>
-        <p>Estás en la página de inicio.</p>
-        <div class="centrado">
-            <a href="/seleccionarCategoria">Jugar</a>
-        </div>
+        <h1>Ranking</h1>
+        <table>
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Puntaje</th>
+            </tr>
+            {{#ranking}}
+                <tr>
+                    <td>{{nombre_de_usuario}}</td>
+                    <td>{{puntaje}}</td>
+                </tr>
+            {{/ranking}}
+        </table>
     </main>
 
 </body>

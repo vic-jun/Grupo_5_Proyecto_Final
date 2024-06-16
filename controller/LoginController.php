@@ -15,14 +15,17 @@ class LoginController
     }
 
     public function logearse(){
+        session_start();
 
-        $data = $this->model->validar($_POST["usuario"], $_POST["contrasenia"]);
+        $usuario = $_POST["usuario"];
+        $contrasenia = $_POST["contrasenia"];
+
+        $data = $this->model->validar($usuario, $contrasenia);
 
         if($data){
-            session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['nombre_de_usuario'] = $_POST["usuario"];
-            $idUsuario = $this->model->buscarIdUsuario($_POST["usuario"])[0]["idusuario"];
+            $_SESSION['nombre_de_usuario'] = $usuario;
+            $idUsuario = $this->model->buscarIdUsuario($usuario)['id'];
             $_SESSION["idUsuario"] = $idUsuario;
             header("Location: /inicio");
             exit();

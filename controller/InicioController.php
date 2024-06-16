@@ -14,6 +14,4 @@ class InicioController{
         $this->presenter->render("views/inicio.mustache");
     }
 
-
-
 }

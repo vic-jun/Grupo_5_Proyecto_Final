@@ -3,12 +3,29 @@
 class PerfilController{
 
     private $presenter;
-    public function __construct($presenter){
+    private $model;
+    public function __construct($presenter, $model){
         $this->presenter = $presenter;
+        $this->model = $model;
     }
 
     public function get(){
-        $this->presenter->render("views/perfil.mustache");
+        session_start();
+        if (!isset($_SESSION['idUsuario'])) {
+            header('Location: /login');
+            exit();
+        }
+        $idUsuario = $_SESSION['idUsuario'];
+        if (empty($idUsuario)) {
+            header('Location: /login');
+            exit();
+        }
+        $datosPerfil = $this->model->getPerfil($idUsuario);
+        if ($datosPerfil === null) {
+            header('Location: /registrar');
+            exit();
+        }
+        $this->presenter->render("views/perfil.mustache", ['perfil' => $datosPerfil]);
     }
 
     // METODOS POSIBLES

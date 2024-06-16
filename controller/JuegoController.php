@@ -5,14 +5,12 @@ class JuegoController
     public $model;
     public $presenter;
 
-    public function __construct($model, $presenter)
-    {
+    public function __construct($model, $presenter){
         $this->model = $model;
         $this->presenter = $presenter;
     }
 
-    public function partida()
-    {
+    public function partida(){
         session_start();
 
         if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
@@ -37,8 +35,7 @@ class JuegoController
         $this->presenter->render("views/juego.mustache", $res);
     }
 
-    public function verificar()
-    {
+    public function verificar(){
         session_start();
 
         if (!isset($_SESSION["start_time"])) {
@@ -69,14 +66,12 @@ class JuegoController
         exit();
     }
 
-    public function timeLeft()
-    {
+    public function timeLeft(){
         session_start();
         echo json_encode(["time_left" => $this->getTimeLeft()]);
     }
 
-    private function getTimeLeft()
-    {
+    private function getTimeLeft(){
         if (!isset($_SESSION["start_time"])) {
             return 0;
         }
@@ -86,8 +81,7 @@ class JuegoController
         return max($duration - $elapsed, 0);
     }
 
-    private function guardarPuntajeFinal()
-    {
+    private function guardarPuntajeFinal(){
         if (isset($_SESSION["idUsuario"]) && isset($_SESSION["puntaje"])) {
             $idUsuario = $_SESSION["idUsuario"];
             $puntaje = $_SESSION["puntaje"];
