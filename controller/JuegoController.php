@@ -13,6 +13,15 @@ class JuegoController
     public function partida(){
         session_start();
 
+        if(isset($_SESSION['preguntaID'])){
+            $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
+            if(is_array($res) && count($res) > 0) {
+                $res["time_left"] = $this->getTimeLeft();
+                $this->presenter->render("views/juego.mustache", $res);
+                exit();
+            }
+        }
+
         if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
             unset($_SESSION["start_time"]);
             $this->guardarPuntajeFinal();
@@ -37,6 +46,8 @@ class JuegoController
 
     public function verificar(){
         session_start();
+
+        unset($_SESSION['preguntaID']);
 
         if (!isset($_SESSION["start_time"])) {
             header("Location: /inicio");

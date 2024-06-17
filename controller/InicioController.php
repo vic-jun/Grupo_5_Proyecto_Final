@@ -11,6 +11,11 @@ class InicioController{
     }
 
     public function get(){
+        session_start();
+        if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
+            unset($_SESSION['preguntaID']);
+        }
+
         $this->presenter->render("views/inicio.mustache");
     }
 

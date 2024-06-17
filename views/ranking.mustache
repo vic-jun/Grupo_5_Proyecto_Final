@@ -25,13 +25,15 @@
         <h1>Ranking</h1>
         <table>
             <tr>
-                <th>Nombre de usuario</th>
+                <th>Posición</th>
+                <th>Usuario</th>
                 <th>Puntaje</th>
             </tr>
             {{#ranking}}
                 <tr>
-                    <td>{{nombre_de_usuario}}</td>
-                    <td>{{puntaje}}</td>
+                    <td class="posicion-{{index}}">{{index}}° puesto</td> <!-- Este es el índice -->
+                    <td class="posicion-{{index}}">{{value.nombre_de_usuario}}</td>
+                    <td class="posicion-{{index}}"><p>{{value.puntaje}}</p></td>
                 </tr>
             {{/ranking}}
         </table>

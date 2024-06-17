@@ -8,17 +8,9 @@ class PerfilModel{
     }
 
     public function getPerfil($id){
-        $sql = "SELECT * FROM usuario WHERE id = $id";
-        $stmt = $this->baseDeDatos->prepare($sql);
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $this->baseDeDatos->error);
-        }
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $perfil = $result->fetch_assoc();
-        $stmt->close();
-        return $perfil ?: null;
+        $sql = "SELECT * FROM usuario WHERE id = '$id'";
+        return $this->baseDeDatos->query($sql);
+
     }
 
 //    public function updatePerfil($id, $nombre, $apellido, $correo, $telefono, $direccion){

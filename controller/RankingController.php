@@ -12,7 +12,11 @@ class RankingController{
 
     public function get() {
         $ranking = $this->model->getRanking();
-        $this->presenter->render("views/ranking.mustache", ['ranking' => $ranking]);
+        $rankingWithIndex = array_map(function($key, $value) {
+            return ['index' => $key + 1, 'value' => $value];
+        }, array_keys($ranking), $ranking);
+        //$this->presenter->render("views/ranking.mustache", ['ranking' => $ranking]);
+        $this->presenter->render("views/ranking.mustache", ['ranking' => $rankingWithIndex]);
     }
 
 }

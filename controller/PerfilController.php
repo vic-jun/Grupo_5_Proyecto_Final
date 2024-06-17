@@ -25,7 +25,7 @@ class PerfilController{
             header('Location: /registrar');
             exit();
         }
-        $this->presenter->render("views/perfil.mustache", ['perfil' => $datosPerfil]);
+        $this->presenter->render("views/perfil.mustache", ["perfil" => $datosPerfil]);
     }
 
     // METODOS POSIBLES

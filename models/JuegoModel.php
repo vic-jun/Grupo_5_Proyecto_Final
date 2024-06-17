@@ -16,6 +16,9 @@ class JuegoModel
         if (is_array($resPreg) && count($resPreg) > 0) {
             $pregunta = $resPreg;
             $id = $pregunta['id'];
+
+            $_SESSION['preguntaID'] = $id;
+
             $pregunta = $pregunta['descripcion'];
             $respuestas = $this->buscarRespuestas($id);
             $correcta = 0;
@@ -37,6 +40,34 @@ class JuegoModel
         } else {
             return $resPreg;
         }
+    }
+
+    public function traerPreguntaEspecifica($id, $categoria){
+
+        $pregunta = $this->buscarPreguntaPorID($id);
+
+        $respuestas = $this->buscarRespuestas($id);
+
+        if (is_array($respuestas) && count($respuestas) > 0) {
+
+            for ($i = 0; $i < count($respuestas); $i++) {
+                if ($respuestas[$i]["correcta"] != 0) {
+                    $correcta = $respuestas[$i]["id_respuesta"];
+                    break;
+                }
+            }
+        $pregunta = $pregunta[0]['descripcion'];
+        return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta, "categoria" => $categoria);
+        } else {
+            return $respuestas;
+        }
+    }
+
+    public function buscarPreguntaPorID($id)
+    {
+        $sql = "SELECT * FROM preguntas WHERE id = '$id'";
+        return $this->baseDeDatos->query($sql);
+
     }
 
     public function buscarPreguntas($categoria){
@@ -82,7 +113,6 @@ class JuegoModel
 
             if ($result != null) {
                 $dificultad = $result[0]['dificultad'];
-
                 if ($dificultad == "easy") {
                     $puntaje = 10;
                 } else if ($dificultad == "intermediate") {

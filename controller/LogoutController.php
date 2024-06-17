@@ -11,6 +11,7 @@ class LogoutController
     public function get()
     {
         session_destroy();
+
         header("Location: /login");
         exit();
     }
