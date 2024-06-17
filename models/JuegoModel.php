@@ -29,7 +29,7 @@ class JuegoModel
                     }
                 }
 
-                return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta);
+                return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta, "categoria" => $categoria);
             } else {
                 return $respuestas;
             }
@@ -98,23 +98,15 @@ class JuegoModel
     }
 
     public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje){
-        $sql = "SELECT puntaje FROM usuario WHERE id = :idUsuario";
-        $stmt = $this->baseDeDatos->prepare($sql);
-        $stmt->execute([':idUsuario' => $idUsuario]);
-        $result = $stmt->fetch();
 
-        if ($result && isset($result['puntaje'])) {
-            if (is_numeric($result['puntaje']) && $result['puntaje'] < $puntaje) {
-                $sql2 = "UPDATE usuario SET puntaje = :puntaje WHERE id = :idUsuario";
-                $stmt2 = $this->baseDeDatos->prepare($sql2);
-                $stmt2->execute([':puntaje' => $puntaje, ':idUsuario' => $idUsuario]);
+        $sql = "SELECT puntaje FROM usuario WHERE id = '$idUsuario'";
+        $result = $this->baseDeDatos->query($sql);
 
-                if($stmt2->errorInfo()[2]) {
-                    echo "Hubo un error al actualizar el puntaje: " . $stmt2->errorInfo()[2];
-                }
+        if (is_array($result) && isset($result[0]['puntaje'])) {
+            if (is_numeric($result[0]['puntaje']) && $result[0]['puntaje'] < $puntaje) {
+                $sql2 = "UPDATE usuario SET puntaje = '$puntaje' WHERE id = '$idUsuario'";
+                $this->baseDeDatos->query($sql2);
             }
-        } else {
-            echo "No se encontró al usuario o hubo otro error: " . $stmt->errorInfo()[2];
         }
     }
 

@@ -82,7 +82,8 @@ class JuegoController
     }
 
     private function guardarPuntajeFinal(){
-        if (isset($_SESSION["idUsuario"]) && isset($_SESSION["puntaje"])) {
+        if (isset($_SESSION['idUsuario']) && isset($_SESSION["puntaje"])) {
+
             $idUsuario = $_SESSION["idUsuario"];
             $puntaje = $_SESSION["puntaje"];
             $this->model->guardarPuntajeMaximoEnBD($idUsuario, $puntaje);

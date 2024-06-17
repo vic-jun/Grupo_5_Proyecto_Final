@@ -21,7 +21,15 @@ class LoginModel{
 
     public function buscarIdUsuario ($usuario){
         $sql = "SELECT id FROM usuario WHERE nombre_de_usuario = '$usuario'";
-        return $this->baseDeDatos->query($sql);
+
+        $result = $this->baseDeDatos->query($sql);
+
+        if (is_array($result) && isset($result[0]['id'])) {
+            return $result[0]['id'];
+        }
+        return null;
+
+
     }
 
 }
