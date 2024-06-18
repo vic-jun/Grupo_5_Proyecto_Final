@@ -97,6 +97,7 @@ class JuegoController
 
             $idUsuario = $_SESSION["idUsuario"];
             $puntaje = $_SESSION["puntaje"];
+            $this -> model -> guardarPartidaEnBD($idUsuario, $puntaje);
             $this->model->guardarPuntajeMaximoEnBD($idUsuario, $puntaje);
         }
     }

@@ -12,22 +12,24 @@
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="/inicio">Inicio</a></li>
-            <li><a href="/ranking">Ranking</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-            <li><a href="/logout">Cerrar sesión</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 
-    <main>
-        <h1>Bienvenido!</h1>
-        <p>Estás en la página de inicio.</p>
+<main>
+    {{#data}}
+        <h1>Bienvenido {{nombre_de_usuario}} !</h1>
+        <p>Tu puntaje máximo es: {{puntaje}}</p>
         <div class="centrado">
             <a href="/seleccionarCategoria">Jugar</a>
         </div>
-    </main>
+    {{/data}}
+</main>
 
 </body>
 </html>

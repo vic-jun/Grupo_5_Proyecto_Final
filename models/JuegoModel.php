@@ -140,4 +140,9 @@ class JuegoModel
         }
     }
 
+    public function guardarPartidaEnBD($idUsuario, $puntaje){
+        $sql = "INSERT INTO partidas (puntaje_obtenido, fecha_partida, idUsuario) VALUES ('$puntaje', NOW(), '$idUsuario')";
+        $this->baseDeDatos->query($sql);
+    }
+
 }
