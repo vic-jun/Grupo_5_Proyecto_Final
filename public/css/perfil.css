@@ -36,6 +36,9 @@ nav ul li a:hover {
 
 /* ESTILO PRINCIPAL */
 main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 800px;
     margin: auto;
     margin-bottom: 5em;
@@ -53,9 +56,14 @@ main h1 {
     margin-bottom: 20px;
 }
 
+/* Estilo para el contenedor de los datos del usuario */
+main .user-data {
+    display: inline-block;
+    text-align: left;
+}
+
 main h4 {
     font-size: 1.2em;
-    color: #111111;
-    text-align: center;
+    color: #4d4d4d;
     margin-bottom: 20px;
 }
