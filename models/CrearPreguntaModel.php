@@ -75,4 +75,37 @@ class CrearPreguntaModel{
         return $resultado[0]['id'];
     }
 
+    public function guardarPreguntasYrespuestasValidadas($pregunta, $inc1, $inc2, $inc3, $categoria, $correcta)
+    {
+        if (isset($pregunta) && isset($inc1) && isset($inc2) && isset($inc3) && isset($categoria) && isset($correcta)) {
+            $this->insertarPreguntaValidada($pregunta, $categoria);
+            $this->insertarRespuestas ($inc1, $inc2, $inc3, $correcta);
+            $this->asociarRespuestasConPregunta($pregunta, $inc1, $inc2, $inc3, $correcta);
+        } else {
+            echo "Error al guardar la pregunta";
+        }
+    }
+
+    private function insertarPreguntaValidada($pregunta, $categoria)
+    {
+        $dificultad = "easy";
+        $sql = "INSERT INTO preguntas (descripcion, categoria, validacion, dificultad) VALUES ('$pregunta', '$categoria', 1, '$dificultad')";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function obtenerDatosUsuario(){
+        $usuario = $_SESSION['idUsuario'];
+        $sql = "SELECT * FROM usuario WHERE id = '$usuario'";
+        return $this->baseDeDatos->query($sql);
+    }
+
+    public function obtenerRol()
+    {
+        $usuario = $_SESSION['idUsuario'];
+        $sql = "SELECT rol FROM usuario WHERE id = '$usuario'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['rol'];
+
+    }
+
 }

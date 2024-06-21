@@ -37,4 +37,9 @@ class AdminController
         header('Location: /admin/verificarPregunta');
     }
 
+    public function editarPreguntas(){
+        $preguntas = $this->model->obtenerTodasLasPreguntasYrespuestas();
+        $this->presenter->render("views/editarPreguntas.mustache", ['preguntas' => $preguntas]);
+    }
+
 }
