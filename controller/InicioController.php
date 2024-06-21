@@ -2,8 +2,6 @@
 
 class InicioController
 {
-
-    // private $model;
     private $presenter;
     private $model;
 

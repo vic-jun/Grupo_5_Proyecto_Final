@@ -1,0 +1,35 @@
+/* ESTILO BODY */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5dc;
+}
+
+/* ESTILO NAVEGADOR */
+nav {
+    background-color: rgba(83, 159, 152, 0.64);
+    overflow: hidden;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    color: #111111;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: white;
+    background-color: #111;
+}

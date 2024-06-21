@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crear pregunta</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/crearPregunta.css">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main>
+    <h1>Crear pregunta</h1>
+    <form action="/crearPregunta/guardarPregunta" method="post">
+        <label for="pregunta">Pregunta:</label>
+        <input type="text" id="pregunta" name="pregunta" required>
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria" required>
+            <option value="HISTORIA">Historia</option>
+            <option value="GEOGRAFIA">Geografía</option>
+            <option value="CIENCIA">Ciencia</option>
+            <option value="ARTE">Arte</option>
+            <option value="DEPORTE">Deportes</option>
+            <option value="ENTRETENIMIENTO">Entretenimiento</option>
+        </select>
+        <label for="respuestas">Respuesta incorrecta:</label>
+        <input type="text" id="respuestas" name="respuestaIncorrecta1" required>
+        <label for="respuestas">Respuesta incorrecta:</label>
+        <input type="text" id="respuestas" name="respuestaIncorrecta2" required>
+        <label for="respuestas">Respuesta incorrecta:</label>
+        <input type="text" id="respuestas" name="respuestaIncorrecta3" required>
+        <label for="correcta">Respuesta correcta:</label>
+        <input type="text" id="correcta" name="respuestaCorrecta" required>
+        <input type="submit" value="Crear pregunta">
+    </form>
+</main>
+</body>
+</html>
