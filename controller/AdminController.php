@@ -20,9 +20,6 @@ class AdminController
     public function verificarPregunta()
     {
         $preguntas = $this->model->buscarPreguntasAverificar();
-        echo '<pre>';
-        print_r($preguntas); // Debug: Verificar la estructura de datos
-        echo '</pre>';
         $this->presenter->render("views/verificarPregunta.mustache", ['preguntas' => $preguntas]);
     }
 
@@ -38,6 +35,11 @@ class AdminController
         $pregunta_id = $_POST['pregunta_id'];
         $this->model->rechazarPregunta($pregunta_id);
         header('Location: /admin/verificarPregunta');
+    }
+
+    public function editarPreguntas(){
+        $preguntas = $this->model->obtenerTodasLasPreguntasYrespuestas();
+        $this->presenter->render("views/editarPreguntas.mustache", ['preguntas' => $preguntas]);
     }
 
 }

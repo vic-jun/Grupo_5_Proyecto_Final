@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Verificar pregunta</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/inicio.css">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main>
+    <form action="/crearPregunta" method="post">
+        <input type="hidden">
+        <input type="submit" value="Generar pregunta">
+    </form>
+    {{#preguntas}}
+        <div class="pregunta">
+            <h2>Pregunta: {{pregunta}}</h2>
+            <form action="/admin/modificar" method="post">
+                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                <input type="submit" value="Modificar pregunta">
+            </form>
+            <form action="/admin/eliminar" method="post">
+                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                <input type="submit" value="Eliminar pregunta">
+            </form>
+        </div>
+    {{/preguntas}}
+</main>
+
+</body>
+</html>

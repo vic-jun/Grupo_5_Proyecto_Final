@@ -22,6 +22,8 @@
 </nav>
 
 <main>
+{{#data}}
+    {{#es_user}}
     <h1>Crear pregunta</h1>
     <form action="/crearPregunta/guardarPregunta" method="post">
         <label for="pregunta">Pregunta:</label>
@@ -45,6 +47,33 @@
         <input type="text" id="correcta" name="respuestaCorrecta" required>
         <input type="submit" value="Enviar pregunta a revision">
     </form>
+    {{/es_user}}
+    {{#es_admin}}
+            <h1>Crear pregunta</h1>
+            <form action="/crearPregunta/guardarPreguntaValidada" method="post">
+                <label for="pregunta">Pregunta:</label>
+                <input type="text" id="pregunta" name="pregunta" required>
+                <label for="categoria">Categoría:</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="HISTORIA">Historia</option>
+                    <option value="GEOGRAFIA">Geografía</option>
+                    <option value="CIENCIA">Ciencia</option>
+                    <option value="ARTE">Arte</option>
+                    <option value="DEPORTE">Deportes</option>
+                    <option value="ENTRETENIMIENTO">Entretenimiento</option>
+                </select>
+                <label for="respuestas">Respuesta incorrecta:</label>
+                <input type="text" id="respuestas" name="respuestaIncorrecta1" required>
+                <label for="respuestas">Respuesta incorrecta:</label>
+                <input type="text" id="respuestas" name="respuestaIncorrecta2" required>
+                <label for="respuestas">Respuesta incorrecta:</label>
+                <input type="text" id="respuestas" name="respuestaIncorrecta3" required>
+                <label for="correcta">Respuesta correcta:</label>
+                <input type="text" id="correcta" name="respuestaCorrecta" required>
+                <input type="submit" value="Guardar pregunta">
+            </form>
+    {{/es_admin}}
+{{/data}}
 </main>
 </body>
 </html>
