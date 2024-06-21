@@ -20,9 +20,6 @@ class AdminController
     public function verificarPregunta()
     {
         $preguntas = $this->model->buscarPreguntasAverificar();
-        echo '<pre>';
-        print_r($preguntas); // Debug: Verificar la estructura de datos
-        echo '</pre>';
         $this->presenter->render("views/verificarPregunta.mustache", ['preguntas' => $preguntas]);
     }
 
