@@ -49,4 +49,16 @@ class AdminController
         header('Location: /admin/editarPreguntas');
     }
 
+    public function modificarPregunta()
+    {
+        $pregunta_id = $_POST['pregunta_id'];
+        $preguntas = $this->model->buscarPreguntaYrespuestaPorId($pregunta_id);
+        $this->presenter->render("views/modificarPregunta.mustache", ['preguntas' => $preguntas]);
+    }
+    public function modificar()
+    {
+        $this->model->modificarPregunta($_POST['pregunta_id'], $_POST['pregunta'], $_POST['respuestaIncorrecta1'], $_POST['respuestaIncorrecta2'], $_POST['respuestaIncorrecta3'], $_POST['respuestaCorrecta']);
+        header('Location: /admin/inicio');
+    }
+
 }
