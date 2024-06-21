@@ -72,8 +72,7 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new RankingController(self::getPresenter(), self::getRankingModel());
      }
 
-     public static function getCrearPreguntaController()
-     {
+     public static function getCrearPreguntaController(){
          return new CrearPreguntaController(self::getPresenter(), self::getCrearPreguntaModel());
      }
 
@@ -110,8 +109,7 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new InicioModel(self::getBaseDeDatos());
      }
 
-     private static function getCrearPreguntaModel()
-     {
+     private static function getCrearPreguntaModel(){
          return new CrearPreguntaModel(self::getBaseDeDatos());
      }
 
