@@ -73,29 +73,48 @@ class AdminModel
         return array_values($preguntas);
     }
 
-    public function modificar($pregunta_id, $pregunta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $respuestaCorrecta)
+    public function modificarPregunta($pregunta_id, $pregunta, $respuesta1, $respuesta2, $respuesta3, $respuesta4, $correcta, $categoria)
     {
-        $idRespuesta1 = $this->buscarIdRespuestaPorDescripcion($respuestaIncorrecta1);
-        $idRespuesta2 = $this->buscarIdRespuestaPorDescripcion($respuestaIncorrecta2);
-        $idRespuesta3 = $this->buscarIdRespuestaPorDescripcion($respuestaIncorrecta3);
-        $idRespuesta4 = $this->buscarIdRespuestaPorDescripcion($respuestaCorrecta);
 
-        $sql = "UPDATE preguntas SET descripcion = '$pregunta' WHERE id = $pregunta_id";
+        //obtener id respuestas
+        $idRespuesta1 = $this->buscarIdRespuestaPorDescripcion($respuesta1);
+        $idRespuesta2 = $this->buscarIdRespuestaPorDescripcion($respuesta2);
+        $idRespuesta3 = $this->buscarIdRespuestaPorDescripcion($respuesta3);
+        $idRespuesta4 = $this->buscarIdRespuestaPorDescripcion($respuesta4);
+
+        //actualizar preguntas y respuestas
+        $sql = "UPDATE preguntas SET descripcion = '$pregunta', categoria = '$categoria' WHERE id = '$pregunta_id'";
         $this->baseDeDatos->query($sql);
 
-        $sql = "UPDATE respuestas SET descripcion = '$respuestaIncorrecta1' WHERE id = $idRespuesta1";
+        $this->modificarRespuesta($respuesta1, $idRespuesta1);
+        $this->modificarRespuesta($respuesta2, $idRespuesta2);
+        $this->modificarRespuesta($respuesta3, $idRespuesta3);
+        $this->modificarRespuesta($respuesta4, $idRespuesta4);
+
+        //determinar correcta
+
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta1);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta2);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta3);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta4);
+
+    }
+
+    public function modificarRespuesta($respuesta, $idRespuesta)
+    {
+        $sql = "UPDATE respuestas SET descripcion = '$respuesta' WHERE id = '$idRespuesta'";
         $this->baseDeDatos->query($sql);
+    }
 
-        $sql = "UPDATE respuestas SET descripcion = '$respuestaIncorrecta2' WHERE id = $idRespuesta2";
-        $this->baseDeDatos->query($sql);
+    public function modificarCorrecta($correcta, $id_pregunta, $id_respuesta){
 
-        $sql = "UPDATE respuestas SET descripcion = '$respuestaIncorrecta3' WHERE id = $idRespuesta3";
-        $this->baseDeDatos->query($sql);
-
-        $sql = "UPDATE respuestas SET descripcion = '$respuestaCorrecta' WHERE id = $idRespuesta4";
-        $this->baseDeDatos->query($sql);
-
-
+        if ($correcta == $id_respuesta){
+            $sql = "UPDATE preguntas_respuestas SET correcta = '$correcta' WHERE id_pregunta = '$id_pregunta' AND id_respuesta = '$id_respuesta'";
+            $this->baseDeDatos->query($sql);
+        } else{
+            $sql = "UPDATE preguntas_respuestas SET correcta = 0 WHERE id_pregunta = '$id_pregunta' AND id_respuesta = '$id_respuesta'";
+            $this->baseDeDatos->query($sql);
+        }
     }
 
     public function buscarPreguntaYrespuestaPorId($idPregunta){
@@ -105,20 +124,24 @@ class AdminModel
         if (is_array($resPreg) && count($resPreg) > 0) {
             $pregunta = $resPreg;
             $id = $pregunta['id'];
-
             $respuestas = $this->buscarRespuestas($id);
-            $correcta = 0;
 
             if (is_array($respuestas) && count($respuestas) > 0) {
 
+                $correcta = 0;
+
                 for ($i = 0; $i < count($respuestas); $i++) {
-                    if ($respuestas[$i]["correcta"] != 0) {
-                        $correcta = $respuestas[$i]["id_respuesta"];
-                        break;
+                    if ($respuestas[$i]['correcta'] != 0) {
+                        $correcta = $respuestas[$i]['id_respuesta'];
+                        $respuestas[$i]['id_respuesta_is_correcta'] = true;
+
+                    }else {
+                        $respuestas[$i]['id_respuesta_is_correcta'] = false;
                     }
+                    $respuestas[$i]['index'] = $i;
                 }
 
-                return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta);
+                return array('pregunta' => $pregunta, 'respuestas' => $respuestas, 'categoria' => $pregunta['categoria'], 'correcta' => $correcta);
             } else {
                 return $respuestas;
             }
@@ -159,8 +182,8 @@ class AdminModel
     private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta)
     {
         $sql = "SELECT id FROM respuestas WHERE descripcion = '$respuestaIncorrecta'";
-        $this->baseDeDatos->query($sql);
-        return $this->baseDeDatos->fetch_assoc()['id'];
+        $res = $this->baseDeDatos->query($sql);
+        return $res[0]['id'];
 
     }
 

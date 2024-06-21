@@ -52,13 +52,19 @@ class AdminController
     public function modificarPregunta()
     {
         $pregunta_id = $_POST['pregunta_id'];
-        $preguntas = $this->model->buscarPreguntaYrespuestaPorId($pregunta_id);
-        $this->presenter->render("views/modificarPregunta.mustache", ['preguntas' => $preguntas]);
+        $data = $this->model->buscarPreguntaYrespuestaPorId($pregunta_id);
+
+        $this->presenter->render("views/modificarPregunta.mustache", ['data' => $data,'categoriaEsHistoria' => $data['categoria'] === 'HISTORIA',
+            'categoriaEsGeografia' => $data['categoria'] === 'GEOGRAFIA',
+            'categoriaEsCiencia' => $data['categoria'] === 'CIENCIA',
+            'categoriaEsArte' => $data['categoria'] === 'ARTE',
+            'categoriaEsDeporte' => $data['categoria'] === 'DEPORTE',
+            'categoriaEsEntretenimiento' => $data['categoria'] === 'ENTRETENIMIENTO'], );
     }
     public function modificar()
     {
-        $this->model->modificarPregunta($_POST['pregunta_id'], $_POST['pregunta'], $_POST['respuestaIncorrecta1'], $_POST['respuestaIncorrecta2'], $_POST['respuestaIncorrecta3'], $_POST['respuestaCorrecta']);
-        header('Location: /admin/inicio');
+        $this->model->modificarPregunta($_POST['pregunta_id'], $_POST['pregunta'], $_POST['respuesta0'], $_POST['respuesta1'], $_POST['respuesta2'], $_POST['respuesta3'], $_POST['respuestaCorrecta'], $_POST['categoria']);
+        header('Location: /inicio');
     }
 
 }
