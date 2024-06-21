@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc086a93-194b-43cb-9242-e598890a3b6b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/views/editarPreguntas.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/CrearPreguntaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/CrearPreguntaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/AdminModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/AdminModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/CrearPreguntaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/CrearPreguntaModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/crearPregunta.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/crearPregunta.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/editarPreguntas.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/editarPreguntas.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -42,4 +42,11 @@ class AdminController
         $this->presenter->render("views/editarPreguntas.mustache", ['preguntas' => $preguntas]);
     }
 
+    public function eliminarPregunta()
+    {
+        $pregunta_id = $_POST['pregunta_id'];
+        $this->model->rechazarPregunta($pregunta_id);
+        header('Location: /admin/editarPreguntas');
+    }
+
 }
