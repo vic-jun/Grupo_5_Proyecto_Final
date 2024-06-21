@@ -29,11 +29,11 @@
     {{#preguntas}}
         <div class="pregunta">
             <h2>Pregunta: {{pregunta}}</h2>
-            <form action="/admin/modificar" method="post">
+            <form action="/admin/modificarPregunta" method="post">
                 <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                 <input type="submit" value="Modificar pregunta">
             </form>
-            <form action="/admin/eliminar" method="post">
+            <form action="/admin/eliminarPregunta" method="post">
                 <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                 <input type="submit" value="Eliminar pregunta">
             </form>

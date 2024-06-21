@@ -73,4 +73,118 @@ class AdminModel
         return array_values($preguntas);
     }
 
+    public function modificarPregunta($pregunta_id, $pregunta, $respuesta1, $respuesta2, $respuesta3, $respuesta4, $correcta, $categoria)
+    {
+
+        //obtener id respuestas
+        $idRespuesta1 = $this->buscarIdRespuestaPorDescripcion($respuesta1);
+        $idRespuesta2 = $this->buscarIdRespuestaPorDescripcion($respuesta2);
+        $idRespuesta3 = $this->buscarIdRespuestaPorDescripcion($respuesta3);
+        $idRespuesta4 = $this->buscarIdRespuestaPorDescripcion($respuesta4);
+
+        //actualizar preguntas y respuestas
+        $sql = "UPDATE preguntas SET descripcion = '$pregunta', categoria = '$categoria' WHERE id = '$pregunta_id'";
+        $this->baseDeDatos->query($sql);
+
+        $this->modificarRespuesta($respuesta1, $idRespuesta1);
+        $this->modificarRespuesta($respuesta2, $idRespuesta2);
+        $this->modificarRespuesta($respuesta3, $idRespuesta3);
+        $this->modificarRespuesta($respuesta4, $idRespuesta4);
+
+        //determinar correcta
+
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta1);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta2);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta3);
+        $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta4);
+
+    }
+
+    public function modificarRespuesta($respuesta, $idRespuesta)
+    {
+        $sql = "UPDATE respuestas SET descripcion = '$respuesta' WHERE id = '$idRespuesta'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function modificarCorrecta($correcta, $id_pregunta, $id_respuesta){
+
+        if ($correcta == $id_respuesta){
+            $sql = "UPDATE preguntas_respuestas SET correcta = '$correcta' WHERE id_pregunta = '$id_pregunta' AND id_respuesta = '$id_respuesta'";
+            $this->baseDeDatos->query($sql);
+        } else{
+            $sql = "UPDATE preguntas_respuestas SET correcta = 0 WHERE id_pregunta = '$id_pregunta' AND id_respuesta = '$id_respuesta'";
+            $this->baseDeDatos->query($sql);
+        }
+    }
+
+    public function buscarPreguntaYrespuestaPorId($idPregunta){
+
+        $resPreg = $this->buscarPreguntas($idPregunta);
+
+        if (is_array($resPreg) && count($resPreg) > 0) {
+            $pregunta = $resPreg;
+            $id = $pregunta['id'];
+            $respuestas = $this->buscarRespuestas($id);
+
+            if (is_array($respuestas) && count($respuestas) > 0) {
+
+                $correcta = 0;
+
+                for ($i = 0; $i < count($respuestas); $i++) {
+                    if ($respuestas[$i]['correcta'] != 0) {
+                        $correcta = $respuestas[$i]['id_respuesta'];
+                        $respuestas[$i]['id_respuesta_is_correcta'] = true;
+
+                    }else {
+                        $respuestas[$i]['id_respuesta_is_correcta'] = false;
+                    }
+                    $respuestas[$i]['index'] = $i;
+                }
+
+                return array('pregunta' => $pregunta, 'respuestas' => $respuestas, 'categoria' => $pregunta['categoria'], 'correcta' => $correcta);
+            } else {
+                return $respuestas;
+            }
+
+        } else {
+            return $resPreg;
+        }
+    }
+
+    public function buscarPreguntas($id){
+        $sql = "SELECT * FROM preguntas WHERE id = '$id'";
+
+        $result = $this->baseDeDatos->query($sql);
+
+        if (is_array($result) && count($result) > 0) {
+            $preguntas = $result;
+            $pregunta = $preguntas[array_rand($preguntas)];
+            return $pregunta;
+        } else {
+            return "No hay preguntas en la base de datos";
+        }
+    }
+
+    public function buscarRespuestas($id){
+        $sql = "SELECT PR.id_respuesta, R.descripcion as descripcion, PR.correcta FROM preguntas_respuestas PR JOIN respuestas R ON R.id = PR.id_respuesta WHERE id_pregunta = '$id'";
+
+        $result = $this->baseDeDatos->query($sql);
+
+        if (is_array($result) && count($result) > 0) {
+            $respuestas = $result;
+            return $respuestas;
+        } else {
+            return "No hay respuestas en la base de datos";
+        }
+    }
+
+
+    private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta)
+    {
+        $sql = "SELECT id FROM respuestas WHERE descripcion = '$respuestaIncorrecta'";
+        $res = $this->baseDeDatos->query($sql);
+        return $res[0]['id'];
+
+    }
+
 }

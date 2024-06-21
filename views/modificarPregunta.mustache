@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crear pregunta</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/crearPregunta.css">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main>
+        <h1>Modificar pregunta</h1>
+        <form action="/admin/modificar" method="post">
+        {{#data}}
+            {{#pregunta}}
+            <label for="pregunta">Pregunta:</label>
+            <input type="hidden" name="pregunta_id" value="{{id}}">
+            <input type="text" id="pregunta" name="pregunta" required value="{{descripcion}}">
+            <label for="categoria">Categoría:</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="HISTORIA" {{#categoriaEsHistoria}}selected{{/categoriaEsHistoria}}>Historia</option>
+                    <option value="GEOGRAFIA" {{#categoriaEsGeografia}}selected{{/categoriaEsGeografia}}>Geografía</option>
+                    <option value="CIENCIA" {{#categoriaEsCiencia}}selected{{/categoriaEsCiencia}}>Ciencia</option>
+                    <option value="ARTE" {{#categoriaEsArte}}selected{{/categoriaEsArte}}>Arte</option>
+                    <option value="DEPORTE" {{#categoriaEsDeporte}}selected{{/categoriaEsDeporte}}>Deportes</option>
+                    <option value="ENTRETENIMIENTO" {{#categoriaEsEntretenimiento}}selected{{/categoriaEsEntretenimiento}}>Entretenimiento</option>
+                </select>
+            {{/pregunta}}
+            {{#respuestas}}
+            <label for="respuestas">Respuesta {{id_respuesta}}: </label>
+            <input type="text" id="respuestas" name="respuesta{{index}}" required value="{{descripcion}}">
+            {{/respuestas}}
+
+            <label for="correcta">Respuesta Correcta</label>
+            <select name="respuestaCorrecta" id="correcta">
+                <option value="{{correcta}}" selected>{{correcta}}</option>
+                {{#respuestas}}
+                    {{^id_respuesta_is_correcta}}
+                        <option value="{{id_respuesta}}">{{id_respuesta}}</option>
+                    {{/id_respuesta_is_correcta}}
+                {{/respuestas}}
+            </select>
+        {{/data}}
+            <input type="submit" value="modificar">
+        </form>
+
+</main>
+</body>
+</html>

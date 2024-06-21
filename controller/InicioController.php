@@ -24,7 +24,7 @@ class InicioController
 
 
         $data['es_admin'] = ($rol === "ADMIN");
-        $data['es_user'] = ($rol !== "ADMIN");
+        $data['es_user'] = ($rol === "usuario");
 
         $this->presenter->render("views/inicio.mustache", ["data" => $data]);
     }

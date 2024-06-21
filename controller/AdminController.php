@@ -42,4 +42,29 @@ class AdminController
         $this->presenter->render("views/editarPreguntas.mustache", ['preguntas' => $preguntas]);
     }
 
+    public function eliminarPregunta()
+    {
+        $pregunta_id = $_POST['pregunta_id'];
+        $this->model->rechazarPregunta($pregunta_id);
+        header('Location: /admin/editarPreguntas');
+    }
+
+    public function modificarPregunta()
+    {
+        $pregunta_id = $_POST['pregunta_id'];
+        $data = $this->model->buscarPreguntaYrespuestaPorId($pregunta_id);
+
+        $this->presenter->render("views/modificarPregunta.mustache", ['data' => $data,'categoriaEsHistoria' => $data['categoria'] === 'HISTORIA',
+            'categoriaEsGeografia' => $data['categoria'] === 'GEOGRAFIA',
+            'categoriaEsCiencia' => $data['categoria'] === 'CIENCIA',
+            'categoriaEsArte' => $data['categoria'] === 'ARTE',
+            'categoriaEsDeporte' => $data['categoria'] === 'DEPORTE',
+            'categoriaEsEntretenimiento' => $data['categoria'] === 'ENTRETENIMIENTO'], );
+    }
+    public function modificar()
+    {
+        $this->model->modificarPregunta($_POST['pregunta_id'], $_POST['pregunta'], $_POST['respuesta0'], $_POST['respuesta1'], $_POST['respuesta2'], $_POST['respuesta3'], $_POST['respuestaCorrecta'], $_POST['categoria']);
+        header('Location: /inicio');
+    }
+
 }

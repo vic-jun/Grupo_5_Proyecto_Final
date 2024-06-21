@@ -11,7 +11,8 @@ class InicioModel
     public function obtenerDatosUsuario(){
         $usuario = $_SESSION['idUsuario'];
         $sql = "SELECT * FROM usuario WHERE id = '$usuario'";
-        return $this->baseDeDatos->query($sql);
+        $res = $this->baseDeDatos->query($sql);
+        return array('nombre_de_usuario' => $res[0]['nombre_de_usuario'], 'puntaje' => $res[0]['puntaje']);
     }
 
     public function obtenerRol()
