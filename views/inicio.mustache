@@ -23,14 +23,22 @@
 
 <main>
     {{#data}}
-        <h1>Bienvenido {{nombre_de_usuario}} !</h1>
-        <p>Tu puntaje máximo es: {{puntaje}}</p>
-        <div class="centrado">
-            <a href="/seleccionarCategoria">Jugar</a>
-        </div>
-        <div class="centrado">
-            <a href="/crearPregunta">Crear pregunta</a>
-        </div>
+        {{#es_user}}
+            <h1>Bienvenido {{nombre_de_usuario}} !</h1>
+            <p>Tu puntaje máximo es: {{puntaje}}</p>
+            <div class="centrado">
+                <a href="/seleccionarCategoria">Jugar</a>
+            </div>
+            <div class="centrado">
+                <a href="/crearPregunta">Crear pregunta</a>
+            </div>
+        {{/es_user}}
+        {{#es_admin}}
+            <div class="admin-seccion">
+                <h2>Sección de Administrador</h2>
+                <a href="/adminDashboard">Panel de Administración</a>
+            </div>
+        {{/es_admin}}
     {{/data}}
 </main>
 

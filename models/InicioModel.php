@@ -14,4 +14,13 @@ class InicioModel
         return $this->baseDeDatos->query($sql);
     }
 
+    public function obtenerRol()
+    {
+        $usuario = $_SESSION['idUsuario'];
+        $sql = "SELECT rol FROM usuario WHERE id = '$usuario'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['rol'];
+
+    }
+
 }
