@@ -22,7 +22,6 @@ class InicioController
         $data = $this->model->obtenerDatosUsuario();
         $rol = $this->model->obtenerRol();
 
-        echo $rol;
 
         $data['es_admin'] = ($rol === "ADMIN");
         $data['es_user'] = ($rol !== "ADMIN");

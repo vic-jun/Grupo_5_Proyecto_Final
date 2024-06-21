@@ -24,6 +24,18 @@ class BaseDeDatos{
         return $rows;
     }
 
+    public function queryParaVerificar($sql){
+        $result = mysqli_query($this->baseDeDatos, $sql);
+
+        if ($result instanceof mysqli_result) {
+            return $result;
+        } elseif ($result === true) {
+            return true;
+        } else {
+            return "Error: " . mysqli_error($this->baseDeDatos);
+        }
+    }
+
     public function execute($sql){
         mysqli_query($this->baseDeDatos, $sql);
     }

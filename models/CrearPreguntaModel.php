@@ -19,7 +19,7 @@ class CrearPreguntaModel{
 
     public function insertarPregunta($pregunta, $categoria){
         $dificultad = "easy";
-        $sql = "INSERT INTO preguntas (descripcion, categoria, validacion, dificultad) VALUES ('$pregunta', '$categoria', 1, '$dificultad')";
+        $sql = "INSERT INTO preguntas (descripcion, categoria, validacion, dificultad) VALUES ('$pregunta', '$categoria', 0, '$dificultad')";
         $this->baseDeDatos->query($sql);
     }
 
