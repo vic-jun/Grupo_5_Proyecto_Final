@@ -188,6 +188,12 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
+    public function cantCorrectasBloque($cantidad)
+    {
+        $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
     public function obtenerCantTotalRespuestasRespondidas()
     {
         $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
@@ -201,6 +207,13 @@ class JuegoModel
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cntRespuestasCorrectas'];
 
+    }
+
+    public function obtenerCantCorrectasBloque()
+    {
+        $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['correctasBloque'];
     }
 
     public function actualizarDificultad($dificultad)

@@ -19,6 +19,7 @@ class JuegoController
             $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
             $_SESSION["cantRespuestasContestadas"] = 0;
             $_SESSION["cantRespuestasCorrectas"] = 0;
+            $_SESSION["correctasBloque"] = 0;
             if (is_array($res) && count($res) > 0) {
                 $res["time_left"] = $this->getTimeLeft();
                 $this->presenter->render("views/juego.mustache", $res);
@@ -84,6 +85,10 @@ class JuegoController
             $_SESSION["cantRespuestasCorrectas"] = 0;
         }
 
+        if (!isset($_SESSION["correctasBloque"])) {
+            $_SESSION["correctasBloque"] = 0;
+        }
+
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
         if ($resultado) {
@@ -91,11 +96,13 @@ class JuegoController
             $_SESSION["puntaje"] += $puntaje;
             $_SESSION["cantRespuestasContestadas"]++;
             $_SESSION["cantRespuestasCorrectas"]++;
+            $_SESSION["correctasBloque"]++;
             header("Location: /Juego/partida");
         } else {
             $this->guardarPuntajeFinal();
             $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
             $this->model->cantRespuestasCorrectas($_SESSION["cantRespuestasCorrectas"]);
+            $this->model->cantCorrectasBloque($_SESSION["correctasBloque"]);
             $this->calcularDificultad();
             $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
             unset($_SESSION["puntaje"]);
@@ -137,19 +144,42 @@ class JuegoController
     {
         $respuestasTotales = $this->model->obtenerCantTotalRespuestasRespondidas();
         $cantRespuestasCorrectas = $this->model->obtenerCantRespuestasCorrectas();
-        if ($respuestasTotales > 10 && $respuestasTotales <= 15){
-            if ($cantRespuestasCorrectas <= 3) {
-                $this->model->actualizarDificultad("basico");
-            } else if ($cantRespuestasCorrectas <= 6) {
-                $this->model->actualizarDificultad("intermedio");
-            } else if ($cantRespuestasCorrectas <= 10) {
-                $this->model->actualizarDificultad("avanzado");
+        $cantCorrectasBloque = $this->model->obtenerCantCorrectasBloque();
+
+        if ($respuestasTotales <= 12) {
+            if ($respuestasTotales > 8) {
+                if ($cantRespuestasCorrectas <= 2) {
+                    $this->model->actualizarDificultad("basico");
+                } else if ($cantRespuestasCorrectas <= 5) {
+                    $this->model->actualizarDificultad("intermedio");
+                } else if ($cantRespuestasCorrectas <= 9) {
+                    $this->model->actualizarDificultad("avanzado");
+                }
             }
         } else {
-            echo "basklsdad";
+
+            if (!isset($_SESSION["correctasBloque"])) {
+                $_SESSION["correctasBloque"] = 0;
+            }
+
+            $bloqueActual = ($respuestasTotales - 5) % 10;
+            if ($bloqueActual == 0) {
+                // Evaluar el porcentaje de respuestas correctas en el bloque de 10 preguntas actual
+
+                $porcentajeCorrectas = ($cantCorrectasBloque / 5) * 100;
+
+                if ($porcentajeCorrectas <= 30) {
+                    $this->model->actualizarDificultad("basico");
+                } else if ($porcentajeCorrectas <= 60) {
+                    $this->model->actualizarDificultad("intermedio");
+                } else {
+                    $this->model->actualizarDificultad("avanzado");
+                }
+
+                $_SESSION["correctasBloque"] = 0;
+
+            }
         }
-
-
     }
 
 }
