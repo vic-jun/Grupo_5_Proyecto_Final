@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc086a93-194b-43cb-9242-e598890a3b6b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/views/modificarPregunta.mustache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/preguntasReportadas.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/JuegoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/JuegoController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/AdminModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/AdminModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/editarPreguntas.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/editarPreguntas.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/JuegoModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/JuegoModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/inicio.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/inicio.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/juego.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/views/juego.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +141,7 @@
       <workItem from="1718911483461" duration="1425000" />
       <workItem from="1718963126163" duration="219000" />
       <workItem from="1718963365866" duration="7245000" />
+      <workItem from="1719151201926" duration="2753000" />
     </task>
     <servers />
   </component>

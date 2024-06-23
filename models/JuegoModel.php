@@ -5,11 +5,13 @@ class JuegoModel
 
     private $baseDeDatos;
 
-    public function __construct($baseDeDatos){
+    public function __construct($baseDeDatos)
+    {
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function iniciarPartida($categoria){
+    public function iniciarPartida($categoria)
+    {
 
         $resPreg = $this->buscarPreguntas($categoria);
 
@@ -42,7 +44,8 @@ class JuegoModel
         }
     }
 
-    public function traerPreguntaEspecifica($id, $categoria){
+    public function traerPreguntaEspecifica($id, $categoria)
+    {
 
         $pregunta = $this->buscarPreguntaPorID($id);
 
@@ -56,8 +59,8 @@ class JuegoModel
                     break;
                 }
             }
-        $pregunta = $pregunta[0]['descripcion'];
-        return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta, "categoria" => $categoria);
+            $pregunta = $pregunta[0]['descripcion'];
+            return array('pregunta' => $pregunta, 'respuestas' => $respuestas, "correcta" => $correcta, "categoria" => $categoria);
         } else {
             return $respuestas;
         }
@@ -70,7 +73,8 @@ class JuegoModel
 
     }
 
-    public function buscarPreguntas($categoria){
+    public function buscarPreguntas($categoria)
+    {
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -84,7 +88,8 @@ class JuegoModel
         }
     }
 
-    public function buscarRespuestas($id){
+    public function buscarRespuestas($id)
+    {
         $sql = "SELECT PR.id_respuesta, R.descripcion as descripcion, PR.correcta FROM preguntas_respuestas PR JOIN respuestas R ON R.id = PR.id_respuesta WHERE id_pregunta = '$id'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -97,7 +102,8 @@ class JuegoModel
         }
     }
 
-    public function verificarRespuesta($respuesta, $correcta){
+    public function verificarRespuesta($respuesta, $correcta)
+    {
         if ($respuesta == $correcta) {
             return true;
         } else {
@@ -105,7 +111,8 @@ class JuegoModel
         }
     }
 
-    public function generarPuntaje($pregunta){
+    public function generarPuntaje($pregunta)
+    {
         if ($pregunta != null) {
             $sql = "SELECT dificultad FROM preguntas WHERE descripcion = '$pregunta'";
             $result = $this->baseDeDatos->query($sql);
@@ -127,7 +134,8 @@ class JuegoModel
         }
     }
 
-    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje){
+    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje)
+    {
 
         $sql = "SELECT puntaje FROM usuario WHERE id = '$idUsuario'";
         $result = $this->baseDeDatos->query($sql);
@@ -140,8 +148,15 @@ class JuegoModel
         }
     }
 
-    public function guardarPartidaEnBD($idUsuario, $puntaje){
+    public function guardarPartidaEnBD($idUsuario, $puntaje)
+    {
         $sql = "INSERT INTO partida (puntaje_obtenido, fecha_partida, id_usuario) VALUES ('$puntaje', NOW(), '$idUsuario')";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function reportarPregunta($pregunta)
+    {
+        $sql = "UPDATE preguntas SET reportada = 1 WHERE descripcion = '$pregunta'";
         $this->baseDeDatos->query($sql);
     }
 

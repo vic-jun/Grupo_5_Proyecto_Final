@@ -178,6 +178,21 @@ class AdminModel
         }
     }
 
+    public function buscarPreguntasReportadas(){
+        $sql = "SELECT preguntas.id as pregunta_id, preguntas.descripcion as pregunta, respuestas.descripcion as respuesta, preguntas_respuestas.correcta as es_correcta
+                FROM preguntas
+                INNER JOIN preguntas_respuestas ON preguntas.id = preguntas_respuestas.id_pregunta
+                INNER JOIN respuestas ON preguntas_respuestas.id_respuesta = respuestas.id
+                WHERE preguntas.reportada = 1";
+        return $this->devolverPreguntasYrespuestas($sql);
+    }
+
+    public function rechazarReporte($pregunta_id)
+    {
+        $sql = "UPDATE preguntas SET reportada = 0 WHERE id = $pregunta_id";
+        $this->baseDeDatos->query($sql);
+    }
+
 
     private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta)
     {
@@ -186,5 +201,9 @@ class AdminModel
         return $res[0]['id'];
 
     }
+
+
+
+
 
 }

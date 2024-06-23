@@ -67,4 +67,22 @@ class AdminController
         header('Location: /inicio');
     }
 
+    public function preguntasReportadas()
+    {
+        $preguntas = $this->model->buscarPreguntasReportadas();
+        $this->presenter->render("views/preguntasReportadas.mustache", ['preguntas' => $preguntas]);
+    }
+
+    public function aprobarReporte(){
+        $pregunta_id = $_POST['pregunta_id'];
+        $this->model->rechazarPregunta($pregunta_id);
+        header('Location: /admin/preguntasReportadas');
+    }
+
+    public function rechazarReporte(){
+        $pregunta_id = $_POST['pregunta_id'];
+        $this->model->rechazarReporte($pregunta_id);
+        header('Location: /admin/preguntasReportadas');
+    }
+
 }

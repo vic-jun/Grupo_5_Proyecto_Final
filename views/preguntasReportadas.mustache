@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Verificar reportes de preguntas</title>
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+    <link rel="stylesheet" href="/public/css/inicio.css">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/inicio">Inicio</a></li>
+        <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+
+<main>
+    {{#preguntas}}
+        <div class="pregunta">
+            <h2>Pregunta: {{pregunta}}</h2>
+            <h3>Respuestas correctas:</h3>
+            {{#respuestas_correctas}}
+                <p>{{.}}</p>
+            {{/respuestas_correctas}}
+            <h3>Respuestas incorrectas:</h3>
+            {{#respuestas_incorrectas}}
+                <p>{{.}}</p>
+            {{/respuestas_incorrectas}}
+            <form action="/admin/aprobarReporte" method="post">
+                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                <input type="submit" value="Aprobar reporte">
+            </form>
+            <form action="/admin/rechazarReporte" method="post">
+                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                <input type="submit" value="Rechazar reporte">
+            </form>
+        </div>
+    {{/preguntas}}
+</main>
+
+</body>
+</html>

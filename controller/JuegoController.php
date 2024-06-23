@@ -54,7 +54,15 @@ class JuegoController
             exit();
         }
 
+        $accion = $_POST["accion"];
         $pregunta = $_POST["pregunta"];
+
+        if ($accion == "reportar") {
+            $this->model->reportarPregunta($pregunta);
+            header("Location: /Juego/partida");
+            exit();
+        }
+
         $respuesta = $_POST["respuesta"];
         $correcta = $_POST["correcta"];
 
