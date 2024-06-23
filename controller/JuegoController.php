@@ -5,17 +5,21 @@ class JuegoController
     public $model;
     public $presenter;
 
-    public function __construct($model, $presenter){
+    public function __construct($model, $presenter)
+    {
         $this->model = $model;
         $this->presenter = $presenter;
     }
 
-    public function partida(){
+    public function partida()
+    {
         session_start();
 
-        if(isset($_SESSION['preguntaID'])){
+        if (isset($_SESSION['preguntaID'])) {
             $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
-            if(is_array($res) && count($res) > 0) {
+            $_SESSION["cantRespuestasContestadas"] = 0;
+            $_SESSION["cantRespuestasCorrectas"] = 0;
+            if (is_array($res) && count($res) > 0) {
                 $res["time_left"] = $this->getTimeLeft();
                 $this->presenter->render("views/juego.mustache", $res);
                 exit();
@@ -44,7 +48,8 @@ class JuegoController
         $this->presenter->render("views/juego.mustache", $res);
     }
 
-    public function verificar(){
+    public function verificar()
+    {
         session_start();
 
         unset($_SESSION['preguntaID']);
@@ -71,26 +76,43 @@ class JuegoController
             exit();
         }
 
+        if (!isset($_SESSION["cantRespuestasContestadas"])) {
+            $_SESSION["cantRespuestasContestadas"] = 0;
+        }
+
+        if (!isset($_SESSION["cantRespuestasCorrectas"])) {
+            $_SESSION["cantRespuestasCorrectas"] = 0;
+        }
+
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
         if ($resultado) {
             $puntaje = $this->model->generarPuntaje($pregunta);
             $_SESSION["puntaje"] += $puntaje;
+            $_SESSION["cantRespuestasContestadas"]++;
+            $_SESSION["cantRespuestasCorrectas"]++;
             header("Location: /Juego/partida");
         } else {
             $this->guardarPuntajeFinal();
+            $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
+            $this->model->cantRespuestasCorrectas($_SESSION["cantRespuestasCorrectas"]);
+            $this->calcularDificultad();
             $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
             unset($_SESSION["puntaje"]);
+            unset($_SESSION["cantRespuestasContestadas"]);
+            unset($_SESSION["cantRespuestasCorrectas"]);
         }
         exit();
     }
 
-    public function timeLeft(){
+    public function timeLeft()
+    {
         session_start();
         echo json_encode(["time_left" => $this->getTimeLeft()]);
     }
 
-    private function getTimeLeft(){
+    private function getTimeLeft()
+    {
         if (!isset($_SESSION["start_time"])) {
             return 0;
         }
@@ -100,14 +122,34 @@ class JuegoController
         return max($duration - $elapsed, 0);
     }
 
-    private function guardarPuntajeFinal(){
+    private function guardarPuntajeFinal()
+    {
         if (isset($_SESSION['idUsuario']) && isset($_SESSION["puntaje"])) {
 
             $idUsuario = $_SESSION["idUsuario"];
             $puntaje = $_SESSION["puntaje"];
-            $this -> model -> guardarPartidaEnBD($idUsuario, $puntaje);
+            $this->model->guardarPartidaEnBD($idUsuario, $puntaje);
             $this->model->guardarPuntajeMaximoEnBD($idUsuario, $puntaje);
         }
+    }
+
+    private function calcularDificultad()
+    {
+        $respuestasTotales = $this->model->obtenerCantTotalRespuestasRespondidas();
+        $cantRespuestasCorrectas = $this->model->obtenerCantRespuestasCorrectas();
+        if ($respuestasTotales > 10 && $respuestasTotales <= 15){
+            if ($cantRespuestasCorrectas <= 3) {
+                $this->model->actualizarDificultad("basico");
+            } else if ($cantRespuestasCorrectas <= 6) {
+                $this->model->actualizarDificultad("intermedio");
+            } else if ($cantRespuestasCorrectas <= 10) {
+                $this->model->actualizarDificultad("avanzado");
+            }
+        } else {
+            echo "basklsdad";
+        }
+
+
     }
 
 }

@@ -160,4 +160,53 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
+    public function cantRespuestasContestadas($cantidad)
+    {
+        $cantidad = $cantidad + 1;
+        // Obtener el valor actual de cantRespuestasRespondidas
+        $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        $respuestasActuales = $result[0]['cantRespuestasRespondidas'];
+
+        // Sumar la cantidad que viene por parámetro
+        $nuevaCantidad = $respuestasActuales + $cantidad;
+
+        // Actualizar el valor en la base de datos
+        $sql = "UPDATE usuario SET cantRespuestasRespondidas = '$nuevaCantidad' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function cantRespuestasCorrectas($cantidad)
+    {
+        $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        $respuestasActuales = $result[0]['cntRespuestasCorrectas'];
+
+        $nuevaCantidad = $respuestasActuales + $cantidad;
+
+        $sql = "UPDATE usuario SET cntRespuestasCorrectas = '$nuevaCantidad' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function obtenerCantTotalRespuestasRespondidas()
+    {
+        $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cantRespuestasRespondidas'];
+    }
+
+    public function obtenerCantRespuestasCorrectas()
+    {
+        $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cntRespuestasCorrectas'];
+
+    }
+
+    public function actualizarDificultad($dificultad)
+    {
+        $sql = "UPDATE usuario SET nivelUsuario = '$dificultad' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
 }
