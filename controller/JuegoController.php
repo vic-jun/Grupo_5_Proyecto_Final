@@ -102,7 +102,6 @@ class JuegoController
             $this->guardarPuntajeFinal();
             $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
             $this->model->cantRespuestasCorrectas($_SESSION["cantRespuestasCorrectas"]);
-            $this->model->cantCorrectasBloque($_SESSION["correctasBloque"]);
             $this->calcularDificultad();
             $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
             unset($_SESSION["puntaje"]);
@@ -111,6 +110,7 @@ class JuegoController
         }
         exit();
     }
+
 
     public function timeLeft()
     {
@@ -142,44 +142,31 @@ class JuegoController
 
     private function calcularDificultad()
     {
+        // Obtener respuestas totales y correctas del usuario
         $respuestasTotales = $this->model->obtenerCantTotalRespuestasRespondidas();
         $cantRespuestasCorrectas = $this->model->obtenerCantRespuestasCorrectas();
-        $cantCorrectasBloque = $this->model->obtenerCantCorrectasBloque();
+        $cantCorrectasBloque = $_SESSION["correctasBloque"] ?? 0;
 
-        if ($respuestasTotales <= 12) {
-            if ($respuestasTotales > 8) {
-                if ($cantRespuestasCorrectas <= 2) {
-                    $this->model->actualizarDificultad("basico");
-                } else if ($cantRespuestasCorrectas <= 5) {
-                    $this->model->actualizarDificultad("intermedio");
-                } else if ($cantRespuestasCorrectas <= 9) {
-                    $this->model->actualizarDificultad("avanzado");
-                }
-            }
-        } else {
-
-            if (!isset($_SESSION["correctasBloque"])) {
-                $_SESSION["correctasBloque"] = 0;
-            }
-
-            $bloqueActual = ($respuestasTotales - 5) % 10;
-            if ($bloqueActual == 0) {
-                // Evaluar el porcentaje de respuestas correctas en el bloque de 10 preguntas actual
-
-                $porcentajeCorrectas = ($cantCorrectasBloque / 5) * 100;
-
-                if ($porcentajeCorrectas <= 30) {
-                    $this->model->actualizarDificultad("basico");
-                } else if ($porcentajeCorrectas <= 60) {
-                    $this->model->actualizarDificultad("intermedio");
-                } else {
-                    $this->model->actualizarDificultad("avanzado");
-                }
-
-                $_SESSION["correctasBloque"] = 0;
-
-            }
+        // Evaluar para respuestas totales entre 8 y 12
+        if ($respuestasTotales >= 8 && $respuestasTotales <= 12) {
+            $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
+        } else if ($respuestasTotales > 12) {
+            // Calcular el número de bloques completos de 5 respuestas después de las primeras 12 respuestas
+            $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
         }
+    }
+    private function calcular($cantRespuestasCorrectas, $respuestasTotales)
+    {
+        $porcentajeCorrectas = ($cantRespuestasCorrectas / $respuestasTotales) * 100;
+
+        if ($porcentajeCorrectas <= 30) {
+            $this->model->actualizarDificultad("basico");
+        } else if ($porcentajeCorrectas <= 60) {
+            $this->model->actualizarDificultad("intermedio");
+        } else {
+            $this->model->actualizarDificultad("avanzado");
+        }
+        echo $porcentajeCorrectas;
     }
 
 }

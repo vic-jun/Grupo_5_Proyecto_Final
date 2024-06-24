@@ -191,6 +191,17 @@ class JuegoModel
     public function cantCorrectasBloque($cantidad)
     {
         $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        $respuestasActuales = $result[0]['correctasBloque'];
+
+        $nuevaCantidad = $respuestasActuales + $cantidad;
+
+        $sql = "UPDATE usuario SET correctasBloque = '$nuevaCantidad' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+    public function actualizarCorrectasBloque($cantidad)
+    {
+        $sql = "UPDATE usuario SET correctasBloque = '$cantidad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
 
