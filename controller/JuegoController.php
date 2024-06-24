@@ -166,7 +166,6 @@ class JuegoController
         } else {
             $this->model->actualizarDificultad("avanzado");
         }
-        echo $porcentajeCorrectas;
     }
 
 }

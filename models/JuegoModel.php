@@ -132,7 +132,25 @@ class JuegoModel
             $pregunta = $preguntas[array_rand($preguntas)];
 
             if ($this->buscarEnJson($pregunta['id'])){
+
+                $totalPreg = $this->traerJson($_SESSION['idUsuario']);
+                $totalPreg = json_decode($totalPreg);
+
+                $val= 0;
+                for ($i=0; $i < count($preguntas); $i++) {
+                    $resultado = $this->buscarPreguntaPorID($totalPreg[$i]);
+                    if($resultado[0]['categoria'] == $categoria){
+                        if($resultado[0]['id'] == $totalPreg[$i]){
+                            $val++;
+                        }
+                    }
+                }
+                if($val == count($preguntas)) {
+                    $sql = "UPDATE usuario SET respuestasVistas = NULL WHERE id = '$_SESSION[idUsuario]'";
+                    $this->baseDeDatos->query($sql);
+                }
                 $pregunta = $this->buscarPreguntas($categoria);
+
             }else if(!$this->buscarEnJson($pregunta['id'])){
                 $this->actualizarJson($pregunta['id']);
             }
