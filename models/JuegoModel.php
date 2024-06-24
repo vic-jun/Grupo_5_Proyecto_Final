@@ -69,9 +69,57 @@ class JuegoModel
     public function buscarPreguntaPorID($id)
     {
         $sql = "SELECT * FROM preguntas WHERE id = '$id'";
-        return $this->baseDeDatos->query($sql);
+
+        $respuesta = $this->baseDeDatos->query($sql);
+
+        return $respuesta;
+    }
+
+    public function buscarEnJson($idPregunta){
+
+        $json = $this->traerJson($_SESSION['idUsuario']);
+
+        if($json == null){
+            $this->crearJson($idPregunta);
+            return 0;
+        }else{
+            $json = json_decode($json);
+            if(in_array($idPregunta, $json)){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
     }
+
+    public function traerJson($idUsuario){
+        $sql = "SELECT respuestasVistas FROM usuario WHERE id = '$idUsuario'";
+        $result = $this->baseDeDatos->query($sql);
+
+        if($result[0]['respuestasVistas'] != null){
+            return $result[0]['respuestasVistas'];
+        }else{
+        return null;}
+    }
+
+    public function crearJson($idPregunta){
+        $json = array();
+        array_push($json, $idPregunta);
+        $json = json_encode($json);
+        $sql = "UPDATE usuario SET respuestasVistas = '$json' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function actualizarJson($idPregunta){
+        $json = $this->traerJson($_SESSION['idUsuario']);
+        $json = json_decode($json);
+        array_push($json, $idPregunta);
+        $json = json_encode($json);
+        $sql = "UPDATE usuario SET respuestasVistas = '$json' WHERE id = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
 
     public function buscarPreguntas($categoria)
     {
@@ -82,6 +130,13 @@ class JuegoModel
         if (is_array($result) && count($result) > 0) {
             $preguntas = $result;
             $pregunta = $preguntas[array_rand($preguntas)];
+
+            if ($this->buscarEnJson($pregunta['id'])){
+                $pregunta = $this->buscarPreguntas($categoria);
+            }else if(!$this->buscarEnJson($pregunta['id'])){
+                $this->actualizarJson($pregunta['id']);
+            }
+
             return $pregunta;
         } else {
             return "No hay preguntas en la base de datos";
