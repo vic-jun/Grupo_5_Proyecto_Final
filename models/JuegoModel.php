@@ -1,17 +1,14 @@
 <?php
 
-class JuegoModel
-{
+class JuegoModel{
 
     private $baseDeDatos;
 
-    public function __construct($baseDeDatos)
-    {
+    public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function iniciarPartida($categoria)
-    {
+    public function iniciarPartida($categoria){
 
         $resPreg = $this->buscarPreguntas($categoria);
 
@@ -44,8 +41,7 @@ class JuegoModel
         }
     }
 
-    public function traerPreguntaEspecifica($id, $categoria)
-    {
+    public function traerPreguntaEspecifica($id, $categoria){
 
         $pregunta = $this->buscarPreguntaPorID($id);
 
@@ -66,8 +62,7 @@ class JuegoModel
         }
     }
 
-    public function buscarPreguntaPorID($id)
-    {
+    public function buscarPreguntaPorID($id){
         $sql = "SELECT * FROM preguntas WHERE id = '$id'";
 
         $respuesta = $this->baseDeDatos->query($sql);
@@ -121,8 +116,7 @@ class JuegoModel
     }
 
 
-    public function buscarPreguntas($categoria)
-    {
+    public function buscarPreguntas($categoria){
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -161,8 +155,7 @@ class JuegoModel
         }
     }
 
-    public function buscarRespuestas($id)
-    {
+    public function buscarRespuestas($id){
         $sql = "SELECT PR.id_respuesta, R.descripcion as descripcion, PR.correcta FROM preguntas_respuestas PR JOIN respuestas R ON R.id = PR.id_respuesta WHERE id_pregunta = '$id'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -175,8 +168,7 @@ class JuegoModel
         }
     }
 
-    public function verificarRespuesta($respuesta, $correcta)
-    {
+    public function verificarRespuesta($respuesta, $correcta){
         if ($respuesta == $correcta) {
             return true;
         } else {
@@ -184,8 +176,7 @@ class JuegoModel
         }
     }
 
-    public function generarPuntaje($pregunta)
-    {
+    public function generarPuntaje($pregunta){
         if ($pregunta != null) {
             $sql = "SELECT dificultad FROM preguntas WHERE descripcion = '$pregunta'";
             $result = $this->baseDeDatos->query($sql);
@@ -207,8 +198,7 @@ class JuegoModel
         }
     }
 
-    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje)
-    {
+    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje){
 
         $sql = "SELECT puntaje FROM usuario WHERE id = '$idUsuario'";
         $result = $this->baseDeDatos->query($sql);
@@ -221,20 +211,17 @@ class JuegoModel
         }
     }
 
-    public function guardarPartidaEnBD($idUsuario, $puntaje)
-    {
+    public function guardarPartidaEnBD($idUsuario, $puntaje){
         $sql = "INSERT INTO partida (puntaje_obtenido, fecha_partida, id_usuario) VALUES ('$puntaje', NOW(), '$idUsuario')";
         $this->baseDeDatos->query($sql);
     }
 
-    public function reportarPregunta($pregunta)
-    {
+    public function reportarPregunta($pregunta){
         $sql = "UPDATE preguntas SET reportada = 1 WHERE descripcion = '$pregunta'";
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantRespuestasContestadas($cantidad)
-    {
+    public function cantRespuestasContestadas($cantidad){
         $cantidad = $cantidad + 1;
         // Obtener el valor actual de cantRespuestasRespondidas
         $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
@@ -249,8 +236,7 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantRespuestasCorrectas($cantidad)
-    {
+    public function cantRespuestasCorrectas($cantidad){
         $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         $respuestasActuales = $result[0]['cntRespuestasCorrectas'];
@@ -261,8 +247,7 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantCorrectasBloque($cantidad)
-    {
+    public function cantCorrectasBloque($cantidad){
         $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         $respuestasActuales = $result[0]['correctasBloque'];
@@ -272,36 +257,31 @@ class JuegoModel
         $sql = "UPDATE usuario SET correctasBloque = '$nuevaCantidad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
-    public function actualizarCorrectasBloque($cantidad)
-    {
+    public function actualizarCorrectasBloque($cantidad){
         $sql = "UPDATE usuario SET correctasBloque = '$cantidad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
 
-    public function obtenerCantTotalRespuestasRespondidas()
-    {
+    public function obtenerCantTotalRespuestasRespondidas(){
         $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cantRespuestasRespondidas'];
     }
 
-    public function obtenerCantRespuestasCorrectas()
-    {
+    public function obtenerCantRespuestasCorrectas(){
         $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cntRespuestasCorrectas'];
 
     }
 
-    public function obtenerCantCorrectasBloque()
-    {
+    public function obtenerCantCorrectasBloque(){
         $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['correctasBloque'];
     }
 
-    public function actualizarDificultad($dificultad)
-    {
+    public function actualizarDificultad($dificultad){
         $sql = "UPDATE usuario SET nivelUsuario = '$dificultad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }

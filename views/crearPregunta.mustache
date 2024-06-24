@@ -8,7 +8,7 @@
     <title>Crear pregunta</title>
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/crearPregunta.css">
+    <link rel="stylesheet" href="/public/css/crear_pregunta.css">
 </head>
 <body>
 
@@ -25,31 +25,35 @@
 {{#data}}
     {{#es_user}}
     <h1>Crear pregunta</h1>
-    <form action="/crearPregunta/guardarPregunta" method="post">
-        <label for="pregunta">Pregunta:</label>
-        <input type="text" id="pregunta" name="pregunta" required>
-        <label for="categoria">Categoría:</label>
-        <select id="categoria" name="categoria" required>
-            <option value="HISTORIA">Historia</option>
-            <option value="GEOGRAFIA">Geografía</option>
-            <option value="CIENCIA">Ciencia</option>
-            <option value="ARTE">Arte</option>
-            <option value="DEPORTE">Deportes</option>
-            <option value="ENTRETENIMIENTO">Entretenimiento</option>
-        </select>
-        <label for="respuestas">Respuesta incorrecta:</label>
-        <input type="text" id="respuestas" name="respuestaIncorrecta1" required>
-        <label for="respuestas">Respuesta incorrecta:</label>
-        <input type="text" id="respuestas" name="respuestaIncorrecta2" required>
-        <label for="respuestas">Respuesta incorrecta:</label>
-        <input type="text" id="respuestas" name="respuestaIncorrecta3" required>
-        <label for="correcta">Respuesta correcta:</label>
-        <input type="text" id="correcta" name="respuestaCorrecta" required>
-        <input type="submit" value="Enviar pregunta a revision">
-    </form>
+    <div class="user-data">
+        <form action="/crearPregunta/guardarPregunta" method="post">
+            <label for="pregunta">Pregunta:</label>
+            <input type="text" id="pregunta" name="pregunta" required>
+            <label for="categoria">Categoría:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="HISTORIA">Historia</option>
+                <option value="GEOGRAFIA">Geografía</option>
+                <option value="CIENCIA">Ciencia</option>
+                <option value="ARTE">Arte</option>
+                <option value="DEPORTE">Deportes</option>
+                <option value="ENTRETENIMIENTO">Entretenimiento</option>
+            </select>
+            <label for="respuestas">Respuesta incorrecta:</label>
+            <input type="text" id="respuestas" name="respuestaIncorrecta1" required>
+            <label for="respuestas">Respuesta incorrecta:</label>
+            <input type="text" id="respuestas" name="respuestaIncorrecta2" required>
+            <label for="respuestas">Respuesta incorrecta:</label>
+            <input type="text" id="respuestas" name="respuestaIncorrecta3" required>
+            <label for="correcta">Respuesta correcta:</label>
+            <input type="text" id="correcta" name="respuestaCorrecta" required>
+            <input type="submit" value="Enviar pregunta a revision">
+        </form>
+    </div>
     {{/es_user}}
+
     {{#es_admin}}
-            <h1>Crear pregunta</h1>
+        <h1>Crear pregunta</h1>
+        <div class="user-data">
             <form action="/crearPregunta/guardarPreguntaValidada" method="post">
                 <label for="pregunta">Pregunta:</label>
                 <input type="text" id="pregunta" name="pregunta" required>
@@ -72,6 +76,7 @@
                 <input type="text" id="correcta" name="respuestaCorrecta" required>
                 <input type="submit" value="Guardar pregunta">
             </form>
+        </div>
     {{/es_admin}}
 {{/data}}
 </main>

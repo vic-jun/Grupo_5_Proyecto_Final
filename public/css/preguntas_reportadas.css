@@ -34,7 +34,7 @@ nav ul li a:hover {
     background-color: #111;
 }
 
-/* ESTILO CONTENEDOR */
+/* ESTILO MAIN */
 main {
     max-width: 800px;
     margin: auto;
@@ -46,44 +46,41 @@ main {
     border-radius: 10px;
 }
 
-main h1 {
-    font-size: 2.5em;
-    color: #580296;
-    text-align: center;
+/* Estilos para la pregunta */
+.pregunta {
     margin-bottom: 20px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 500px;
+.pregunta h2 {
+    font-size: 1.5em;
+    color: #333;
 }
 
-form label {
-    font-weight: bold;
+.pregunta h3 {
+    font-size: 1.2em;
+    color: #666;
+}
+
+.pregunta p {
+    font-size: 1em;
+    color: #999;
+}
+
+/* Estilos para los formularios */
+.pregunta form {
     margin-top: 10px;
 }
 
-form input[type="text"], form select {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-form input[type="submit"] {
-    margin-top: 20px;
-    padding: 10px;
+.pregunta form input[type="submit"] {
+    padding: 10px 20px;
     border: none;
     color: white;
-    background-color: #333;
+    background-color: #007BFF;
     cursor: pointer;
     border-radius: 5px;
     font-size: 1em;
 }
 
-form input[type="submit"]:hover {
-    background-color: #555;
+.pregunta form input[type="submit"]:hover {
+    background-color: #0056b3;
 }

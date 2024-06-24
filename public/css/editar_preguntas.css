@@ -38,7 +38,6 @@ nav ul li a:hover {
 main {
     display: flex;
     flex-direction: column;
-    align-items: center;
     max-width: 800px;
     margin: auto;
     margin-bottom: 5em;
@@ -49,21 +48,55 @@ main {
     border-radius: 10px;
 }
 
-main h1 {
-    font-size: 2.5em;
-    color: #580296;
-    text-align: center;
+.pregunta {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
-/* Estilo para el contenedor de los datos del usuario */
-main .user-data {
-    display: inline-block;
+.pregunta h2{
     text-align: left;
+    width: 100%;
 }
 
-main h4 {
+.pregunta .contenedor {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.pregunta form[action="/admin/modificarPregunta"] {
+    margin-right: 20px;
+}
+
+.crear-pregunta-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+form[action="/crearPregunta"] input[type="submit"] {
+    padding: 15px 30px;
     font-size: 1.2em;
-    color: #383838;
-    margin-bottom: 20px;
+    background-color: #007BFF;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+form[action="/crearPregunta"] input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    background-color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+form input[type="submit"]:hover {
+    background-color: #555;
 }

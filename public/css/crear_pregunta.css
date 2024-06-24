@@ -34,7 +34,7 @@ nav ul li a:hover {
     background-color: #111;
 }
 
-/* ESTILO PRINCIPAL */
+/* ESTILO CONTENEDOR */
 main {
     display: flex;
     flex-direction: column;
@@ -56,14 +56,50 @@ main h1 {
     margin-bottom: 20px;
 }
 
-/* Estilo para el contenedor de los datos del usuario */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+}
+
+form label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input[type="text"], form select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+form input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    color: white;
+    background-color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+form input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Estilo para el contenedor del formulario */
 main .user-data {
     display: inline-block;
     text-align: left;
+    width: 350px;
 }
 
 main h4 {
     font-size: 1.2em;
-    color: #383838;
+    color: #4d4d4d;
     margin-bottom: 20px;
 }

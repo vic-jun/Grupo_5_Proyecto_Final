@@ -8,7 +8,7 @@
     <title>Verificar pregunta</title>
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/inicio.css">
+    <link rel="stylesheet" href="/public/css/editar_preguntas.css">
 </head>
 <body>
 
@@ -22,21 +22,24 @@
 </nav>
 
 <main>
-    <form action="/crearPregunta" method="post">
+    <form action="/crearPregunta" method="post" class="crear-pregunta-form">
         <input type="hidden">
         <input type="submit" value="Generar pregunta">
     </form>
     {{#preguntas}}
         <div class="pregunta">
-            <h2>Pregunta: {{pregunta}}</h2>
-            <form action="/admin/modificarPregunta" method="post">
-                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-                <input type="submit" value="Modificar pregunta">
-            </form>
-            <form action="/admin/eliminarPregunta" method="post">
-                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-                <input type="submit" value="Eliminar pregunta">
-            </form>
+            <h2>{{pregunta_id}}. {{pregunta}}</h2>
+            <div class="contenedor">
+                <form action="/admin/modificarPregunta" method="post">
+                    <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                    <input type="submit" value="Modificar pregunta">
+                </form>
+                <form action="/admin/eliminarPregunta" method="post">
+                    <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                    <input type="submit" value="Eliminar pregunta">
+                </form>
+            </div>
+            <p>------------------------------------------------------------------------------------------------------------------------------------------------------</p>
         </div>
     {{/preguntas}}
 </main>
