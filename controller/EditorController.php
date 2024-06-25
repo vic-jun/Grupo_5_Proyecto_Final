@@ -1,6 +1,6 @@
 <?php
 
-class AdminController
+class EditorController
 {
     private $presenter;
     private $model;

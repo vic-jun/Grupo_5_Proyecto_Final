@@ -8,6 +8,7 @@ class JuegoModel{
         $this->baseDeDatos = $baseDeDatos;
     }
 
+
     public function iniciarPartida($categoria){
 
         $resPreg = $this->buscarPreguntas($categoria);

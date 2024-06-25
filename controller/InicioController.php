@@ -14,7 +14,6 @@ class InicioController
 
     public function get()
     {
-        session_start();
         if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
             unset($_SESSION['preguntaID']);
         }
@@ -23,7 +22,7 @@ class InicioController
         $rol = $this->model->obtenerRol();
 
 
-        $data['es_admin'] = ($rol === "ADMIN");
+        $data['es_admin'] = ($rol === "EDITOR");
         $data['es_user'] = ($rol === "usuario");
 
         $this->presenter->render("views/inicio.mustache", ["data" => $data]);

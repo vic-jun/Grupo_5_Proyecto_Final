@@ -23,6 +23,8 @@ class LoginController
             $_SESSION['nombre_de_usuario'] = $_POST["usuario"];
             $idUsuario = $this->model->buscarIdUsuario($_POST["usuario"]);
             $_SESSION["idUsuario"] = $idUsuario;
+            $rol = $this->model->buscarRolUsuario($_POST["usuario"]);
+            $_SESSION["rol"] = $rol;
             header("Location: /inicio");
             exit();
         } else {

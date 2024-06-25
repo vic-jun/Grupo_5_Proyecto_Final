@@ -33,11 +33,11 @@
             {{#respuestas_incorrectas}}
                 <p>{{.}}</p>
             {{/respuestas_incorrectas}}
-            <form action="/admin/aprobarReporte" method="post">
+            <form action="/editor/aprobarReporte" method="post">
                 <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                 <input type="submit" value="Aprobar reporte">
             </form>
-            <form action="/admin/rechazarReporte" method="post">
+            <form action="/editor/rechazarReporte" method="post">
                 <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                 <input type="submit" value="Rechazar reporte">
             </form>

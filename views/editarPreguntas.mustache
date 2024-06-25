@@ -30,11 +30,11 @@
         <div class="pregunta">
             <h2>{{pregunta_id}}. {{pregunta}}</h2>
             <div class="contenedor">
-                <form action="/admin/modificarPregunta" method="post">
+                <form action="/editor/modificarPregunta" method="post">
                     <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                     <input type="submit" value="Modificar pregunta">
                 </form>
-                <form action="/admin/eliminarPregunta" method="post">
+                <form action="/editor/eliminarPregunta" method="post">
                     <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
                     <input type="submit" value="Eliminar pregunta">
                 </form>

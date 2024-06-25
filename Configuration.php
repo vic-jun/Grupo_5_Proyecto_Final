@@ -15,7 +15,7 @@ include_once "controller/PerfilController.php";
 include_once "controller/ErrorController.php";
 include_once "controller/RankingController.php";
 include_once "controller/CrearPreguntaController.php";
-include_once "controller/AdminController.php";
+include_once "controller/EditorController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
@@ -26,7 +26,7 @@ include_once "models/RankingModel.php";
 include_once "models/PerfilModel.php";
 include_once "models/InicioModel.php";
 include_once "models/CrearPreguntaModel.php";
-include_once "models/AdminModel.php";
+include_once "models/EditorModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
 include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
@@ -78,9 +78,9 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new CrearPreguntaController(self::getPresenter(), self::getCrearPreguntaModel());
      }
 
-     public static function getAdminController()
+     public static function getEditorController()
      {
-         return new AdminController(self::getPresenter(), self::getAdminModel());
+         return new EditorController(self::getPresenter(), self::getEditorModel());
      }
 
      // models
@@ -120,18 +120,14 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new CrearPreguntaModel(self::getBaseDeDatos());
      }
 
-     private static function getAdminModel()
+     private static function getEditorModel()
      {
-         return new AdminModel(self::getBaseDeDatos());
+         return new EditorModel(self::getBaseDeDatos());
      }
 
      // helpers
      public static function getRouter(){
              return new Router("getLoginController" , "get");
-     }
-
-     public static function getInicio(){
-         return new Router("getInicioController", "get");
      }
      public static function getPresenter(){
          return new MustachePresenter("views/templates");

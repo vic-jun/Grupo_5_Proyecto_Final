@@ -14,7 +14,6 @@ class CrearPreguntaController
 
     public function get()
     {
-        session_start();
         $data = $this->model->obtenerDatosUsuario();
         $rol = $this->model->obtenerRol();
 

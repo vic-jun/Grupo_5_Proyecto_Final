@@ -65,7 +65,7 @@ class Mustache_Loader_ProductionFilesystemLoader extends Mustache_Loader_Filesys
     }
 
     /**
-     * helper function for loading a Mustache file by name.
+     * Helper function for loading a Mustache file by name.
      *
      * @throws Mustache_Exception_UnknownTemplateException If a template file is not found.
      *

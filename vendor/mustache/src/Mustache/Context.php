@@ -196,7 +196,7 @@ class Mustache_Context
     }
 
     /**
-     * helper function to find a variable in the Context stack.
+     * Helper function to find a variable in the Context stack.
      *
      * @see Mustache_Context::find
      *
