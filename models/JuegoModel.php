@@ -1,7 +1,6 @@
 <?php
 
 class JuegoModel{
-
     private $baseDeDatos;
 
     public function __construct($baseDeDatos){
@@ -43,7 +42,6 @@ class JuegoModel{
     }
 
     public function traerPreguntaEspecifica($id, $categoria){
-
         $pregunta = $this->buscarPreguntaPorID($id);
 
         $respuestas = $this->buscarRespuestas($id);

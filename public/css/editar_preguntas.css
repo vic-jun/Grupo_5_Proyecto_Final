@@ -89,6 +89,7 @@ form[action="/crearPregunta"] input[type="submit"]:hover {
 
 form input[type="submit"] {
     padding: 10px 20px;
+    margin-right: 20px;
     border: none;
     color: white;
     background-color: #333;
