@@ -88,7 +88,14 @@ class JuegoController{
 
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
+
+
         if ($resultado) {
+
+            $this->model->actualizarCantidadCorrectas($pregunta);
+
+            $this->model->calcularDificultadPregunta($pregunta);
+
             $puntaje = $this->model->generarPuntaje($pregunta);
             $_SESSION["puntaje"] += $puntaje;
             $_SESSION["cantRespuestasContestadas"]++;
@@ -96,10 +103,15 @@ class JuegoController{
             $_SESSION["correctasBloque"]++;
             header("Location: /juego/partida");
         } else {
+            $this->model->actualizarCantidadIncorrectas($pregunta);
+
             $this->guardarPuntajeFinal();
             $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
             $this->model->cantRespuestasCorrectas($_SESSION["cantRespuestasCorrectas"]);
             $this->calcularDificultad();
+
+            $this->model->calcularDificultadPregunta($pregunta);
+
             $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
             unset($_SESSION["puntaje"]);
             unset($_SESSION["cantRespuestasContestadas"]);

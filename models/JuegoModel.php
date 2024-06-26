@@ -293,22 +293,66 @@ class JuegoModel{
     }
 
     private function borrarPreguntasRespondidas($categoria){
-
         $sql = "DELETE FROM preguntas_usuarios 
         WHERE idPregunta IN (
             SELECT id FROM preguntas WHERE categoria = '$categoria'
         ) 
         AND idUsuario = '$_SESSION[idUsuario]'";
-
         $this->baseDeDatos->query($sql);
-
     }
 
     private function obtenerCantPreguntasCorrectas($pregunta){
-        $sql = "SELECT cntRespuestasCorrectas FROM preguntas WHERE descripcion = '$pregunta'";
+        $sql = "SELECT cantidadCorrectas FROM preguntas WHERE descripcion = '$pregunta'";
         $result = $this->baseDeDatos->query($sql);
-        return $result[0]['cntRespuestasCorrectas'];
+        return $result[0]['cantidadCorrectas'];
     }
 
+    private function obtenerCantPreguntasIncorrectas($pregunta){
+        $sql = "SELECT cantidadIncorrectas FROM preguntas WHERE descripcion = '$pregunta'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cantidadIncorrectas'];
+    }
+    public function actualizarCantidadCorrectas($pregunta){
 
+        $respuestasActuales = $this->obtenerCantPreguntasCorrectas($pregunta);
+
+        $nuevaCantidad = $respuestasActuales + 1;
+
+        $sql = "UPDATE preguntas SET cantidadCorrectas = '$nuevaCantidad' WHERE descripcion = '$pregunta'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function actualizarCantidadIncorrectas($pregunta){
+
+        $respuestasActuales = $this->obtenerCantPreguntasIncorrectas($pregunta);
+
+        $nuevaCantidad = $respuestasActuales + 1;
+
+        $sql = "UPDATE preguntas SET cantidadIncorrectas = '$nuevaCantidad' WHERE descripcion = '$pregunta'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function calcularDificultadPregunta($pregunta)
+    {
+        $correctas = $this->obtenerCantPreguntasCorrectas($pregunta);
+
+        $incorrectas = $this->obtenerCantPreguntasIncorrectas($pregunta);
+
+        $totales = $correctas + $incorrectas;
+
+        $porcentajeCorrectas = ($correctas / $totales) * 100;
+
+        if ($porcentajeCorrectas >= 0 && $porcentajeCorrectas <= 30) {
+            $sql = "UPDATE preguntas SET dificultad = 'difficult' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        } else if ($porcentajeCorrectas > 30 && $porcentajeCorrectas < 60) {
+            $sql = "UPDATE preguntas SET dificultad = 'intermediate' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        } else if($porcentajeCorrectas >= 60 && $porcentajeCorrectas <= 100) {
+            $sql = "UPDATE preguntas SET dificultad = 'easy' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        }
+
+
+    }
 }
