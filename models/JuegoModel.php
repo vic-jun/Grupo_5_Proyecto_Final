@@ -304,4 +304,11 @@ class JuegoModel{
 
     }
 
+    private function obtenerCantPreguntasCorrectas($pregunta){
+        $sql = "SELECT cntRespuestasCorrectas FROM preguntas WHERE descripcion = '$pregunta'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cntRespuestasCorrectas'];
+    }
+
+
 }
