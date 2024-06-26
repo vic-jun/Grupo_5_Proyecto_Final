@@ -1,12 +1,12 @@
 <?php
 
 class JuegoModel{
-
     private $baseDeDatos;
 
     public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
+
 
     public function iniciarPartida($categoria){
 
@@ -42,7 +42,6 @@ class JuegoModel{
     }
 
     public function traerPreguntaEspecifica($id, $categoria){
-
         $pregunta = $this->buscarPreguntaPorID($id);
 
         $respuestas = $this->buscarRespuestas($id);
@@ -70,89 +69,78 @@ class JuegoModel{
         return $respuesta;
     }
 
-    public function buscarEnJson($idPregunta){
-
-        $json = $this->traerJson($_SESSION['idUsuario']);
-
-        if($json == null){
-            $this->crearJson($idPregunta);
-            return 0;
-        }else{
-            $json = json_decode($json);
-            if(in_array($idPregunta, $json)){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-    }
-
-    public function traerJson($idUsuario){
-        $sql = "SELECT respuestasVistas FROM usuario WHERE id = '$idUsuario'";
-        $result = $this->baseDeDatos->query($sql);
-
-        if($result[0]['respuestasVistas'] != null){
-            return $result[0]['respuestasVistas'];
-        }else{
-        return null;}
-    }
-
-    public function crearJson($idPregunta){
-        $json = array();
-        array_push($json, $idPregunta);
-        $json = json_encode($json);
-        $sql = "UPDATE usuario SET respuestasVistas = '$json' WHERE id = '$_SESSION[idUsuario]'";
-        $this->baseDeDatos->query($sql);
-    }
-
-    public function actualizarJson($idPregunta){
-        $json = $this->traerJson($_SESSION['idUsuario']);
-        $json = json_decode($json);
-        array_push($json, $idPregunta);
-        $json = json_encode($json);
-        $sql = "UPDATE usuario SET respuestasVistas = '$json' WHERE id = '$_SESSION[idUsuario]'";
-        $this->baseDeDatos->query($sql);
-    }
-
-
     public function buscarPreguntas($categoria){
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
 
         $result = $this->baseDeDatos->query($sql);
 
+        $i = 0;
+        while ($i < count($result)) {
+            if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                $this->borrarPreguntasRespondidas($categoria);
+            }
+            if($this->buscarPreguntasRespondidas($result[$i]['id'])){
+                unset($result[$i]);
+                $result = array_values($result);
+            } else {
+                $i++;
+            }
+        }
+
         if (is_array($result) && count($result) > 0) {
             $preguntas = $result;
-            $pregunta = $preguntas[array_rand($preguntas)];
 
-            if ($this->buscarEnJson($pregunta['id'])){
+            while (count($preguntas) > 0) {
 
-                $totalPreg = $this->traerJson($_SESSION['idUsuario']);
-                $totalPreg = json_decode($totalPreg);
+                $index = array_rand($preguntas);
+                $pregunta = $preguntas[$index];
 
-                $val= 0;
-                for ($i=0; $i < count($preguntas); $i++) {
-                    $resultado = $this->buscarPreguntaPorID($totalPreg[$i]);
-                    if($resultado[0]['categoria'] == $categoria){
-                        if($resultado[0]['id'] == $totalPreg[$i]){
-                            $val++;
-                        }
-                    }
+            $preguntasUsuario= $this->buscarPreguntasRespondidas($pregunta['id']);
+
+            if(!$preguntasUsuario){
+                $this->insertarPreguntaUsuario($pregunta['id']);
+                unset($preguntas[$index]);
+                $preguntas = array_values($preguntas);
+                break;
+            }elseif (is_array($preguntasUsuario)){
+
+                if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                    $this->borrarPreguntasRespondidas($categoria);
                 }
-                if($val == count($preguntas)) {
-                    $sql = "UPDATE usuario SET respuestasVistas = NULL WHERE id = '$_SESSION[idUsuario]'";
-                    $this->baseDeDatos->query($sql);
-                }
-                $pregunta = $this->buscarPreguntas($categoria);
 
-            }else if(!$this->buscarEnJson($pregunta['id'])){
-                $this->actualizarJson($pregunta['id']);
+                if ($preguntasUsuario['idPregunta'] != $pregunta['id']) {
+                        $this->insertarPreguntaUsuario($pregunta['id']);
+                        unset($preguntas[$index]);
+                    $preguntas = array_values($preguntas);
+                        break;
+                }else{
+                    unset($preguntas[$index]);
+                }
+                $preguntas = array_values($preguntas);
+                }
             }
-
             return $pregunta;
         } else {
             return "No hay preguntas en la base de datos";
         }
+    }
+
+    public function buscarPreguntasRespondidas($id){
+        $sql = "SELECT * FROM preguntas_usuarios WHERE idPregunta = '$id' AND idUsuario = '$_SESSION[idUsuario]'";
+
+        $result = $this->baseDeDatos->query($sql);
+
+        if (is_array($result) && count($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function insertarPreguntaUsuario($id){
+
+        $sql = "INSERT INTO preguntas_usuarios (idUsuario, idPregunta) VALUES ('$_SESSION[idUsuario]','$id')";
+        $this->baseDeDatos->query($sql);
     }
 
     public function buscarRespuestas($id){
@@ -286,4 +274,85 @@ class JuegoModel{
         $this->baseDeDatos->query($sql);
     }
 
+    private function verificarVerTodasLasPreguntasDeUnaCategoria($categoria)
+    {
+
+        $sql1 = "SELECT * FROM preguntas_usuarios pu JOIN preguntas p ON p.id = pu.idPregunta WHERE p.categoria = '$categoria' AND pu.idUsuario = '$_SESSION[idUsuario]'";
+
+        $preguntas = $this->baseDeDatos->query($sql1);
+
+        $sql2 = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
+
+        $todasLasPreguntas = $this->baseDeDatos->query($sql2);
+
+        if(count($preguntas) == count($todasLasPreguntas)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private function borrarPreguntasRespondidas($categoria){
+        $sql = "DELETE FROM preguntas_usuarios 
+        WHERE idPregunta IN (
+            SELECT id FROM preguntas WHERE categoria = '$categoria'
+        ) 
+        AND idUsuario = '$_SESSION[idUsuario]'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    private function obtenerCantPreguntasCorrectas($pregunta){
+        $sql = "SELECT cantidadCorrectas FROM preguntas WHERE descripcion = '$pregunta'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cantidadCorrectas'];
+    }
+
+    private function obtenerCantPreguntasIncorrectas($pregunta){
+        $sql = "SELECT cantidadIncorrectas FROM preguntas WHERE descripcion = '$pregunta'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['cantidadIncorrectas'];
+    }
+    public function actualizarCantidadCorrectas($pregunta){
+
+        $respuestasActuales = $this->obtenerCantPreguntasCorrectas($pregunta);
+
+        $nuevaCantidad = $respuestasActuales + 1;
+
+        $sql = "UPDATE preguntas SET cantidadCorrectas = '$nuevaCantidad' WHERE descripcion = '$pregunta'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function actualizarCantidadIncorrectas($pregunta){
+
+        $respuestasActuales = $this->obtenerCantPreguntasIncorrectas($pregunta);
+
+        $nuevaCantidad = $respuestasActuales + 1;
+
+        $sql = "UPDATE preguntas SET cantidadIncorrectas = '$nuevaCantidad' WHERE descripcion = '$pregunta'";
+        $this->baseDeDatos->query($sql);
+    }
+
+    public function calcularDificultadPregunta($pregunta)
+    {
+        $correctas = $this->obtenerCantPreguntasCorrectas($pregunta);
+
+        $incorrectas = $this->obtenerCantPreguntasIncorrectas($pregunta);
+
+        $totales = $correctas + $incorrectas;
+
+        $porcentajeCorrectas = ($correctas / $totales) * 100;
+
+        if ($porcentajeCorrectas >= 0 && $porcentajeCorrectas <= 30) {
+            $sql = "UPDATE preguntas SET dificultad = 'difficult' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        } else if ($porcentajeCorrectas > 30 && $porcentajeCorrectas < 60) {
+            $sql = "UPDATE preguntas SET dificultad = 'intermediate' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        } else if($porcentajeCorrectas >= 60 && $porcentajeCorrectas <= 100) {
+            $sql = "UPDATE preguntas SET dificultad = 'easy' WHERE descripcion = '$pregunta'";
+            $this->baseDeDatos->query($sql);
+        }
+
+
+    }
 }

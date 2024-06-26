@@ -28,8 +28,17 @@ class LoginModel{
             return $result[0]['id'];
         }
         return null;
+    }
 
+    public function buscarRolUsuario ($usuario){
+        $sql = "SELECT rol FROM usuario WHERE nombre_de_usuario = '$usuario'";
 
+        $result = $this->baseDeDatos->query($sql);
+
+        if (is_array($result) && isset($result[0]['rol'])) {
+            return $result[0]['rol'];
+        }
+        return null;
     }
 
 }

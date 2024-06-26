@@ -10,7 +10,7 @@
  */
 
 /**
- * Mustache Lambda helper.
+ * Mustache Lambda Helper.
  *
  * Passed as the second argument to section lambdas (higher order sections),
  * giving them access to a `render` method for rendering a string with the
@@ -23,7 +23,7 @@ class Mustache_LambdaHelper
     private $delims;
 
     /**
-     * Mustache Lambda helper constructor.
+     * Mustache Lambda Helper constructor.
      *
      * @param Mustache_Engine  $mustache Mustache engine instance
      * @param Mustache_Context $context  Rendering context
@@ -63,7 +63,7 @@ class Mustache_LambdaHelper
     }
 
     /**
-     * Get a Lambda helper with custom delimiters.
+     * Get a Lambda Helper with custom delimiters.
      *
      * @param string $delims Custom delimiters, in the format `{{= <% %> =}}`
      *

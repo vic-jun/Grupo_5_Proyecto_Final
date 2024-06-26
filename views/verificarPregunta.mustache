@@ -22,27 +22,33 @@
 </nav>
 
 <main>
-    {{#preguntas}}
-        <div class="pregunta">
-            <h2>Pregunta: {{pregunta}}</h2>
-            <h3>Respuestas correctas:</h3>
-            {{#respuestas_correctas}}
-                <p>{{.}}</p>
-            {{/respuestas_correctas}}
-            <h3>Respuestas incorrectas:</h3>
-            {{#respuestas_incorrectas}}
-                <p>{{.}}</p>
-            {{/respuestas_incorrectas}}
-            <form action="/admin/aprobarPregunta" method="post">
-                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-                <input type="submit" value="Aprobar">
-            </form>
-            <form action="/admin/rechazarPregunta" method="post">
-                <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-                <input type="submit" value="Rechazar">
-            </form>
-        </div>
-    {{/preguntas}}
+    <div class="user-data">
+        {{#preguntas}}
+            <div class="pregunta">
+                <h2>Pregunta: {{pregunta}}</h2>
+                <h3>Respuesta correcta:</h3>
+                {{#respuestas_correctas}}
+                    <p> ✩ {{.}}</p>
+                {{/respuestas_correctas}}
+                <h3>Respuestas incorrectas:</h3>
+                <div class="respuestas-incorrectas">
+                    {{#respuestas_incorrectas}}
+                        <p> ❍ {{.}}</p>
+                    {{/respuestas_incorrectas}}
+                </div>
+                <div class="button-container">
+                    <form class="form-button" action="/editor/aprobarPregunta" method="post">
+                        <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                        <input type="submit" value="Aprobar">
+                    </form>
+                    <form class="form-button" action="/editor/rechazarPregunta" method="post">
+                        <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+                        <input type="submit" value="Rechazar">
+                    </form>
+                </div>
+            </div>
+        {{/preguntas}}
+    </div>
 </main>
 
 </body>

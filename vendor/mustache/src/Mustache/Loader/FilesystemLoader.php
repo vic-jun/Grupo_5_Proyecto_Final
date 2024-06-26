@@ -86,7 +86,7 @@ class Mustache_Loader_FilesystemLoader implements Mustache_Loader
     }
 
     /**
-     * helper function for loading a Mustache file by name.
+     * Helper function for loading a Mustache file by name.
      *
      * @throws Mustache_Exception_UnknownTemplateException If a template file is not found
      *
@@ -106,7 +106,7 @@ class Mustache_Loader_FilesystemLoader implements Mustache_Loader
     }
 
     /**
-     * helper function for getting a Mustache template file name.
+     * Helper function for getting a Mustache template file name.
      *
      * @param string $name
      *

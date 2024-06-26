@@ -73,7 +73,7 @@ class Mustache_Compiler
     }
 
     /**
-     * helper function for walking the Mustache token parse tree.
+     * Helper function for walking the Mustache token parse tree.
      *
      * @throws Mustache_Exception_SyntaxException upon encountering unknown token types
      *
@@ -286,7 +286,6 @@ class Mustache_Compiler
     private function blockArg($nodes, $id, $start, $end, $otag, $ctag, $level)
     {
         $key = $this->block($nodes);
-        $keystr = var_export($key, true);
         $id = var_export($id, true);
 
         return sprintf($this->prepare(self::BLOCK_ARG, $level), $id, $key);
@@ -321,7 +320,6 @@ class Mustache_Compiler
     }
 
     const SECTION_CALL = '
-        // %s section
         $value = $context->%s(%s);%s
         $buffer .= $this->section%s($context, $indent, $value);
     ';
@@ -333,12 +331,12 @@ class Mustache_Compiler
 
             if (%s) {
                 $source = %s;
-                $result = call_user_func($value, $source, %s);
+                $result = (string) call_user_func($value, $source, %s);
                 if (strpos($result, \'{{\') === false) {
                     $buffer .= $result;
                 } else {
                     $buffer .= $this->mustache
-                        ->loadLambda((string) $result%s)
+                        ->loadLambda($result%s)
                         ->renderInternal($context);
                 }
             } elseif (!empty($value)) {
@@ -392,11 +390,10 @@ class Mustache_Compiler
         $id      = var_export($id, true);
         $filters = $this->getFilters($filters, $level);
 
-        return sprintf($this->prepare(self::SECTION_CALL, $level), $id, $method, $id, $filters, $key);
+        return sprintf($this->prepare(self::SECTION_CALL, $level), $method, $id, $filters, $key);
     }
 
     const INVERTED_SECTION = '
-        // %s inverted section
         $value = $context->%s(%s);%s
         if (empty($value)) {
             %s
@@ -419,7 +416,7 @@ class Mustache_Compiler
         $id      = var_export($id, true);
         $filters = $this->getFilters($filters, $level);
 
-        return sprintf($this->prepare(self::INVERTED_SECTION, $level), $id, $method, $id, $filters, $this->walk($nodes, $level));
+        return sprintf($this->prepare(self::INVERTED_SECTION, $level), $method, $id, $filters, $this->walk($nodes, $level));
     }
 
     const PARTIAL_INDENT = ', $indent . %s';
@@ -494,7 +491,7 @@ class Mustache_Compiler
     }
 
     /**
-     * helper method for filtering out non-block-arg tokens.
+     * Helper method for filtering out non-block-arg tokens.
      *
      * @param array $node
      *
@@ -507,7 +504,7 @@ class Mustache_Compiler
 
     const VARIABLE = '
         $value = $this->resolveValue($context->%s(%s), $context);%s
-        $buffer .= %s%s;
+        $buffer .= %s($value === null ? \'\' : %s);
     ';
 
     /**
@@ -659,7 +656,7 @@ class Mustache_Compiler
     const STRICT_IS_CALLABLE = 'is_object(%s) && is_callable(%s)';
 
     /**
-     * helper function to compile strict vs lax "is callable" logic.
+     * Helper function to compile strict vs lax "is callable" logic.
      *
      * @param string $variable (default: '$value')
      *

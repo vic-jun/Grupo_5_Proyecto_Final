@@ -8,9 +8,11 @@ class JuegoController{
         $this->model = $model;
         $this->presenter = $presenter;
     }
-
+    public function get(){
+        header("Location: /seleccionarCategoria");
+        exit();
+    }
     public function partida(){
-        session_start();
 
         if (isset($_SESSION['preguntaID'])) {
             $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
@@ -47,7 +49,6 @@ class JuegoController{
     }
 
     public function verificar(){
-        session_start();
 
         unset($_SESSION['preguntaID']);
 
@@ -61,7 +62,7 @@ class JuegoController{
 
         if ($accion == "reportar") {
             $this->model->reportarPregunta($pregunta);
-            header("Location: /Juego/partida");
+            header("Location: /juego/partida");
             exit();
         }
 
@@ -87,18 +88,30 @@ class JuegoController{
 
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
+
+
         if ($resultado) {
+
+            $this->model->actualizarCantidadCorrectas($pregunta);
+
+            $this->model->calcularDificultadPregunta($pregunta);
+
             $puntaje = $this->model->generarPuntaje($pregunta);
             $_SESSION["puntaje"] += $puntaje;
             $_SESSION["cantRespuestasContestadas"]++;
             $_SESSION["cantRespuestasCorrectas"]++;
             $_SESSION["correctasBloque"]++;
-            header("Location: /Juego/partida");
+            header("Location: /juego/partida");
         } else {
+            $this->model->actualizarCantidadIncorrectas($pregunta);
+
             $this->guardarPuntajeFinal();
             $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
             $this->model->cantRespuestasCorrectas($_SESSION["cantRespuestasCorrectas"]);
             $this->calcularDificultad();
+
+            $this->model->calcularDificultadPregunta($pregunta);
+
             $this->presenter->render("views/resumenPartida.mustache", ["puntaje" => $_SESSION["puntaje"], "categoria" => $_SESSION["categoria"]]);
             unset($_SESSION["puntaje"]);
             unset($_SESSION["cantRespuestasContestadas"]);
@@ -109,15 +122,20 @@ class JuegoController{
 
 
     public function timeLeft(){
-        session_start();
-        echo json_encode(["time_left" => $this->getTimeLeft()]);
+
+        try {
+            echo json_encode(["time_left" => $this->getTimeLeft()]);
+        } catch (Exception $e) {
+            // Si hay un error, envía una respuesta JSON con el mensaje de error
+            echo json_encode(["error" => $e->getMessage()]);
+        }
     }
 
     private function getTimeLeft(){
+
         if (!isset($_SESSION["start_time"])) {
             return 0;
         }
-
         $duration = 30;
         $elapsed = time() - $_SESSION["start_time"];
         return max($duration - $elapsed, 0);

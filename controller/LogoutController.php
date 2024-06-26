@@ -10,8 +10,9 @@ class LogoutController
 
     public function get()
     {
-        session_destroy();
-
+        session_start();
+        $_SESSION['loggedin'] = false;
+        $_SESSION['idUsuario'] = null;
         header("Location: /login");
         exit();
     }
