@@ -4,7 +4,7 @@
     session_start();
 
     $router = Configuration::getRouter();
-    $validControllers = ["registrar", "login", "jugar", "ranking", "perfil", "confirmarEmail", "resumenPartida", "seleccionarCategoria", "editor", "crearPregunta", "editarPregunta", "error", "inicio", "juego", "modificarPregunta", "perfil", "preguntasReportadas", "ranking", "resumenPartida", "seleccionarCategoria", "verificarPregunta", "logout"];
+    $validControllers = ["registrar", "login", "ranking", "perfil", "confirmarEmail", "resumenPartida", "seleccionarCategoria", "editor", "crearPregunta", "editarPregunta", "error", "inicio", "juego", "modificarPregunta", "perfil", "preguntasReportadas", "ranking", "resumenPartida", "seleccionarCategoria", "verificarPregunta", "logout"];
     $action = " ";
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']){
         if($_SESSION['idUsuario'] != null){
@@ -64,7 +64,6 @@
                     case "seleccionarCategoria":
                     case "verificarPregunta":
                         $controller = "login";
-                        $action = "get";
                         break;
                 }
 

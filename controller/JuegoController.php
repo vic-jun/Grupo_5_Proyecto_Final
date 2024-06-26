@@ -50,7 +50,6 @@ class JuegoController{
 
     public function verificar(){
 
-
         unset($_SESSION['preguntaID']);
 
         if (!isset($_SESSION["start_time"])) {
@@ -63,7 +62,7 @@ class JuegoController{
 
         if ($accion == "reportar") {
             $this->model->reportarPregunta($pregunta);
-            header("Location: /Juego/partida");
+            header("Location: /juego/partida");
             exit();
         }
 
@@ -95,7 +94,7 @@ class JuegoController{
             $_SESSION["cantRespuestasContestadas"]++;
             $_SESSION["cantRespuestasCorrectas"]++;
             $_SESSION["correctasBloque"]++;
-            header("Location: /Juego/partida");
+            header("Location: /juego/partida");
         } else {
             $this->guardarPuntajeFinal();
             $this->model->cantRespuestasContestadas($_SESSION["cantRespuestasContestadas"]);
