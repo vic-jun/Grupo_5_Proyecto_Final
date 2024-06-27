@@ -1,5 +1,5 @@
 <?php
-
+include_once __DIR__ . '/../helper/NoHayPreguntasException.php';
 class JuegoModel
 {
     private $baseDeDatos;
