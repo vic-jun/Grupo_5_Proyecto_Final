@@ -13,45 +13,41 @@ class JuegoController{
         exit();
     }
     public function partida(){
-        try {
-            if (isset($_SESSION['preguntaID'])) {
-                $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
-                $_SESSION["cantRespuestasContestadas"] = 0;
-                $_SESSION["cantRespuestasCorrectas"] = 0;
-                $_SESSION["correctasBloque"] = 0;
-                if (is_array($res) && count($res) > 0) {
-                    $res["time_left"] = $this->getTimeLeft();
-                    $this->presenter->render("views/juego.mustache", $res);
-                    exit();
-                }
+
+        if (isset($_SESSION['preguntaID'])) {
+            $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
+            $_SESSION["cantRespuestasContestadas"] = 0;
+            $_SESSION["cantRespuestasCorrectas"] = 0;
+            $_SESSION["correctasBloque"] = 0;
+            if (is_array($res) && count($res) > 0) {
+                $res["time_left"] = $this->getTimeLeft();
+                $this->presenter->render("views/juego.mustache", $res);
+                exit();
             }
-
-            if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
-                unset($_SESSION["start_time"]);
-                $this->guardarPuntajeFinal();
-                unset($_SESSION["puntaje"]);
-            }
-
-            if (!isset($_SESSION["puntaje"])) {
-                $_SESSION["puntaje"] = 0;
-            }
-
-            if (!isset($_SESSION["categoria"]) || isset($_POST["categoria"])) {
-                $_SESSION["categoria"] = $_POST["categoria"];
-            }
-
-            $_SESSION["start_time"] = time();
-
-            $res = $this->model->iniciarPartida($_SESSION["categoria"]);
-            $res["time_left"] = $this->getTimeLeft();
-
-            $this->presenter->render("views/juego.mustache", $res);
-        } catch (NoHayPreguntasException $e) {
-            // Manejar la excepción
-            $_SESSION["mensaje_error"] = $e->getMessage();
-            header("Location: /vistaError"); // Redirigir a la vista de error
-            exit();
         }
+
+        if (isset($_GET['timeout']) && $_GET['timeout'] == 'true') {
+            unset($_SESSION["start_time"]);
+            $this->guardarPuntajeFinal();
+            unset($_SESSION["puntaje"]);
+        }
+
+        if (!isset($_SESSION["puntaje"])) {
+            $_SESSION["puntaje"] = 0;
+        }
+
+        if (!isset($_SESSION["categoria"]) || isset($_POST["categoria"])) {
+            $_SESSION["categoria"] = $_POST["categoria"];
+        }
+
+        $_SESSION["start_time"] = time();
+
+        $res = $this->model->iniciarPartida($_SESSION["categoria"]);
+        if(is_array($res)){
+            $res["time_left"] = $this->getTimeLeft();
+        }
+
+        $this->presenter->render("views/juego.mustache", $res);
     }
 
     public function verificar(){

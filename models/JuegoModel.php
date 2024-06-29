@@ -1,17 +1,14 @@
 <?php
-include_once __DIR__ . '/../helper/NoHayPreguntasException.php';
-class JuegoModel
-{
+
+class JuegoModel{
     private $baseDeDatos;
 
-    public function __construct($baseDeDatos)
-    {
+    public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
 
 
-    public function iniciarPartida($categoria)
-    {
+    public function iniciarPartida($categoria){
 
         $resPreg = $this->buscarPreguntas($categoria);
 
@@ -44,8 +41,7 @@ class JuegoModel
         }
     }
 
-    public function traerPreguntaEspecifica($id, $categoria)
-    {
+    public function traerPreguntaEspecifica($id, $categoria){
         $pregunta = $this->buscarPreguntaPorID($id);
 
         $respuestas = $this->buscarRespuestas($id);
@@ -65,8 +61,7 @@ class JuegoModel
         }
     }
 
-    public function buscarPreguntaPorID($id)
-    {
+    public function buscarPreguntaPorID($id){
         $sql = "SELECT * FROM preguntas WHERE id = '$id'";
 
         $respuesta = $this->baseDeDatos->query($sql);
@@ -74,42 +69,34 @@ class JuegoModel
         return $respuesta;
     }
 
-    /**
-     * @throws NoHayPreguntasException
-     */
-    public function buscarPreguntas($categoria)
-    {
-        $nivelUsuario = $this->obtenerNivelUsuario($_SESSION['idUsuario']);
-
-        // Consulta para obtener preguntas según la categoría
+    public function buscarPreguntas($categoria){
+        /*
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
-        $result = $this->baseDeDatos->query($sql);
+        $result = $this->baseDeDatos->query($sql);*/
 
-        // Filtrar preguntas según el nivel del usuario
+        $nivelUsuario = $this->obtenerNivelUsuario();
+
+
         if ($nivelUsuario === "basico") {
-            $result = array_filter($result, function($pregunta) {
-                return $pregunta['dificultad'] === 'easy';
-            });
+            $sql1 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'easy'";
+            $result = $this->baseDeDatos->query($sql1);
         } elseif ($nivelUsuario === "intermedio") {
-            $result = array_filter($result, function($pregunta) {
-                return $pregunta['dificultad'] === 'intermediate';
-            });
+            $sql2 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'intermidiate'";
+            $result = $this->baseDeDatos->query($sql2);
         } elseif ($nivelUsuario === "avanzado") {
-            $result = array_filter($result, function($pregunta) {
-                return $pregunta['dificultad'] === 'difficult';
-            });
+            $sql3 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'difficult'";
+            $result = $this->baseDeDatos->query($sql3);
         }
 
-        $result = array_values($result); // Reindexar el array
 
         $i = 0;
         while ($i < count($result)) {
-            if ($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)) {
+            if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
                 $this->borrarPreguntasRespondidas($categoria);
             }
-            if ($this->buscarPreguntasRespondidas($result[$i]['id'])) {
+            if($this->buscarPreguntasRespondidas($result[$i]['id'])){
                 unset($result[$i]);
-                $result = array_values($result); // Reindexar el array
+                $result = array_values($result);
             } else {
                 $i++;
             }
@@ -119,41 +106,41 @@ class JuegoModel
             $preguntas = $result;
 
             while (count($preguntas) > 0) {
+
                 $index = array_rand($preguntas);
                 $pregunta = $preguntas[$index];
 
-                $preguntasUsuario = $this->buscarPreguntasRespondidas($pregunta['id']);
+            $preguntasUsuario= $this->buscarPreguntasRespondidas($pregunta['id']);
 
-                if (!$preguntasUsuario) {
-                    $this->insertarPreguntaUsuario($pregunta['id']);
-                    unset($preguntas[$index]);
-                    $preguntas = array_values($preguntas); // Reindexar el array
-                    break;
-                } elseif (is_array($preguntasUsuario)) {
-                    if ($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)) {
-                        $this->borrarPreguntasRespondidas($categoria);
-                    }
+            if(!$preguntasUsuario){
+                $this->insertarPreguntaUsuario($pregunta['id']);
+                unset($preguntas[$index]);
+                $preguntas = array_values($preguntas);
+                break;
+            }elseif (is_array($preguntasUsuario)){
 
-                    if ($preguntasUsuario['idPregunta'] != $pregunta['id']) {
+                if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                    $this->borrarPreguntasRespondidas($categoria);
+                }
+
+                if ($preguntasUsuario['idPregunta'] != $pregunta['id']) {
                         $this->insertarPreguntaUsuario($pregunta['id']);
                         unset($preguntas[$index]);
-                        $preguntas = array_values($preguntas); // Reindexar el array
+                    $preguntas = array_values($preguntas);
                         break;
-                    } else {
-                        unset($preguntas[$index]);
-                    }
-                    $preguntas = array_values($preguntas); // Reindexar el array
+                }else{
+                    unset($preguntas[$index]);
+                }
+                $preguntas = array_values($preguntas);
                 }
             }
             return $pregunta;
         } else {
-            throw new NoHayPreguntasException("No hay preguntas disponibles para esta categoría y nivel.");
+            return "No hay preguntas en la base de datos";
         }
     }
 
-
-    public function buscarPreguntasRespondidas($id)
-    {
+    public function buscarPreguntasRespondidas($id){
         $sql = "SELECT * FROM preguntas_usuarios WHERE idPregunta = '$id' AND idUsuario = '$_SESSION[idUsuario]'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -165,15 +152,13 @@ class JuegoModel
         }
     }
 
-    public function insertarPreguntaUsuario($id)
-    {
+    public function insertarPreguntaUsuario($id){
 
         $sql = "INSERT INTO preguntas_usuarios (idUsuario, idPregunta) VALUES ('$_SESSION[idUsuario]','$id')";
         $this->baseDeDatos->query($sql);
     }
 
-    public function buscarRespuestas($id)
-    {
+    public function buscarRespuestas($id){
         $sql = "SELECT PR.id_respuesta, R.descripcion as descripcion, PR.correcta FROM preguntas_respuestas PR JOIN respuestas R ON R.id = PR.id_respuesta WHERE id_pregunta = '$id'";
 
         $result = $this->baseDeDatos->query($sql);
@@ -186,8 +171,7 @@ class JuegoModel
         }
     }
 
-    public function verificarRespuesta($respuesta, $correcta)
-    {
+    public function verificarRespuesta($respuesta, $correcta){
         if ($respuesta == $correcta) {
             return true;
         } else {
@@ -195,8 +179,7 @@ class JuegoModel
         }
     }
 
-    public function generarPuntaje($pregunta)
-    {
+    public function generarPuntaje($pregunta){
         if ($pregunta != null) {
             $sql = "SELECT dificultad FROM preguntas WHERE descripcion = '$pregunta'";
             $result = $this->baseDeDatos->query($sql);
@@ -218,8 +201,7 @@ class JuegoModel
         }
     }
 
-    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje)
-    {
+    public function guardarPuntajeMaximoEnBD($idUsuario, $puntaje){
 
         $sql = "SELECT puntaje FROM usuario WHERE id = '$idUsuario'";
         $result = $this->baseDeDatos->query($sql);
@@ -232,20 +214,17 @@ class JuegoModel
         }
     }
 
-    public function guardarPartidaEnBD($idUsuario, $puntaje)
-    {
+    public function guardarPartidaEnBD($idUsuario, $puntaje){
         $sql = "INSERT INTO partida (puntaje_obtenido, fecha_partida, id_usuario) VALUES ('$puntaje', NOW(), '$idUsuario')";
         $this->baseDeDatos->query($sql);
     }
 
-    public function reportarPregunta($pregunta)
-    {
+    public function reportarPregunta($pregunta){
         $sql = "UPDATE preguntas SET reportada = 1 WHERE descripcion = '$pregunta'";
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantRespuestasContestadas($cantidad)
-    {
+    public function cantRespuestasContestadas($cantidad){
         $cantidad = $cantidad + 1;
         // Obtener el valor actual de cantRespuestasRespondidas
         $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
@@ -260,8 +239,7 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantRespuestasCorrectas($cantidad)
-    {
+    public function cantRespuestasCorrectas($cantidad){
         $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         $respuestasActuales = $result[0]['cntRespuestasCorrectas'];
@@ -272,8 +250,7 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function cantCorrectasBloque($cantidad)
-    {
+    public function cantCorrectasBloque($cantidad){
         $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         $respuestasActuales = $result[0]['correctasBloque'];
@@ -283,37 +260,31 @@ class JuegoModel
         $sql = "UPDATE usuario SET correctasBloque = '$nuevaCantidad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
-
-    public function actualizarCorrectasBloque($cantidad)
-    {
+    public function actualizarCorrectasBloque($cantidad){
         $sql = "UPDATE usuario SET correctasBloque = '$cantidad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
 
-    public function obtenerCantTotalRespuestasRespondidas()
-    {
+    public function obtenerCantTotalRespuestasRespondidas(){
         $sql = "SELECT cantRespuestasRespondidas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cantRespuestasRespondidas'];
     }
 
-    public function obtenerCantRespuestasCorrectas()
-    {
+    public function obtenerCantRespuestasCorrectas(){
         $sql = "SELECT cntRespuestasCorrectas FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cntRespuestasCorrectas'];
 
     }
 
-    public function obtenerCantCorrectasBloque()
-    {
+    public function obtenerCantCorrectasBloque(){
         $sql = "SELECT correctasBloque FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['correctasBloque'];
     }
 
-    public function actualizarDificultad($dificultad)
-    {
+    public function actualizarDificultad($dificultad){
         $sql = "UPDATE usuario SET nivelUsuario = '$dificultad' WHERE id = '$_SESSION[idUsuario]'";
         $this->baseDeDatos->query($sql);
     }
@@ -329,15 +300,14 @@ class JuegoModel
 
         $todasLasPreguntas = $this->baseDeDatos->query($sql2);
 
-        if (count($preguntas) == count($todasLasPreguntas)) {
+        if(count($preguntas) == count($todasLasPreguntas)){
             return true;
-        } else {
+        }else{
             return false;
         }
     }
 
-    private function borrarPreguntasRespondidas($categoria)
-    {
+    private function borrarPreguntasRespondidas($categoria){
         $sql = "DELETE FROM preguntas_usuarios 
         WHERE idPregunta IN (
             SELECT id FROM preguntas WHERE categoria = '$categoria'
@@ -346,22 +316,18 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    private function obtenerCantPreguntasCorrectas($pregunta)
-    {
+    private function obtenerCantPreguntasCorrectas($pregunta){
         $sql = "SELECT cantidadCorrectas FROM preguntas WHERE descripcion = '$pregunta'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cantidadCorrectas'];
     }
 
-    private function obtenerCantPreguntasIncorrectas($pregunta)
-    {
+    private function obtenerCantPreguntasIncorrectas($pregunta){
         $sql = "SELECT cantidadIncorrectas FROM preguntas WHERE descripcion = '$pregunta'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['cantidadIncorrectas'];
     }
-
-    public function actualizarCantidadCorrectas($pregunta)
-    {
+    public function actualizarCantidadCorrectas($pregunta){
 
         $respuestasActuales = $this->obtenerCantPreguntasCorrectas($pregunta);
 
@@ -371,8 +337,7 @@ class JuegoModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function actualizarCantidadIncorrectas($pregunta)
-    {
+    public function actualizarCantidadIncorrectas($pregunta){
 
         $respuestasActuales = $this->obtenerCantPreguntasIncorrectas($pregunta);
 
@@ -398,7 +363,7 @@ class JuegoModel
         } else if ($porcentajeCorrectas > 30 && $porcentajeCorrectas < 60) {
             $sql = "UPDATE preguntas SET dificultad = 'intermediate' WHERE descripcion = '$pregunta'";
             $this->baseDeDatos->query($sql);
-        } else if ($porcentajeCorrectas >= 60 && $porcentajeCorrectas <= 100) {
+        } else if($porcentajeCorrectas >= 60 && $porcentajeCorrectas <= 100) {
             $sql = "UPDATE preguntas SET dificultad = 'easy' WHERE descripcion = '$pregunta'";
             $this->baseDeDatos->query($sql);
         }
@@ -406,12 +371,10 @@ class JuegoModel
 
     }
 
-    private function obtenerNivelUsuario($id)
+    private function obtenerNivelUsuario()
     {
-        $sql = "SELECT nivelUsuario FROM usuario WHERE id = '$id'";
+        $sql = "SELECT nivelUsuario FROM usuario WHERE id = '$_SESSION[idUsuario]'";
         $result = $this->baseDeDatos->query($sql);
         return $result[0]['nivelUsuario'];
     }
-
-
 }
