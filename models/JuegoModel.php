@@ -76,6 +76,7 @@ class JuegoModel{
 
         $nivelUsuario = $this->obtenerNivelUsuario();
 
+        $result = null;
 
         if ($nivelUsuario === "basico") {
             $sql1 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'easy'";
@@ -101,6 +102,8 @@ class JuegoModel{
                 $i++;
             }
         }
+
+
 
         if (is_array($result) && count($result) > 0) {
             $preguntas = $result;
@@ -136,7 +139,51 @@ class JuegoModel{
             }
             return $pregunta;
         } else {
-            return "No hay preguntas en la base de datos";
+            $sql3 = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
+            $preguntas = $this->baseDeDatos->query($sql3);
+            $i = 0;
+            while ($i < count($preguntas)) {
+                if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                    $this->borrarPreguntasRespondidas($categoria);
+                }
+                if($this->buscarPreguntasRespondidas($preguntas[$i]['id'])){
+                    unset($preguntas[$i]);
+                    $preguntas = array_values($preguntas);
+                } else {
+                    $i++;
+                }
+            }
+
+            while (count($preguntas) > 0) {
+
+                $index = array_rand($preguntas);
+                $pregunta = $preguntas[$index];
+
+                $preguntasUsuario= $this->buscarPreguntasRespondidas($pregunta['id']);
+
+                if(!$preguntasUsuario){
+                    $this->insertarPreguntaUsuario($pregunta['id']);
+                    unset($preguntas[$index]);
+                    $preguntas = array_values($preguntas);
+                    break;
+                }elseif (is_array($preguntasUsuario)){
+
+                    if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                        $this->borrarPreguntasRespondidas($categoria);
+                    }
+
+                    if ($preguntasUsuario['idPregunta'] != $pregunta['id']) {
+                        $this->insertarPreguntaUsuario($pregunta['id']);
+                        unset($preguntas[$index]);
+                        $preguntas = array_values($preguntas);
+                        break;
+                    }else{
+                        unset($preguntas[$index]);
+                    }
+                    $preguntas = array_values($preguntas);
+                }
+            }
+            return $pregunta;
         }
     }
 

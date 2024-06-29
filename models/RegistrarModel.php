@@ -45,6 +45,8 @@ class RegistrarModel{
                 $nombre_foto = $directorio_destino . '/' . $fotoPerfil['name'];
 
                 move_uploaded_file($archivo_temporal, $nombre_foto);
+
+                $nombre_foto = '/public/img/' . $fotoPerfil['name'];
             } else {
                 print_r($errors);
                 return false;
@@ -57,17 +59,14 @@ class RegistrarModel{
         $queryResult = $this->baseDeDatos->query($sql1);
 
         if(empty($queryResult) == false){
-            return false;
+            return Array('error2' => "El email ya está registrado") ;
         }
 
         $sql2 = "SELECT 1 FROM usuario WHERE nombre_de_usuario = '$nombreUsuario'";
         $queryResult = $this->baseDeDatos->query($sql2);
         if(empty($queryResult) == false){
-            return false;
+            return Array('error1' => "El nombre de usuario ya está registrado") ;
         }
-
-
-
 
         $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed) 
                 VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$password', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0)";
@@ -112,6 +111,9 @@ class RegistrarModel{
     }
 
     public function validateEmail($hash) {
+        $sql1 = "UPDATE usuario SET nivelUsuario = 'basico' WHERE hash = '$hash'";
+        $this->baseDeDatos->query($sql1);
+
         $sql = "UPDATE usuario SET confirmed = 1 WHERE hash = '$hash'";
         return $this->baseDeDatos->query($sql);
     }
