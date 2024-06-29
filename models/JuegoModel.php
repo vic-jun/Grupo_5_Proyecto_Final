@@ -70,9 +70,24 @@ class JuegoModel{
     }
 
     public function buscarPreguntas($categoria){
+        /*
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
+        $result = $this->baseDeDatos->query($sql);*/
 
-        $result = $this->baseDeDatos->query($sql);
+        $nivelUsuario = $this->obtenerNivelUsuario();
+
+
+        if ($nivelUsuario === "basico") {
+            $sql1 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'easy'";
+            $result = $this->baseDeDatos->query($sql1);
+        } elseif ($nivelUsuario === "intermedio") {
+            $sql2 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'intermidiate'";
+            $result = $this->baseDeDatos->query($sql2);
+        } elseif ($nivelUsuario === "avanzado") {
+            $sql3 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'difficult'";
+            $result = $this->baseDeDatos->query($sql3);
+        }
+
 
         $i = 0;
         while ($i < count($result)) {
@@ -354,5 +369,12 @@ class JuegoModel{
         }
 
 
+    }
+
+    private function obtenerNivelUsuario()
+    {
+        $sql = "SELECT nivelUsuario FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['nivelUsuario'];
     }
 }
