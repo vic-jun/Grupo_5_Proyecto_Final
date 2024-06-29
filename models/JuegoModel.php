@@ -70,9 +70,25 @@ class JuegoModel{
     }
 
     public function buscarPreguntas($categoria){
+        /*
         $sql = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
+        $result = $this->baseDeDatos->query($sql);*/
 
-        $result = $this->baseDeDatos->query($sql);
+        $nivelUsuario = $this->obtenerNivelUsuario();
+
+        $result = null;
+
+        if ($nivelUsuario === "basico") {
+            $sql1 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'easy'";
+            $result = $this->baseDeDatos->query($sql1);
+        } elseif ($nivelUsuario === "intermedio") {
+            $sql2 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'intermidiate'";
+            $result = $this->baseDeDatos->query($sql2);
+        } elseif ($nivelUsuario === "avanzado") {
+            $sql3 = "SELECT * FROM preguntas WHERE categoria = '$categoria' AND dificultad = 'difficult'";
+            $result = $this->baseDeDatos->query($sql3);
+        }
+
 
         $i = 0;
         while ($i < count($result)) {
@@ -86,6 +102,8 @@ class JuegoModel{
                 $i++;
             }
         }
+
+
 
         if (is_array($result) && count($result) > 0) {
             $preguntas = $result;
@@ -121,7 +139,51 @@ class JuegoModel{
             }
             return $pregunta;
         } else {
-            return "No hay preguntas en la base de datos";
+            $sql3 = "SELECT * FROM preguntas WHERE categoria = '$categoria'";
+            $preguntas = $this->baseDeDatos->query($sql3);
+            $i = 0;
+            while ($i < count($preguntas)) {
+                if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                    $this->borrarPreguntasRespondidas($categoria);
+                }
+                if($this->buscarPreguntasRespondidas($preguntas[$i]['id'])){
+                    unset($preguntas[$i]);
+                    $preguntas = array_values($preguntas);
+                } else {
+                    $i++;
+                }
+            }
+
+            while (count($preguntas) > 0) {
+
+                $index = array_rand($preguntas);
+                $pregunta = $preguntas[$index];
+
+                $preguntasUsuario= $this->buscarPreguntasRespondidas($pregunta['id']);
+
+                if(!$preguntasUsuario){
+                    $this->insertarPreguntaUsuario($pregunta['id']);
+                    unset($preguntas[$index]);
+                    $preguntas = array_values($preguntas);
+                    break;
+                }elseif (is_array($preguntasUsuario)){
+
+                    if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
+                        $this->borrarPreguntasRespondidas($categoria);
+                    }
+
+                    if ($preguntasUsuario['idPregunta'] != $pregunta['id']) {
+                        $this->insertarPreguntaUsuario($pregunta['id']);
+                        unset($preguntas[$index]);
+                        $preguntas = array_values($preguntas);
+                        break;
+                    }else{
+                        unset($preguntas[$index]);
+                    }
+                    $preguntas = array_values($preguntas);
+                }
+            }
+            return $pregunta;
         }
     }
 
@@ -354,5 +416,12 @@ class JuegoModel{
         }
 
 
+    }
+
+    private function obtenerNivelUsuario()
+    {
+        $sql = "SELECT nivelUsuario FROM usuario WHERE id = '$_SESSION[idUsuario]'";
+        $result = $this->baseDeDatos->query($sql);
+        return $result[0]['nivelUsuario'];
     }
 }

@@ -22,7 +22,7 @@
 </head>
 <body>
 
-    <form action="registrar/registrar" class="contenedor" method="post" enctype="multipart/form-data">
+    <form action="/registrar/registrar" class="contenedor" method="post" enctype="multipart/form-data">
 
         <h3>{{error}}</h3>
 
@@ -31,7 +31,7 @@
 
         <label for="usuario">Nombre de usuario:</label>
         <input type="text" name="usuario" id="usuario" value="grupo_5" required>
-
+        <p>{{error1}}</p>
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" id="nombre" value="Grupo" required>
 
@@ -40,7 +40,7 @@
 
         <label for="correo">Email:</label>
         <input type="email" name="correo" id="correo" value="grupo5@unlam.com" required>
-
+        <p>{{error2}}</p>
         <label for="anioDeNacimiento">Año de nacimiento:</label>
         <input type="number" name="anioDeNacimiento" id="anioDeNacimiento" value="2024" required>
 

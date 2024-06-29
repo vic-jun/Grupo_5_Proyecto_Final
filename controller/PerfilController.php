@@ -10,21 +10,30 @@ class PerfilController{
     }
 
     public function get(){
-        if (!isset($_SESSION['idUsuario'])) {
-            header('Location: /login');
-            exit();
+
+        if(isset($_GET['usuario'])){
+            $idUsuario = $_GET['usuario'];
+            $datosPerfil = $this->model->getPerfil($idUsuario);
+            $this->presenter->render("views/perfil.mustache", ["perfilOtro" => $datosPerfil]);
+        }else{
+            if (!isset($_SESSION['idUsuario'])) {
+                header('Location: /login');
+                exit();
+            }
+            $idUsuario = $_SESSION['idUsuario'];
+            if (empty($idUsuario)) {
+                header('Location: /login');
+                exit();
+            }
+            $datosPerfil = $this->model->getPerfil($idUsuario);
+            if ($datosPerfil === null) {
+                header('Location: /registrar');
+                exit();
+            }
+            $this->presenter->render("views/perfil.mustache", ["perfil" => $datosPerfil]);
         }
-        $idUsuario = $_SESSION['idUsuario'];
-        if (empty($idUsuario)) {
-            header('Location: /login');
-            exit();
-        }
-        $datosPerfil = $this->model->getPerfil($idUsuario);
-        if ($datosPerfil === null) {
-            header('Location: /registrar');
-            exit();
-        }
-        $this->presenter->render("views/perfil.mustache", ["perfil" => $datosPerfil]);
+
+
     }
 
     // METODOS POSIBLES

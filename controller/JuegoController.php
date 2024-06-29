@@ -43,7 +43,9 @@ class JuegoController{
         $_SESSION["start_time"] = time();
 
         $res = $this->model->iniciarPartida($_SESSION["categoria"]);
-        $res["time_left"] = $this->getTimeLeft();
+        if(is_array($res)){
+            $res["time_left"] = $this->getTimeLeft();
+        }
 
         $this->presenter->render("views/juego.mustache", $res);
     }
