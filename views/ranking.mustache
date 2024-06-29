@@ -32,7 +32,7 @@
             {{#ranking}}
                 <tr>
                     <td class="posicion-{{index}}">{{index}}° puesto</td> <!-- Este es el índice -->
-                    <td class="posicion-{{index}}">{{value.nombre_de_usuario}}</td>
+                    <td class="posicion-{{index}}"><a href="/perfil?usuario={{value.id}}" style="text-decoration: none; color: black">{{value.nombre_de_usuario}}</a></td>
                     <td class="posicion-{{index}}"><p>{{value.puntaje}}</p></td>
                 </tr>
             {{/ranking}}

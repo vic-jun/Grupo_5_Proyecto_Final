@@ -9,7 +9,7 @@ class RankingModel{
     }
 
     public function getRanking() {
-        $sql = "SELECT nombre_de_usuario, puntaje FROM usuario WHERE rol = 'usuario'  ORDER BY puntaje DESC";
+        $sql = "SELECT nombre_de_usuario, puntaje, id FROM usuario WHERE rol = 'usuario'  ORDER BY puntaje DESC";
         return $this->baseDeDatos->query($sql);
     }
 

@@ -34,7 +34,20 @@
             <h4>Genero: {{genero}}</h4>
             <h4>Puntaje máximo: {{puntaje}} puntos</h4>
                 <img src="{{foto}}" alt="fotitoPerfil">
+            <img src="{{qrUrl}}">
             {{/perfil}}
+
+            {{#perfilOtro}}
+                <h4>Nombre de usuario: {{nombre_de_usuario}}</h4>
+                <h4>País: {{pais}}</h4>
+                <h4>Ciudad: {{ciudad}}</h4>
+                <h4>Genero: {{genero}}</h4>
+                <h4>Puntaje máximo: {{puntaje}} puntos</h4>
+                <img src="{{foto}}" alt="fotitoPerfil">
+                <img src="{{qrUrl}}">
+            {{/perfilOtro}}
+
+
         </div>
     </main>
 
