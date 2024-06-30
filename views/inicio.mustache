@@ -65,12 +65,18 @@
                     <canvas id="myChart3"></canvas>
                 </div>
             </div>
+
+            <div>
+                <button id="exportAllCharts">Exportar Todos los Gráficos</button>
+            </div>
         {{/es_admin}}
     {{/data}}
 </main>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <!-- Ahora puedes usar Chart.js en tu código -->
 <script>
@@ -197,6 +203,30 @@
         // Update the third chart initially
         updateChart3();
     }
+
+    function exportAllChartsToPDF(chartIds, pdfName) {
+        var pageSize = [595.28, 841.89];  // Tamaño de la hoja en puntos
+        var doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: pageSize });
+        var title = 'Reporte de Gráficos';
+        var titlePosition = [pageSize[0] / 2, 30];  // Posición del título (centrado horizontalmente, 30 puntos de margen en la parte superior)
+        doc.text(title, titlePosition[0], titlePosition[1], { align: 'center' });
+        var chartSize = [pageSize[0] * 0.8, pageSize[1] * 0.3];  // Tamaño de los gráficos (80% del ancho de la hoja, 20% del alto de la hoja)
+        var chartPromises = chartIds.map(function(chartId, index) {
+            return html2canvas(document.getElementById(chartId)).then(function(canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var chartPosition = [(pageSize[0] - chartSize[0]) / 2, titlePosition[1] + 10 + (index * (chartSize[1] + 10))];  // Posición de los gráficos (centrado horizontalmente, 10 puntos de margen en la parte superior y entre gráficos)
+                doc.addImage(imgData, 'PNG', chartPosition[0], chartPosition[1], chartSize[0], chartSize[1]);
+            });
+        });
+
+        Promise.all(chartPromises).then(function() {
+            doc.save(pdfName);
+        });
+    }
+
+    document.getElementById('exportAllCharts').addEventListener('click', function() {
+        exportAllChartsToPDF(['myChart', 'myChart2', 'myChart3'], 'AllCharts.pdf');
+    });
 </script>
 
 </html>
