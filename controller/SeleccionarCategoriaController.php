@@ -1,7 +1,6 @@
 <?php
 
 class SeleccionarCategoriaController{
-
     private $presenter;
     private $model;
 
