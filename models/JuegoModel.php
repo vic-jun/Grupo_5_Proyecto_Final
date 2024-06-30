@@ -7,7 +7,6 @@ class JuegoModel{
         $this->baseDeDatos = $baseDeDatos;
     }
 
-
     public function iniciarPartida($categoria){
 
         $resPreg = $this->buscarPreguntas($categoria);
@@ -89,7 +88,6 @@ class JuegoModel{
             $result = $this->baseDeDatos->query($sql3);
         }
 
-
         $i = 0;
         while ($i < count($result)) {
             if($this->verificarVerTodasLasPreguntasDeUnaCategoria($categoria)){
@@ -102,8 +100,6 @@ class JuegoModel{
                 $i++;
             }
         }
-
-
 
         if (is_array($result) && count($result) > 0) {
             $preguntas = $result;

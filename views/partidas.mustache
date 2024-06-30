@@ -7,11 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/public/css/header.css">
     <link rel="stylesheet" href="/public/css/footer.css">
-    <link rel="stylesheet" href="/public/css/resumen_partida.css">
-    <title>Resumen Partida</title>
+    <link rel="stylesheet" href="/public/css/ranking.css">
+    <title>Partidas</title>
 </head>
 <body>
-
     <nav>
         <ul>
             <li><a href="/inicio">Inicio</a></li>
@@ -21,16 +20,22 @@
             <li><a href="/logout">Cerrar sesión</a></li>
         </ul>
     </nav>
-
     <main>
-        <h1>Resumen de la partida</h1>
-        <h2>Categoria: {{categoria}}</h2>
-        <h2>Puntaje total: {{puntaje}} puntos</h2>
-        <div class="centrado">
-            <a href="/seleccionarCategoria">Volver a jugar</a>
-        </div>
+        <h1>Partidas</h1>
+        <table>
+            <tr>
+                <th>Partida</th>
+                <th>Fecha</th>
+                <th>Puntaje</th>
+            </tr>
+            {{#partida}}
+                <tr>
+                    <td class="posicion">N°: {{index}}</td>
+                    <td class="posicion">{{value.fecha_partida}}</a></td>
+                    <td class="posicion"><p>{{value.puntaje_obtenido}}</p></td>
+                </tr>
+            {{/partida}}
+        </table>
     </main>
-
 </body>
 </html>
-

@@ -1,6 +1,6 @@
 <?php
 
-class RankingController{
+class PartidasController{
     private $presenter;
     private $model;
 
@@ -10,11 +10,11 @@ class RankingController{
     }
 
     public function get() {
-        $ranking = $this->model->getRanking();
-        $rankingWithIndex = array_map(function($key, $value) {
+        $partida = $this->model->getPartidas();
+        $partidaWithIndex = array_map(function($key, $value) {
             return ['index' => $key + 1, 'value' => $value];
-        }, array_keys($ranking), $ranking);
-        $this->presenter->render("views/ranking.mustache", ['ranking' => $rankingWithIndex]);
+        }, array_keys($partida), $partida);
+        $this->presenter->render("views/partidas.mustache", ['partida' => $partidaWithIndex]);
     }
 
 }

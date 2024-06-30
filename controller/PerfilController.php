@@ -1,7 +1,6 @@
 <?php
 
 class PerfilController{
-
     private $presenter;
     private $model;
     public function __construct($presenter, $model){
@@ -10,12 +9,11 @@ class PerfilController{
     }
 
     public function get(){
-
         if(isset($_GET['usuario'])){
             $idUsuario = $_GET['usuario'];
             $datosPerfil = $this->model->getPerfil($idUsuario);
             $this->presenter->render("views/perfil.mustache", ["perfilOtro" => $datosPerfil]);
-        }else{
+        } else{
             if (!isset($_SESSION['idUsuario'])) {
                 header('Location: /login');
                 exit();
@@ -36,17 +34,6 @@ class PerfilController{
 
     }
 
-    // METODOS POSIBLES
-//    public function guardarPerfil(){
-//        $nombre = $_POST["nombre"];
-//        $apellido = $_POST["apellido"];
-//        $correo = $_POST["correo"];
-//        $telefono = $_POST["telefono"];
-//        $direccion = $_POST["direccion"];
-//        $perfil = new PerfilModel();
-//        $perfil->setPerfil($nombre, $apellido, $correo, $telefono, $direccion);
-//        $this->perfil();
-//    }
 
 //    public function eliminarPerfil($id){
 //        $perfil = new PerfilModel();

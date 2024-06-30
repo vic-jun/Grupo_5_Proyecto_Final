@@ -1,23 +1,19 @@
 <?php
 
-class RegistrarController
-{
+class RegistrarController{
     private $presenter;
     private $model;
 
-    public function __construct($model, $presenter)
-    {
+    public function __construct($model, $presenter){
         $this->presenter = $presenter;
         $this->model = $model;
     }
 
-    public function get()
-    {
+    public function get(){
         $this->presenter->render("views/registrar.mustache");
     }
 
-    public function registrar()
-    {
+    public function registrar(){
         $result = $this->model->registrarse($_POST["usuario"], $_POST["nombre"], $_POST["apellido"], $_POST["correo"], $_POST["contrasenia"], $_POST["pais"], $_POST["ciudad"], $_FILES["foto"], $_POST["anioDeNacimiento"], $_POST["genero"]);
 
         if (!array_key_exists("error1", $result) && !array_key_exists("error2", $result)) {
@@ -36,9 +32,7 @@ class RegistrarController
         }
     }
 
-    public
-    function validateEmail()
-    {
+    public function validateEmail(){
         if (isset($_GET['hash'])) {
             $hash = $_GET['hash'];
             $this->model->validateEmail($hash);

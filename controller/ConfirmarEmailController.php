@@ -1,19 +1,16 @@
 <?php
 
-class ConfirmarEmailController
-{
+class ConfirmarEmailController{
 
     private $model;
     private $presenter;
 
-    public function __construct($model, $presenter)
-    {
+    public function __construct($model, $presenter){
         $this->model = $model;
         $this->presenter = $presenter;
     }
 
-    public function get()
-    {
+    public function get(){
         if (isset($_GET['hash']) && isset($_GET['email'])) {
             $hash = $_GET['hash'];
             $email = $_GET['email'];
