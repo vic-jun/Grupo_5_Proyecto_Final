@@ -146,44 +146,72 @@ main button:hover {
 }
 
 .categoria-CIENCIA{
-    background-color: #89d387;
+    background-color: rgba(125, 203, 123, 0.98);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
 }
+
 .categoria-HISTORIA{
-    background-color: rgba(205, 160, 121, 0.95);
+    background-color: rgba(175, 156, 19, 0.97);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
 }
+
 .categoria-DEPORTE{
-    background-color: #ff6161;
+    background-color: rgba(201, 94, 28, 0.96);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
 }
+
 .categoria-GEOGRAFIA{
-    background-color: rgba(205, 121, 121, 0.95);
+    background-color: rgba(49, 78, 190, 0.87);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
 }
+
 .categoria-ARTE{
-    background-color: #b991ff;
+    background-color: rgba(178, 26, 38, 0.82);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
 }
+
 .categoria-ENTRETENIMIENTO{
-    background-color: rgba(78, 105, 209, 0.95);
+    background-color: rgba(199, 12, 175, 0.83);
     display: block;
-    padding: 1em;
-    color: white;
+    padding: 0.5em;
+    color: black;
     border-radius: 2em;
+    width: 10em;
+}
+
+#timer {
+    padding: 10px;
+    background-color: rgba(40, 100, 94, 0.68);
+    color: rgba(28, 28, 28, 0.89);
+    border-radius: 5px;
+    width: fit-content;
+    margin: 20px auto;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.centrar-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

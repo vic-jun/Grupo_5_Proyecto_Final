@@ -47,7 +47,9 @@
 </nav>
 
 <main>
-    <h1 class="categoria-{{categoria}}">{{categoria}}</h1>
+    <div class="centrar-titulo">
+        <h1 class="categoria-{{categoria}}">{{categoria}}</h1>
+    </div>
     <h2>Pregunta:</h2>
     <h4>✩ {{pregunta}}</h4>
 
@@ -62,6 +64,7 @@
         <input type="hidden" name="accion" value="verificar">
         <button type="submit">Responder</button>
     </form>
+
     <form action="/juego/verificar" method="post">
         <input type="hidden" name="pregunta" value="{{pregunta}}">
         <input type="hidden" name="accion" value="reportar">
