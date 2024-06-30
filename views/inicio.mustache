@@ -50,7 +50,20 @@
                     <option value="month">Mes</option>
                     <option value="year">Año</option>
                 </select>
-                <canvas id="myChart"></canvas>
+                <div>
+                    <h3>Cantidad total de partidas jugadas</h3>
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <div>
+                    <h3>Cantidad total de usuarios por país</h3>
+                    <canvas id="myChart2"></canvas>
+                </div>
+
+                <div>
+                    <h3>Cantidad total de usuarios por genero</h3>
+                    <canvas id="myChart3"></canvas>
+                </div>
             </div>
         {{/es_admin}}
     {{/data}}
@@ -62,11 +75,11 @@
 <!-- Ahora puedes usar Chart.js en tu código -->
 <script>
     // Crear el gráfico inicialmente con datos vacíos
-    var ctx = document.getElementById('myChart');
+    var ctx1 = document.getElementById('myChart');
     var filterElement = document.getElementById('filter');
 
-    if (ctx && filterElement) {
-        var chart = new Chart(ctx, {
+    if (ctx1 && filterElement) {
+        var chart = new Chart(ctx1, {
             type: 'bar',
             data: {
                 labels: [],
@@ -81,7 +94,7 @@
         });
 
         // Función para actualizar el gráfico
-        function updateChart(filter) {
+        function updateChart1(filter) {
             fetch('/inicio/get?filter=' + filter, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -89,6 +102,7 @@
             })
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         chart.data.labels = data.data.grafico1.labels;
                         chart.data.datasets[0].data = data.data.grafico1.values;
                         chart.update();
@@ -97,11 +111,91 @@
 
         // Evento para cuando cambie el valor del select
         filterElement.addEventListener('change', function() {
-            updateChart(this.value);
+            updateChart1(this.value);
         });
 
         // Actualizar el gráfico inicialmente
-        updateChart(filterElement.value);
+        updateChart1(filterElement.value);
+    }
+
+    // Create the second chart with empty data
+    var ctx2 = document.getElementById('myChart2');
+
+    if (ctx2) {
+        var chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Cantidad total usuarios por país',
+                    data: [],
+                    backgroundColor: 'rgba(255, 99, 132, 0.95)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Function to update the second chart
+        function updateChart2() {
+            fetch('/inicio/get', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        chart2.data.labels = data.data.grafico2.labels;
+                        chart2.data.datasets[0].data = data.data.grafico2.values;
+                        chart2.update();
+                    });
+        }
+
+        // Update the second chart initially
+        updateChart2();
+    }
+
+    // Create the third chart (pie chart) with empty data
+    var ctx3 = document.getElementById('myChart3');
+
+    if (ctx3) {
+        var chart3 = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.95)',
+                        'rgba(54, 162, 235, 0.95)',
+                        'rgba(255, 206, 86, 0.95)',
+                        'rgba(75, 192, 192, 0.95)',
+                        'rgba(153, 102, 255, 0.95)',
+                        'rgba(255, 159, 64, 0.95)'
+                    ]
+                }]
+            }
+        });
+
+        // Function to update the third chart
+        function updateChart3() {
+            fetch('/inicio/get', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        chart3.data.labels = data.data.grafico3.labels;
+                        chart3.data.datasets[0].data = data.data.grafico3.values;
+                        chart3.update();
+                    });
+        }
+
+        // Update the third chart initially
+        updateChart3();
     }
 </script>
 

@@ -62,4 +62,40 @@ class InicioModel
         return ['labels' => $labels, 'values' => $values];
     }
 
+    public function obtenerUsuariosPorPais(){
+
+            $sql = "SELECT pais, COUNT(id) as usuarios_total 
+        FROM usuario 
+        GROUP BY pais";
+
+        $res = $this->baseDeDatos->query($sql);
+
+            // Llenar los arrays con los datos de la base de datos
+            foreach ($res as $row) {
+                $labels[] = $row['pais']; // Asumiendo que 'pais' puede ser usada como etiqueta
+                $values[] = $row['usuarios_total'];// Asumiendo que 'usuarios_total' puede ser usada como valor
+            }
+
+        // Devolver un array asociativo con las etiquetas y los valores
+        return ['labels' => $labels, 'values' => $values];
+    }
+
+    public function obtenerUsuariosPorSexo(){
+
+        $sql = "SELECT genero, COUNT(id) as usuarios_total 
+        FROM usuario 
+        GROUP BY genero";
+
+        $res = $this->baseDeDatos->query($sql);
+
+        // Llenar los arrays con los datos de la base de datos
+        foreach ($res as $row) {
+            $labels[] = $row['genero']; // Asumiendo que 'sexo' puede ser usada como etiqueta
+            $values[] = $row['usuarios_total']; // Asumiendo que 'usuarios_total' puede ser usada como valor
+        }
+
+        // Devolver un array asociativo con las etiquetas y los valores
+        return ['labels' => $labels, 'values' => $values];
+    }
+
 }

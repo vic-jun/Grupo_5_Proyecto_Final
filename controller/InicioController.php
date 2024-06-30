@@ -23,10 +23,13 @@ class InicioController{
         if(isset($data['es_admin'])){
             if(isset($_GET['filter'])){
             $data['grafico1'] = $this->model->obtenerPartidaPorFecha($_GET['filter']);
-             }else{
+            }else{
                 $data['grafico1'] = $this->model->obtenerPartidaPorFecha(null);
-             }
+            }
+            $data['grafico2'] = $this->model->obtenerUsuariosPorPais();
+            $data['grafico3'] = $this->model->obtenerUsuariosPorSexo();
         }
+
         // Verificar si la solicitud es AJAX
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             // Devolver la respuesta en formato JSON
