@@ -16,10 +16,27 @@ class InicioController{
         $data = $this->model->obtenerDatosUsuario();
         $rol = $this->model->obtenerRol();
 
-        $data['es_admin'] = ($rol === "EDITOR");
+        $data['es_editor'] = ($rol === "EDITOR");
         $data['es_user'] = ($rol === "usuario");
+        $data['es_admin'] = ($rol === "ADMIN");
 
-        $this->presenter->render("views/inicio.mustache", ["data" => $data]);
+        if(isset($data['es_admin'])){
+            if(isset($_GET['filter'])){
+            $data['grafico1'] = $this->model->obtenerPartidaPorFecha($_GET['filter']);
+             }else{
+                $data['grafico1'] = $this->model->obtenerPartidaPorFecha(null);
+             }
+        }
+        // Verificar si la solicitud es AJAX
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            // Devolver la respuesta en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode(["data" => $data]);
+            exit;  // Terminar el script después de enviar la respuesta
+        } else {
+            // Renderizar la vista
+            $this->presenter->render("views/inicio.mustache", ["data" => $data]);
+        }
     }
 
 }

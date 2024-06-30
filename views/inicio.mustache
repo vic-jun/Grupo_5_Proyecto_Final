@@ -33,16 +33,75 @@
                 <a href="/crearPregunta">Crear pregunta</a>
             </div>
         {{/es_user}}
-        {{#es_admin}}
+        {{#es_editor}}
             <div class="admin-seccion">
                 <h2>Sección de Editor</h2>
                 <a href="/editor/verificarPregunta">Ver preguntas a verificar</a>
                 <a href="/editor/editarPreguntas">Editar preguntas</a>
                 <a href="/editor/preguntasReportadas">Preguntas reportadas</a>
             </div>
+        {{/es_editor}}
+        {{#es_admin}}
+            <div class="admin-seccion">
+                <h2>Sección de Administrador</h2>
+                <select id="filter">
+                    <option value="week">Semana</option>
+                    <option value="month">Mes</option>
+                    <option value="year">Año</option>
+                </select>
+                <canvas id="myChart"></canvas>
+            </div>
         {{/es_admin}}
     {{/data}}
 </main>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Ahora puedes usar Chart.js en tu código -->
+<script>
+    // Crear el gráfico inicialmente con datos vacíos
+    var ctx = document.getElementById('myChart');
+    var filterElement = document.getElementById('filter');
+
+    if (ctx && filterElement) {
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Cantidad total partidas jugadas',
+                    data: [],
+                    backgroundColor: 'rgba(78, 105, 209, 0.95)',
+                    borderColor: 'rgba(78, 105, 209, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Función para actualizar el gráfico
+        function updateChart(filter) {
+            fetch('/inicio/get?filter=' + filter, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        chart.data.labels = data.data.grafico1.labels;
+                        chart.data.datasets[0].data = data.data.grafico1.values;
+                        chart.update();
+                    });
+        }
+
+        // Evento para cuando cambie el valor del select
+        filterElement.addEventListener('change', function() {
+            updateChart(this.value);
+        });
+
+        // Actualizar el gráfico inicialmente
+        updateChart(filterElement.value);
+    }
+</script>
+
 </html>

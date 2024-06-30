@@ -141,4 +141,49 @@ main button {
 
 main button:hover {
     background-color: #4b0082;
+    display: block;
+    color: white;
+}
+
+.categoria-CIENCIA{
+    background-color: #89d387;
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
+}
+.categoria-HISTORIA{
+    background-color: rgba(205, 160, 121, 0.95);
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
+}
+.categoria-DEPORTE{
+    background-color: #ff6161;
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
+}
+.categoria-GEOGRAFIA{
+    background-color: rgba(205, 121, 121, 0.95);
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
+}
+.categoria-ARTE{
+    background-color: #b991ff;
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
+}
+.categoria-ENTRETENIMIENTO{
+    background-color: rgba(78, 105, 209, 0.95);
+    display: block;
+    padding: 1em;
+    color: white;
+    border-radius: 2em;
 }
