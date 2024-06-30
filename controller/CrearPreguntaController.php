@@ -17,8 +17,8 @@ class CrearPreguntaController
         $data = $this->model->obtenerDatosUsuario();
         $rol = $this->model->obtenerRol();
 
-        $data['es_admin'] = ($rol === "ADMIN");
-        $data['es_user'] = ($rol !== "ADMIN");
+        $data['es_editor'] = ($rol === "EDITOR");
+        $data['es_user'] = ($rol === "usuario");
 
         $this->presenter->render("views/crearPregunta.mustache", ["data" => $data]);
     }
