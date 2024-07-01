@@ -36,7 +36,7 @@ nav ul li a:hover {
 
 /* ESTILO PRINCIPAL */
 main {
-    max-width: 800px;
+    max-width: 950px;
     margin: auto;
     margin-bottom: 5em;
     margin-top: 5em;
@@ -145,6 +145,37 @@ main button:hover {
     color: white;
 }
 
+#reportar {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    display: inline-block;
+    color: #fff;
+    background-color: rgba(189, 72, 89, 0.93);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    box-shadow: none;
+}
+
+#reportar:hover {
+    background-color: #d30202;
+    display: block;
+    color: white;
+}
+
+#timer {
+    padding: 10px;
+    background-color: #6a5acd;
+    color: white;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 20px auto;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 .categoria-CIENCIA{
     background-color: rgba(125, 203, 123, 0.98);
     display: block;
@@ -197,17 +228,6 @@ main button:hover {
     color: black;
     border-radius: 2em;
     width: 10em;
-}
-
-#timer {
-    padding: 10px;
-    background-color: rgba(40, 100, 94, 0.68);
-    color: rgba(28, 28, 28, 0.89);
-    border-radius: 5px;
-    width: fit-content;
-    margin: 20px auto;
-    font-size: 1.2em;
-    font-weight: bold;
 }
 
 .centrar-titulo {

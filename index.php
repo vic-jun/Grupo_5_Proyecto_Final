@@ -38,10 +38,7 @@
                                 break;
                         }
                     }
-
-
                     $action = isset($_GET['action']) ? $_GET['action'] : " ";
-
                 }
             }
         }else {
@@ -96,6 +93,5 @@
             $action = isset($_GET['action']) ? $_GET['action'] : " ";
         }
     }
-
 
     $router->route($controller, $action);

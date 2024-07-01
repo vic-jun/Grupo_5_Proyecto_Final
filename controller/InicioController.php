@@ -30,7 +30,6 @@ class InicioController{
             $data['grafico3'] = $this->model->obtenerUsuariosPorSexo();
         }
 
-        // Verificar si la solicitud es AJAX
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             // Devolver la respuesta en formato JSON
             header('Content-Type: application/json');
