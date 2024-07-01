@@ -14,14 +14,12 @@ footer h2 {
 }
 
 .contenedor1,
-.contenedor2,
 .contenedor3 {
     display: inline-block;
     margin: 0 1em;
 }
 
 .contenedor1 li,
-.contenedor2 li,
 .contenedor3 li {
     list-style-type: none;
     margin: 0.5em 0;
