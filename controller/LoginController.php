@@ -1,7 +1,6 @@
 <?php
 
-class LoginController
-{
+class LoginController{
     private $presenter;
     private $model;
 

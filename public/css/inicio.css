@@ -36,9 +36,9 @@ nav ul li a:hover {
 
 /* ESTILO MAIN */
 main {
-    max-width: 800px;
+    max-width: 950px;
     margin: auto;
-    margin-bottom: 5em;
+    margin-bottom: 14.15em;
     margin-top: 5em;
     padding: 20px;
     background-color: #fff;
@@ -78,4 +78,21 @@ main a:hover {
     justify-content: center;
     align-items: center;
     height: auto;
+}
+
+button{
+    display: inline-block;
+    color: #fff;
+    background-color: #6a5acd;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4b0082;
+    cursor: pointer;
 }

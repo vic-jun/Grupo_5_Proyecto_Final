@@ -8,12 +8,13 @@ class JuegoController{
         $this->model = $model;
         $this->presenter = $presenter;
     }
+
     public function get(){
         header("Location: /seleccionarCategoria");
         exit();
     }
-    public function partida(){
 
+    public function partida(){
         if (isset($_SESSION['preguntaID'])) {
             $res = $this->model->traerPreguntaEspecifica($_SESSION['preguntaID'], $_SESSION["categoria"]);
             $_SESSION["cantRespuestasContestadas"] = 0;
@@ -32,26 +33,22 @@ class JuegoController{
             unset($_SESSION["puntaje"]);
         }
 
-        if (!isset($_SESSION["puntaje"])) {
+        if (!isset($_SESSION["puntaje"]))
             $_SESSION["puntaje"] = 0;
-        }
 
-        if (!isset($_SESSION["categoria"]) || isset($_POST["categoria"])) {
+        if (!isset($_SESSION["categoria"]) || isset($_POST["categoria"]))
             $_SESSION["categoria"] = $_POST["categoria"];
-        }
 
         $_SESSION["start_time"] = time();
 
         $res = $this->model->iniciarPartida($_SESSION["categoria"]);
-        if(is_array($res)){
+        if(is_array($res))
             $res["time_left"] = $this->getTimeLeft();
-        }
 
         $this->presenter->render("views/juego.mustache", $res);
     }
 
     public function verificar(){
-
         unset($_SESSION['preguntaID']);
 
         if (!isset($_SESSION["start_time"])) {
@@ -76,24 +73,18 @@ class JuegoController{
             exit();
         }
 
-        if (!isset($_SESSION["cantRespuestasContestadas"])) {
+        if (!isset($_SESSION["cantRespuestasContestadas"]))
             $_SESSION["cantRespuestasContestadas"] = 0;
-        }
 
-        if (!isset($_SESSION["cantRespuestasCorrectas"])) {
+        if (!isset($_SESSION["cantRespuestasCorrectas"]))
             $_SESSION["cantRespuestasCorrectas"] = 0;
-        }
 
-        if (!isset($_SESSION["correctasBloque"])) {
+        if (!isset($_SESSION["correctasBloque"]))
             $_SESSION["correctasBloque"] = 0;
-        }
 
         $resultado = $this->model->verificarRespuesta($respuesta, $correcta);
 
-
-
         if ($resultado) {
-
             $this->model->actualizarCantidadCorrectas($pregunta);
 
             $this->model->calcularDificultadPregunta($pregunta);
@@ -124,20 +115,17 @@ class JuegoController{
 
 
     public function timeLeft(){
-
         try {
             echo json_encode(["time_left" => $this->getTimeLeft()]);
         } catch (Exception $e) {
-            // Si hay un error, envía una respuesta JSON con el mensaje de error
             echo json_encode(["error" => $e->getMessage()]);
         }
     }
 
     private function getTimeLeft(){
-
-        if (!isset($_SESSION["start_time"])) {
+        if (!isset($_SESSION["start_time"]))
             return 0;
-        }
+
         $duration = 30;
         $elapsed = time() - $_SESSION["start_time"];
         return max($duration - $elapsed, 0);
@@ -145,7 +133,6 @@ class JuegoController{
 
     private function guardarPuntajeFinal(){
         if (isset($_SESSION['idUsuario']) && isset($_SESSION["puntaje"])) {
-
             $idUsuario = $_SESSION["idUsuario"];
             $puntaje = $_SESSION["puntaje"];
             $this->model->guardarPartidaEnBD($idUsuario, $puntaje);
@@ -154,7 +141,6 @@ class JuegoController{
     }
 
     private function calcularDificultad(){
-        // Obtener respuestas totales y correctas del usuario
         $respuestasTotales = $this->model->obtenerCantTotalRespuestasRespondidas();
         $cantRespuestasCorrectas = $this->model->obtenerCantRespuestasCorrectas();
         $cantCorrectasBloque = $_SESSION["correctasBloque"] ?? 0;
@@ -163,10 +149,10 @@ class JuegoController{
         if ($respuestasTotales >= 8 && $respuestasTotales <= 12) {
             $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
         } else if ($respuestasTotales > 12) {
-            // Calcular el número de bloques completos de 5 respuestas después de las primeras 12 respuestas
             $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
         }
     }
+
     private function calcular($cantRespuestasCorrectas, $respuestasTotales){
         $porcentajeCorrectas = ($cantRespuestasCorrectas / $respuestasTotales) * 100;
 

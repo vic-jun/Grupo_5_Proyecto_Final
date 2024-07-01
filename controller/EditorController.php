@@ -1,37 +1,30 @@
 <?php
 
-class EditorController
-{
+class EditorController{
     private $presenter;
     private $model;
 
-    public function __construct($presenter, $model)
-    {
+    public function __construct($presenter, $model){
         $this->model = $model;
         $this->presenter = $presenter;
-
     }
 
-    public function get()
-    {
+    public function get(){
         $this->presenter->render("views/admin.mustache");
     }
 
-    public function verificarPregunta()
-    {
+    public function verificarPregunta(){
         $preguntas = $this->model->buscarPreguntasAverificar();
         $this->presenter->render("views/verificarPregunta.mustache", ['preguntas' => $preguntas]);
     }
 
-    public function aprobarPregunta()
-    {
+    public function aprobarPregunta(){
         $pregunta_id = $_POST['pregunta_id'];
         $this->model->aprobarPregunta($pregunta_id);
         header('Location: /admin/verificarPregunta');
     }
 
-    public function rechazarPregunta()
-    {
+    public function rechazarPregunta(){
         $pregunta_id = $_POST['pregunta_id'];
         $this->model->rechazarPregunta($pregunta_id);
         header('Location: /admin/verificarPregunta');
@@ -42,15 +35,13 @@ class EditorController
         $this->presenter->render("views/editarPreguntas.mustache", ['preguntas' => $preguntas]);
     }
 
-    public function eliminarPregunta()
-    {
+    public function eliminarPregunta(){
         $pregunta_id = $_POST['pregunta_id'];
         $this->model->rechazarPregunta($pregunta_id);
         header('Location: /admin/editarPreguntas');
     }
 
-    public function modificarPregunta()
-    {
+    public function modificarPregunta(){
         $pregunta_id = $_POST['pregunta_id'];
         $data = $this->model->buscarPreguntaYrespuestaPorId($pregunta_id);
 
@@ -59,16 +50,15 @@ class EditorController
             'categoriaEsCiencia' => $data['categoria'] === 'CIENCIA',
             'categoriaEsArte' => $data['categoria'] === 'ARTE',
             'categoriaEsDeporte' => $data['categoria'] === 'DEPORTE',
-            'categoriaEsEntretenimiento' => $data['categoria'] === 'ENTRETENIMIENTO'], );
+            'categoriaEsEntretenimiento' => $data['categoria'] === 'ENTRETENIMIENTO']);
     }
-    public function modificar()
-    {
+
+    public function modificar(){
         $this->model->modificarPregunta($_POST['pregunta_id'], $_POST['pregunta'], $_POST['respuesta0'], $_POST['respuesta1'], $_POST['respuesta2'], $_POST['respuesta3'], $_POST['respuestaCorrecta'], $_POST['categoria']);
         header('Location: /inicio');
     }
 
-    public function preguntasReportadas()
-    {
+    public function preguntasReportadas(){
         $preguntas = $this->model->buscarPreguntasReportadas();
         $this->presenter->render("views/preguntasReportadas.mustache", ['preguntas' => $preguntas]);
     }

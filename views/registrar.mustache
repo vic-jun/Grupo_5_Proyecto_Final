@@ -24,14 +24,19 @@
 
     <form action="/registrar/registrar" class="contenedor" method="post" enctype="multipart/form-data">
 
-        <h3>{{error}}</h3>
+        {{#showError}}
+            <h3 class="error">{{error}}</h3>
+        {{/showError}}
 
         <h2>Registrate</h2>
         <hr class="colorgraph"><br>
 
         <label for="usuario">Nombre de usuario:</label>
         <input type="text" name="usuario" id="usuario" value="grupo_5" required>
-        <p>{{error1}}</p>
+        {{#showError1}}
+            <p class="error">{{error1}}</p>
+        {{/showError1}}
+
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" id="nombre" value="Grupo" required>
 
@@ -40,7 +45,10 @@
 
         <label for="correo">Email:</label>
         <input type="email" name="correo" id="correo" value="grupo5@unlam.com" required>
-        <p>{{error2}}</p>
+        {{#showError2}}
+            <p class="error">{{error2}}</p>
+        {{/showError2}}
+
         <label for="anioDeNacimiento">Año de nacimiento:</label>
         <input type="number" name="anioDeNacimiento" id="anioDeNacimiento" value="2024" required>
 
@@ -49,7 +57,7 @@
             <option value="0" selected>Seleccionar:</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
-            <option value="prefieroNoCargarlo">Prefiero no cargarlo</option>
+            <option value="prefieroNoCargarlo">Prefiero no contestar</option>
         </select>
 
         <!-- Mapa para seleccionar pais y ciudad -->
@@ -94,7 +102,8 @@
         <label for="contrasenia">Contraseña:</label>
         <input type="password" name="contrasenia" id="contrasenia" value="1234" required>
 
-        <button type="submit">Registrarme</button>
+        <button type="submit">Registrarme</button> <br>
+        <a href="/login" class="button">Cancelar</a>
     </form>
 </body>
 </html>

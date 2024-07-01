@@ -16,6 +16,7 @@
     <ul>
         <li><a href="/inicio">Inicio</a></li>
         <li><a href="/ranking">Ranking</a></li>
+        <li><a href="/partidas">Partidas</a></li>
         <li><a href="/perfil">Perfil</a></li>
         <li><a href="/logout">Cerrar sesión</a></li>
     </ul>
@@ -33,16 +34,199 @@
                 <a href="/crearPregunta">Crear pregunta</a>
             </div>
         {{/es_user}}
-        {{#es_admin}}
+        {{#es_editor}}
             <div class="admin-seccion">
                 <h2>Sección de Editor</h2>
                 <a href="/editor/verificarPregunta">Ver preguntas a verificar</a>
                 <a href="/editor/editarPreguntas">Editar preguntas</a>
                 <a href="/editor/preguntasReportadas">Preguntas reportadas</a>
             </div>
+        {{/es_editor}}
+        {{#es_admin}}
+            <div class="admin-seccion">
+                <h1>Sección de Administrador</h1> <br> <br>
+                <select id="filter">
+                    <option value="week">Semana</option>
+                    <option value="month">Mes</option>
+                    <option value="year">Año</option>
+                </select>
+                <div>
+                    <h3>Cantidad total de partidas jugadas</h3>
+                    <canvas id="myChart"></canvas>
+                </div> <br> <br>
+
+                <div>
+                    <h3>Cantidad total de usuarios por país</h3>
+                    <canvas id="myChart2"></canvas>
+                </div> <br> <br>
+
+                <div>
+                    <h3>Cantidad total de usuarios por genero</h3>
+                    <canvas id="myChart3"></canvas>
+                </div> <br> <br>
+            </div>
+
+            <div class="centrado">
+                <button id="exportAllCharts">Exportar Todos los Gráficos</button>
+            </div>
         {{/es_admin}}
     {{/data}}
 </main>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+<!-- Ahora puedes usar Chart.js en tu código -->
+<script>
+    // Crear el gráfico inicialmente con datos vacíos
+    var ctx1 = document.getElementById('myChart');
+    var filterElement = document.getElementById('filter');
+
+    if (ctx1 && filterElement) {
+        var chart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Cantidad total partidas jugadas',
+                    data: [],
+                    backgroundColor: 'rgba(78, 105, 209, 0.95)',
+                    borderColor: 'rgba(78, 105, 209, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Función para actualizar el gráfico
+        function updateChart1(filter) {
+            fetch('/inicio/get?filter=' + filter, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        chart.data.labels = data.data.grafico1.labels;
+                        chart.data.datasets[0].data = data.data.grafico1.values;
+                        chart.update();
+                    });
+        }
+
+        // Evento para cuando cambie el valor del select
+        filterElement.addEventListener('change', function() {
+            updateChart1(this.value);
+        });
+
+        // Actualizar el gráfico inicialmente
+        updateChart1(filterElement.value);
+    }
+
+    // Create the second chart with empty data
+    var ctx2 = document.getElementById('myChart2');
+
+    if (ctx2) {
+        var chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Cantidad total usuarios por país',
+                    data: [],
+                    backgroundColor: 'rgba(255, 99, 132, 0.95)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Function to update the second chart
+        function updateChart2() {
+            fetch('/inicio/get', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        chart2.data.labels = data.data.grafico2.labels;
+                        chart2.data.datasets[0].data = data.data.grafico2.values;
+                        chart2.update();
+                    });
+        }
+
+        // Update the second chart initially
+        updateChart2();
+    }
+
+    // Create the third chart (pie chart) with empty data
+    var ctx3 = document.getElementById('myChart3');
+
+    if (ctx3) {
+        var chart3 = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.95)',
+                        'rgba(54, 162, 235, 0.95)',
+                        'rgba(255, 206, 86, 0.95)',
+                        'rgba(75, 192, 192, 0.95)',
+                        'rgba(153, 102, 255, 0.95)',
+                        'rgba(255, 159, 64, 0.95)'
+                    ]
+                }]
+            }
+        });
+
+        // Function to update the third chart
+        function updateChart3() {
+            fetch('/inicio/get', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        chart3.data.labels = data.data.grafico3.labels;
+                        chart3.data.datasets[0].data = data.data.grafico3.values;
+                        chart3.update();
+                    });
+        }
+
+        // Update the third chart initially
+        updateChart3();
+    }
+
+    function exportAllChartsToPDF(chartIds, pdfName) {
+        var pageSize = [595.28, 841.89];  // Tamaño de la hoja en puntos
+        var doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: pageSize });
+        var title = 'Reporte de Gráficos';
+        var titlePosition = [pageSize[0] / 2, 30];  // Posición del título (centrado horizontalmente, 30 puntos de margen en la parte superior)
+        doc.text(title, titlePosition[0], titlePosition[1], { align: 'center' });
+        var chartSize = [pageSize[0] * 0.8, pageSize[1] * 0.3];  // Tamaño de los gráficos (80% del ancho de la hoja, 20% del alto de la hoja)
+        var chartPromises = chartIds.map(function(chartId, index) {
+            return html2canvas(document.getElementById(chartId)).then(function(canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var chartPosition = [(pageSize[0] - chartSize[0]) / 2, titlePosition[1] + 10 + (index * (chartSize[1] + 10))];  // Posición de los gráficos (centrado horizontalmente, 10 puntos de margen en la parte superior y entre gráficos)
+                doc.addImage(imgData, 'PNG', chartPosition[0], chartPosition[1], chartSize[0], chartSize[1]);
+            });
+        });
+
+        Promise.all(chartPromises).then(function() {
+            doc.save(pdfName);
+        });
+    }
+
+    document.getElementById('exportAllCharts').addEventListener('click', function() {
+        exportAllChartsToPDF(['myChart', 'myChart2', 'myChart3'], 'AllCharts.pdf');
+    });
+</script>
+
 </html>

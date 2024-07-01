@@ -3,7 +3,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Ajusta las rutas según la estructura de tu proyecto
 require_once __DIR__ . '/../vendor/PHPMailer-6.9.1/src/Exception.php';
 require_once __DIR__ . '/../vendor/PHPMailer-6.9.1/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/PHPMailer-6.9.1/src/SMTP.php';
@@ -16,7 +15,6 @@ class RegistrarModel{
     }
 
     public function registrarse($nombreUsuario, $nombre, $apellido, $email, $password, $pais, $ciudad, $fotoDePerfil, $añoNacimiento, $genero){
-
         $rol = "usuario";
         $nombre_foto = "";
         $fotoPerfil = null;
@@ -29,23 +27,19 @@ class RegistrarModel{
 
             $extensions = array("jpeg", "jpg", "png");
 
-            if ($file_size > 2097152) {
+            if ($file_size > 2097152)
                 $errors[] = 'El tamaño del archivo debe ser menor de 2 MB';
-            }
 
             if (empty($errors)) {
                 $fotoPerfil = $fotoDePerfil;
                 $archivo_temporal = $fotoDePerfil['tmp_name'];
                 $directorio_destino = $_SERVER['DOCUMENT_ROOT'] . '/public/img';
 
-                if (!is_dir($directorio_destino)) {
+                if (!is_dir($directorio_destino))
                     mkdir($directorio_destino, 0755, true);
-                }
 
                 $nombre_foto = $directorio_destino . '/' . $fotoPerfil['name'];
-
                 move_uploaded_file($archivo_temporal, $nombre_foto);
-
                 $nombre_foto = '/public/img/' . $fotoPerfil['name'];
             } else {
                 print_r($errors);
@@ -58,23 +52,19 @@ class RegistrarModel{
         $sql1 = "SELECT 1 FROM usuario WHERE email = '$email'";
         $queryResult = $this->baseDeDatos->query($sql1);
 
-        if(empty($queryResult) == false){
+        if(empty($queryResult) == false)
             return Array('error2' => "El email ya está registrado") ;
-        }
 
         $sql2 = "SELECT 1 FROM usuario WHERE nombre_de_usuario = '$nombreUsuario'";
         $queryResult = $this->baseDeDatos->query($sql2);
-        if(empty($queryResult) == false){
+        if(empty($queryResult) == false)
             return Array('error1' => "El nombre de usuario ya está registrado") ;
-        }
 
         $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed) 
                 VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$password', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0)";
 
         $this->baseDeDatos->query($sql);
-
         file_put_contents('hashes.txt', $hash . PHP_EOL, FILE_APPEND);
-
         return array("hash" => $hash, "email" => $email);
     }
 
@@ -120,10 +110,10 @@ class RegistrarModel{
     public function emailConfirmado($correoUsuario){
         $sql = "SELECT 1 FROM usuario WHERE email = '$correoUsuario' AND confirmed = '1'";
         $queryResult = $this->baseDeDatos->query($sql);
-        if($queryResult === false){
+        if($queryResult === false)
             return false;
-        }
-        return $queryResult->num_rows > 0;
+
+        return count($queryResult) > 0;
     }
 
 }

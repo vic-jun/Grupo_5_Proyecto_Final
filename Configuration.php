@@ -16,23 +16,24 @@ include_once "controller/ErrorController.php";
 include_once "controller/RankingController.php";
 include_once "controller/CrearPreguntaController.php";
 include_once "controller/EditorController.php";
+include_once "controller/PartidasController.php";
 
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
 include_once "models/LoginModel.php";
-include_once "models/SeleccionarCategoriaModel.php";
 include_once "models/JuegoModel.php";
 include_once "models/RankingModel.php";
 include_once "models/PerfilModel.php";
 include_once "models/InicioModel.php";
 include_once "models/CrearPreguntaModel.php";
 include_once "models/EditorModel.php";
+include_once "models/PartidasModel.php";
 
 include_once "vendor/mustache/src/Mustache/Autoloader.php";
 include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
-
  class Configuration {
+
      // controllers
      public static function getLoginController(){
          return new LoginController(self::getLoginModel(), self::getPresenter());
@@ -55,7 +56,7 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
      }
 
      public static function getSeleccionarCategoriaController(){
-         return new SeleccionarCategoriaController(self::getSeleccionarCategoriaModel(),self::getPresenter());
+         return new SeleccionarCategoriaController(self::getPresenter());
      }
 
      public static function getJuegoController(){
@@ -78,9 +79,12 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new CrearPreguntaController(self::getPresenter(), self::getCrearPreguntaModel());
      }
 
-     public static function getEditorController()
-     {
+     public static function getEditorController(){
          return new EditorController(self::getPresenter(), self::getEditorModel());
+     }
+
+     public static function getPartidasController(){
+         return new PartidasController(self::getPresenter(), self::getPartidasModel());
      }
 
      // models
@@ -88,17 +92,13 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new RegistrarModel(self::getBaseDeDatos());
      }
 
-    public static function getConfirmarEmailModel(){
+     public static function getConfirmarEmailModel(){
         return new ConfirmarEmailModel();
-    }
+     }
 
-    public static function getLoginModel(){
+     public static function getLoginModel(){
         return new LoginModel(self::getBaseDeDatos());
-    }
-
-    public static function getSeleccionarCategoriaModel(){
-        return new SeleccionarCategoriaModel(self::getBaseDeDatos());
-    }
+     }
 
      private static function getJuegoModel(){
          return new JuegoModel(self::getBaseDeDatos());
@@ -120,15 +120,19 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          return new CrearPreguntaModel(self::getBaseDeDatos());
      }
 
-     private static function getEditorModel()
-     {
+     private static function getEditorModel(){
          return new EditorModel(self::getBaseDeDatos());
+     }
+
+     private static function getPartidasModel(){
+         return new PartidasModel(self::getBaseDeDatos());
      }
 
      // helpers
      public static function getRouter(){
              return new Router("getLoginController" , "get");
      }
+
      public static function getPresenter(){
          return new MustachePresenter("views/templates");
      }
@@ -141,6 +145,5 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
          $config = self::obtenerBaseDeDatos();
          return new BaseDeDatos($config["servername"] , $config["user"], $config["dbname"], $config["password"]);
      }
-
 
  }

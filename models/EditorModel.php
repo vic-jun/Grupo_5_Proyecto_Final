@@ -1,15 +1,13 @@
 <?php
 
-class EditorModel
-{
+class EditorModel{
     private $baseDeDatos;
 
     public function __construct($baseDeDatos){
         $this->baseDeDatos = $baseDeDatos;
     }
 
-    public function buscarPreguntasAverificar()
-    {
+    public function buscarPreguntasAverificar(){
         $sql = "SELECT preguntas.id as pregunta_id, preguntas.descripcion as pregunta, respuestas.descripcion as respuesta, preguntas_respuestas.correcta as es_correcta
                 FROM preguntas
                 INNER JOIN preguntas_respuestas ON preguntas.id = preguntas_respuestas.id_pregunta
@@ -18,14 +16,12 @@ class EditorModel
         return $this->devolverPreguntasYrespuestas($sql);
     }
 
-    public function aprobarPregunta($pregunta_id)
-    {
+    public function aprobarPregunta($pregunta_id){
         $sql = "UPDATE preguntas SET validacion = 1 WHERE id = $pregunta_id";
         $this->baseDeDatos->query($sql);
     }
 
-    public function rechazarPregunta($pregunta_id)
-    {
+    public function rechazarPregunta($pregunta_id){
         $sql = "DELETE preguntas_respuestas FROM preguntas_respuestas WHERE id_pregunta = $pregunta_id";
         $this->baseDeDatos->query($sql);
 
@@ -38,8 +34,7 @@ class EditorModel
         $this->baseDeDatos->query($sql);
     }
 
-    public function obtenerTodasLasPreguntasYrespuestas()
-    {
+    public function obtenerTodasLasPreguntasYrespuestas(){
         $sql = "SELECT preguntas.id as pregunta_id, preguntas.descripcion as pregunta, respuestas.descripcion as respuesta, preguntas_respuestas.correcta as es_correcta
                 FROM preguntas
                 INNER JOIN preguntas_respuestas ON preguntas.id = preguntas_respuestas.id_pregunta
@@ -48,8 +43,7 @@ class EditorModel
         return $this->devolverPreguntasYrespuestas($sql);
     }
 
-    public function devolverPreguntasYrespuestas(string $sql): array
-    {
+    public function devolverPreguntasYrespuestas(string $sql): array{
         $result = $this->baseDeDatos->queryParaVerificar($sql);
 
         $preguntas = [];
@@ -73,9 +67,7 @@ class EditorModel
         return array_values($preguntas);
     }
 
-    public function modificarPregunta($pregunta_id, $pregunta, $respuesta1, $respuesta2, $respuesta3, $respuesta4, $correcta, $categoria)
-    {
-
+    public function modificarPregunta($pregunta_id, $pregunta, $respuesta1, $respuesta2, $respuesta3, $respuesta4, $correcta, $categoria){
         //obtener id respuestas
         $idRespuesta1 = $this->buscarIdRespuestaPorDescripcion($respuesta1);
         $idRespuesta2 = $this->buscarIdRespuestaPorDescripcion($respuesta2);
@@ -92,22 +84,18 @@ class EditorModel
         $this->modificarRespuesta($respuesta4, $idRespuesta4);
 
         //determinar correcta
-
         $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta1);
         $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta2);
         $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta3);
         $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta4);
-
     }
 
-    public function modificarRespuesta($respuesta, $idRespuesta)
-    {
+    public function modificarRespuesta($respuesta, $idRespuesta){
         $sql = "UPDATE respuestas SET descripcion = '$respuesta' WHERE id = '$idRespuesta'";
         $this->baseDeDatos->query($sql);
     }
 
     public function modificarCorrecta($correcta, $id_pregunta, $id_respuesta){
-
         if ($correcta == $id_respuesta){
             $sql = "UPDATE preguntas_respuestas SET correcta = '$correcta' WHERE id_pregunta = '$id_pregunta' AND id_respuesta = '$id_respuesta'";
             $this->baseDeDatos->query($sql);
@@ -118,7 +106,6 @@ class EditorModel
     }
 
     public function buscarPreguntaYrespuestaPorId($idPregunta){
-
         $resPreg = $this->buscarPreguntas($idPregunta);
 
         if (is_array($resPreg) && count($resPreg) > 0) {
@@ -127,25 +114,21 @@ class EditorModel
             $respuestas = $this->buscarRespuestas($id);
 
             if (is_array($respuestas) && count($respuestas) > 0) {
-
                 $correcta = 0;
 
                 for ($i = 0; $i < count($respuestas); $i++) {
                     if ($respuestas[$i]['correcta'] != 0) {
                         $correcta = $respuestas[$i]['id_respuesta'];
                         $respuestas[$i]['id_respuesta_is_correcta'] = true;
-
                     }else {
                         $respuestas[$i]['id_respuesta_is_correcta'] = false;
                     }
                     $respuestas[$i]['index'] = $i;
                 }
-
                 return array('pregunta' => $pregunta, 'respuestas' => $respuestas, 'categoria' => $pregunta['categoria'], 'correcta' => $correcta);
             } else {
                 return $respuestas;
             }
-
         } else {
             return $resPreg;
         }
@@ -187,23 +170,16 @@ class EditorModel
         return $this->devolverPreguntasYrespuestas($sql);
     }
 
-    public function rechazarReporte($pregunta_id)
-    {
+    public function rechazarReporte($pregunta_id){
         $sql = "UPDATE preguntas SET reportada = 0 WHERE id = $pregunta_id";
         $this->baseDeDatos->query($sql);
     }
 
-
-    private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta)
-    {
+    private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta){
         $sql = "SELECT id FROM respuestas WHERE descripcion = '$respuestaIncorrecta'";
         $res = $this->baseDeDatos->query($sql);
         return $res[0]['id'];
 
     }
-
-
-
-
 
 }

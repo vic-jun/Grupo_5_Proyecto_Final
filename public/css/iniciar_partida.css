@@ -36,7 +36,7 @@ nav ul li a:hover {
 
 /* ESTILO PRINCIPAL */
 main {
-    max-width: 800px;
+    max-width: 950px;
     margin: auto;
     margin-bottom: 5em;
     margin-top: 5em;
@@ -141,4 +141,97 @@ main button {
 
 main button:hover {
     background-color: #4b0082;
+    display: block;
+    color: white;
+}
+
+#reportar {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    display: inline-block;
+    color: #fff;
+    background-color: rgba(189, 72, 89, 0.93);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    box-shadow: none;
+}
+
+#reportar:hover {
+    background-color: #d30202;
+    display: block;
+    color: white;
+}
+
+#timer {
+    padding: 10px;
+    background-color: #6a5acd;
+    color: white;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 20px auto;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.categoria-CIENCIA{
+    background-color: rgba(125, 203, 123, 0.98);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.categoria-HISTORIA{
+    background-color: rgba(175, 156, 19, 0.97);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.categoria-DEPORTE{
+    background-color: rgba(201, 94, 28, 0.96);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.categoria-GEOGRAFIA{
+    background-color: rgba(49, 78, 190, 0.87);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.categoria-ARTE{
+    background-color: rgba(178, 26, 38, 0.82);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.categoria-ENTRETENIMIENTO{
+    background-color: rgba(199, 12, 175, 0.83);
+    display: block;
+    padding: 0.5em;
+    color: black;
+    border-radius: 2em;
+    width: 10em;
+}
+
+.centrar-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
