@@ -51,7 +51,8 @@ class InicioModel
         }
 
         $res = $this->baseDeDatos->query($sql);
-
+        $labels = [];
+        $values = [];
         // Llenar los arrays con los datos de la base de datos
         foreach ($res as $row) {
             $labels[] = $row['fecha']; // Asumiendo que 'fecha_partida' puede ser usada como etiqueta
@@ -59,6 +60,7 @@ class InicioModel
         }
 
         // Devolver un array asociativo con las etiquetas y los valores
+
         return ['labels' => $labels, 'values' => $values];
     }
 
