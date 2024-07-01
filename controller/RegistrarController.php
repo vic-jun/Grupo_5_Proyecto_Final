@@ -28,6 +28,9 @@ class RegistrarController{
             exit();
         } else {
             $result['error'] = "No se ha podido registrar el usuario";
+            $result['showError'] = !empty($result['error']);
+            $result['showError1'] = array_key_exists("error1", $result) && !empty($result['error1']);
+            $result['showError2'] = array_key_exists("error2", $result) && !empty($result['error2']);
             $this->presenter->render("views/registrar.mustache", $result);
         }
     }
