@@ -55,18 +55,13 @@
                     <canvas id="myChart"></canvas>
                 </div> <br> <br>
 
-<!--                TABLA GRAFICA DE PARTIDAS-->
-                <table>
+                <!--  TABLA GRAFICA DE PARTIDAS  -->
+                <table id="partidasTable">
                     <tr>
                         <th>Fecha</th>
                         <th>Total de las partidas</th>
                     </tr>
-                    {{#grafico1.labels}}
-                        <tr>
-                            <td class="posicion">{{.}}</td>
-                            <td class="posicion"><p>{{grafico1.values}}</p></td>
-                        </tr>
-                    {{/grafico1.labels}}
+                    <!-- Las filas de datos se agregarán aquí con JavaScript -->
                 </table>
 
                 <div>
@@ -241,6 +236,33 @@
     document.getElementById('exportAllCharts').addEventListener('click', function() {
         exportAllChartsToPDF(['myChart', 'myChart2', 'myChart3'], 'AllCharts.pdf');
     });
+
+    // Supongamos que tus datos se ven así:
+    // Hacer una solicitud fetch para obtener los datos
+    function updateTable() {
+        fetch('/inicio/get', {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+                .then(response => response.json())
+                .then(data => {
+                    var table = document.getElementById('partidasTable');
+                    for (var i = 0; i < data.grafico1.labels.length; i++) {
+                        var row = document.createElement('tr');
+                        var dateCell = document.createElement('td');
+                        dateCell.textContent = data.grafico1.labels[i];
+                        row.appendChild(dateCell);
+                        var totalCell = document.createElement('td');
+                        totalCell.textContent = data.grafico1.values[i];
+                        row.appendChild(totalCell);
+                        table.appendChild(row);
+                    }
+                });
+    }
+
+    // Llamar a la función para llenar la tabla
+    updateTable();
 </script>
 
 </html>
