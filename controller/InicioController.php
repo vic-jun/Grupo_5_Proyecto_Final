@@ -22,7 +22,7 @@ class InicioController{
 
         if(isset($data['es_admin'])){
             if(isset($_GET['filter'])){
-            $data['grafico1'] = $this->model->obtenerPartidaPorFecha($_GET['filter']);
+                $data['grafico1'] = $this->model->obtenerPartidaPorFecha($_GET['filter']);
             }else{
                 $data['grafico1'] = $this->model->obtenerPartidaPorFecha(null);
             }

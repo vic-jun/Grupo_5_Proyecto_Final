@@ -11,6 +11,8 @@ class PerfilModel{
     public function getPerfil($id){
         $sql = "SELECT * FROM usuario WHERE id = '$id'";
         $result = $this->baseDeDatos->query($sql);
+        if(empty($result))
+            return null;
         $data = 'localhost/perfil?usuario=' . $result[0]["id"];
         $qrUrl = $this->generarQR($data);
         $result[0]['qrUrl'] = $qrUrl;

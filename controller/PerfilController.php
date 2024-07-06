@@ -12,6 +12,10 @@ class PerfilController{
         if(isset($_GET['usuario'])){
             $idUsuario = $_GET['usuario'];
             $datosPerfil = $this->model->getPerfil($idUsuario);
+            if ($datosPerfil === null) {
+                header('Location: /inicio');
+                exit();
+            }
             $this->presenter->render("views/perfil.mustache", ["perfilOtro" => $datosPerfil]);
         } else{
             if (!isset($_SESSION['idUsuario'])) {

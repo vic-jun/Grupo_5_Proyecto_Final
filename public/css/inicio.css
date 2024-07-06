@@ -96,3 +96,22 @@ button:hover {
     background-color: #4b0082;
     cursor: pointer;
 }
+
+/*ESTILO TABLAS*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgba(135, 197, 138, 0.95);
+    color: #1f1f1f;
+}

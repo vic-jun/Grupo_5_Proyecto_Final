@@ -65,7 +65,7 @@ class EditorController{
 
     public function aprobarReporte(){
         $pregunta_id = $_POST['pregunta_id'];
-        $this->model->rechazarPregunta($pregunta_id);
+        $this->model->aprobarReporte($pregunta_id);
         header('Location: /admin/preguntasReportadas');
     }
 

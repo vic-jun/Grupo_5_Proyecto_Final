@@ -55,6 +55,20 @@
                     <canvas id="myChart"></canvas>
                 </div> <br> <br>
 
+<!--                TABLA GRAFICA DE PARTIDAS-->
+                <table>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Total de las partidas</th>
+                    </tr>
+                    {{#grafico1.labels}}
+                        <tr>
+                            <td class="posicion">{{.}}</td>
+                            <td class="posicion"><p>{{grafico1.values}}</p></td>
+                        </tr>
+                    {{/grafico1.labels}}
+                </table>
+
                 <div>
                     <h3>Cantidad total de usuarios por país</h3>
                     <canvas id="myChart2"></canvas>
@@ -173,12 +187,12 @@
                 datasets: [{
                     data: [],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.95)',
-                        'rgba(54, 162, 235, 0.95)',
-                        'rgba(255, 206, 86, 0.95)',
-                        'rgba(75, 192, 192, 0.95)',
-                        'rgba(153, 102, 255, 0.95)',
-                        'rgba(255, 159, 64, 0.95)'
+                        'rgba(250,71,247,0.91)',
+                        'rgba(23,112,171,0.91)',
+                        'rgba(246,203,98,0.91)',
+                        'rgba(75,192,192,0.91)',
+                        'rgba(137,79,253,0.91)',
+                        'rgba(252,13,50,0.91)'
                     ]
                 }]
             }
