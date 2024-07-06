@@ -118,7 +118,6 @@ class JuegoController{
         try {
             echo json_encode(["time_left" => $this->getTimeLeft()]);
         } catch (Exception $e) {
-            // Si hay un error, envía una respuesta JSON con el mensaje de error
             echo json_encode(["error" => $e->getMessage()]);
         }
     }
@@ -142,7 +141,6 @@ class JuegoController{
     }
 
     private function calcularDificultad(){
-        // Obtener respuestas totales y correctas del usuario
         $respuestasTotales = $this->model->obtenerCantTotalRespuestasRespondidas();
         $cantRespuestasCorrectas = $this->model->obtenerCantRespuestasCorrectas();
         $cantCorrectasBloque = $_SESSION["correctasBloque"] ?? 0;
@@ -151,7 +149,6 @@ class JuegoController{
         if ($respuestasTotales >= 8 && $respuestasTotales <= 12) {
             $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
         } else if ($respuestasTotales > 12) {
-            // Calcular el número de bloques completos de 5 respuestas después de las primeras 12 respuestas
             $this->calcular($cantRespuestasCorrectas, $respuestasTotales);
         }
     }

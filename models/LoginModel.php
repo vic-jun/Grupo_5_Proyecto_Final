@@ -1,6 +1,5 @@
 <?php
 class LoginModel{
-
     private $baseDeDatos;
 
     public function __construct($baseDeDatos){
@@ -8,8 +7,10 @@ class LoginModel{
     }
 
     public function validar($usuario, $password){
-        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password' AND confirmed = 1";
+//        $passwordHash = md5($password);
+//        echo $passwordHash;
 
+        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password' AND confirmed = 1";
         $result = $this->baseDeDatos->query($sql);
 
         if (empty($result)){
@@ -21,23 +22,21 @@ class LoginModel{
 
     public function buscarIdUsuario ($usuario){
         $sql = "SELECT id FROM usuario WHERE nombre_de_usuario = '$usuario'";
-
         $result = $this->baseDeDatos->query($sql);
 
-        if (is_array($result) && isset($result[0]['id'])) {
+        if (is_array($result) && isset($result[0]['id']))
             return $result[0]['id'];
-        }
+
         return null;
     }
 
     public function buscarRolUsuario ($usuario){
         $sql = "SELECT rol FROM usuario WHERE nombre_de_usuario = '$usuario'";
-
         $result = $this->baseDeDatos->query($sql);
 
-        if (is_array($result) && isset($result[0]['rol'])) {
+        if (is_array($result) && isset($result[0]['rol']))
             return $result[0]['rol'];
-        }
+
         return null;
     }
 

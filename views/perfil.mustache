@@ -25,17 +25,25 @@
         <h1>Perfil</h1>
         <div class="user-data">
             {{#perfil}}
-            <h4>Nombre de usuario: {{nombre_de_usuario}}</h4>
-            <h4>Nombre: {{nombre}}</h4>
-            <h4>Apellido: {{apellido}}</h4>
-            <h4>Email: {{email}}</h4>
-            <h4>Año de nacimiento: {{año_nacimiento}}</h4>
-            <h4>País: {{pais}}</h4>
-            <h4>Ciudad: {{ciudad}}</h4>
-            <h4>Genero: {{genero}}</h4>
-            <h4>Puntaje máximo: {{puntaje}} puntos</h4>
-                <img src="{{foto}}" alt="fotitoPerfil">
-            <img src="{{qrUrl}}">
+                <div class="user-info">
+                    <img src="{{foto}}" alt="fotitoPerfil" class="profile-pic">
+                    <div class="text-info">
+                        <h4>Nombre de usuario: {{nombre_de_usuario}}</h4>
+                        <h4>Nombre: {{nombre}}</h4>
+                        <h4>Apellido: {{apellido}}</h4>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <img src="{{qrUrl}}" alt="QR Code" class="qr-pic">
+                    <div class="text-info">
+                        <h4>Email: {{email}}</h4>
+                        <h4>Año de nacimiento: {{año_nacimiento}}</h4>
+                        <h4>País: {{pais}}</h4>
+                        <h4>Ciudad: {{ciudad}}</h4>
+                        <h4>Genero: {{genero}}</h4>
+                        <h4>Puntaje máximo: {{puntaje}} puntos</h4>
+                    </div>
+                </div>
             {{/perfil}}
 
             {{#perfilOtro}}
@@ -47,7 +55,6 @@
                 <img src="{{foto}}" alt="fotitoPerfil">
                 <img src="{{qrUrl}}">
             {{/perfilOtro}}
-
 
         </div>
     </main>

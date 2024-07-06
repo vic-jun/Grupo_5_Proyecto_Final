@@ -21,7 +21,6 @@ include_once "controller/PartidasController.php";
 include_once "models/RegistrarModel.php";
 include_once "models/ConfirmarEmailModel.php";
 include_once "models/LoginModel.php";
-include_once "models/SeleccionarCategoriaModel.php";
 include_once "models/JuegoModel.php";
 include_once "models/RankingModel.php";
 include_once "models/PerfilModel.php";
@@ -57,7 +56,7 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
      }
 
      public static function getSeleccionarCategoriaController(){
-         return new SeleccionarCategoriaController(self::getSeleccionarCategoriaModel(),self::getPresenter());
+         return new SeleccionarCategoriaController(self::getPresenter());
      }
 
      public static function getJuegoController(){
@@ -99,10 +98,6 @@ include_once "vendor/PHPMailer-6.9.1/src/PHPMailer.php";
 
      public static function getLoginModel(){
         return new LoginModel(self::getBaseDeDatos());
-     }
-
-     public static function getSeleccionarCategoriaModel(){
-        return new SeleccionarCategoriaModel(self::getBaseDeDatos());
      }
 
      private static function getJuegoModel(){
