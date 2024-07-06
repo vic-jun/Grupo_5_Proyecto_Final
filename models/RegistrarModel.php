@@ -123,7 +123,7 @@ class RegistrarModel{
         if($queryResult === false){
             return false;
         }
-        return $queryResult->num_rows > 0;
+        return count($queryResult) > 0;
     }
 
 }
