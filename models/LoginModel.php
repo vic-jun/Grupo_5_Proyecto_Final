@@ -7,16 +7,18 @@ class LoginModel{
     }
 
     public function validar($usuario, $password){
-//        $passwordHash = md5($password);
-//        echo $passwordHash;
 
-        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND password = '$password' AND confirmed = 1";
+        $sql = "SELECT * FROM usuario WHERE nombre_de_usuario = '$usuario' AND confirmed = 1";
         $result = $this->baseDeDatos->query($sql);
-
         if (empty($result)){
             return false;
         } else {
-            return true;
+            // Verify the password
+            if (password_verify($password, $result[0]['password'])) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

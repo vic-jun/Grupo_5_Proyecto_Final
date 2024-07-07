@@ -61,11 +61,12 @@ class RegistrarModel{
         if(empty($queryResult) == false)
             return Array('error1' => "El nombre de usuario ya está registrado") ;
 
-        //hasheo contraseña
-//        $passwordHash = md5($password);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed) 
-                VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$password', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0)";
+
+
+        $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed, nivelUsuario) 
+                VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$passwordHash', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0, 'basico')";
 
         $this->baseDeDatos->query($sql);
         file_put_contents('hashes.txt', $hash . PHP_EOL, FILE_APPEND);

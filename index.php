@@ -13,12 +13,12 @@
 
                 $controller = $_GET['controller'];
                 if (!in_array($controller, $validControllers)) {
-                    $controller = "Inicio";
+                    header("Location: /inicio");
                 }else {
                     switch ($controller) {
                         case "registrar":
                         case "login":
-                            $controller = "Inicio";
+                        header("Location: /inicio");
                             break;
                     }
 
@@ -28,13 +28,25 @@
                             case "confirmarEmail":
                             case "resumenPartida":
                             case "seleccionarCategoria":
-                                $controller = "Inicio";
+                            case "partidas":
+                            header("Location: /inicio");
                                 break;
                         }
                     } elseif ($_SESSION['rol'] == "usuario") {
                         switch ($controller) {
                             case "editor":
-                                $controller = "Inicio";
+                                header("Location: /inicio");
+                                break;
+                        }
+                    }elseif ($_SESSION['rol'] == "ADMIN") {
+                        switch ($controller) {
+                            case "jugar":
+                            case "confirmarEmail":
+                            case "resumenPartida":
+                            case "seleccionarCategoria":
+                            case "partidas":
+                            case "editor":
+                                header("Location: /inicio");
                                 break;
                         }
                     }
@@ -60,7 +72,7 @@
                     case "resumenPartida":
                     case "seleccionarCategoria":
                     case "verificarPregunta":
-                        $controller = "login";
+                        header("Location: /login");
                         break;
                 }
 
@@ -86,7 +98,7 @@
                 case "resumenPartida":
                 case "seleccionarCategoria":
                 case "verificarPregunta":
-                    $controller = "login";
+                    header("Location: /login");
                     break;
             }
 
