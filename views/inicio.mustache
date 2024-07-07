@@ -299,8 +299,11 @@
             var tablePromises = tableIds.map(function(tableId, index) {
                 return html2canvas(document.getElementById(tableId)).then(function(canvas) {
                     var imgData = canvas.toDataURL('image/png');
-                    var elementPosition = [((pageSize[0] - elementSize[0]) / 2) - 10, titlePosition[1] + 10 + (index * (elementSize[1] + 100))];  // Posición de las tablas (centrado horizontalmente, 10 puntos de margen en la parte superior y entre tablas)
+                    var elementPosition = [(pageSize[0] - canvas.width) / 2, (pageSize[1] - canvas.height) / 2];  // Posición de las tablas (centrado horizontalmente y verticalmente)
                     doc.addImage(imgData, 'PNG', elementPosition[0], elementPosition[1], canvas.width, canvas.height);
+                    if (index < tableIds.length - 1) {  // No añadir una nueva página después de la última tabla
+                        doc.addPage();
+                    }
                 });
             });
 
