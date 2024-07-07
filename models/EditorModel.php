@@ -21,7 +21,27 @@ class EditorModel{
         $this->baseDeDatos->query($sql);
     }
 
+    public function eliminarPregunta($pregunta_id){
+        $sql1 = "DELETE FROM preguntas_usuarios WHERE idPregunta = $pregunta_id";
+        $this->baseDeDatos->query($sql1);
+
+        $sql2 = "DELETE FROM preguntas_respuestas WHERE id_pregunta = $pregunta_id";
+        $this->baseDeDatos->query($sql2);
+
+        $sql3 = "DELETE respuestas FROM respuestas
+        INNER JOIN preguntas_respuestas ON respuestas.id = preguntas_respuestas.id_respuesta
+        WHERE preguntas_respuestas.id_pregunta = $pregunta_id";
+        $this->baseDeDatos->query($sql3);
+
+        $sql = "DELETE FROM preguntas WHERE id = $pregunta_id";
+        $this->baseDeDatos->query($sql);
+    }
+
+
+
+
     public function rechazarPregunta($pregunta_id){
+
         $sql = "DELETE preguntas_respuestas FROM preguntas_respuestas WHERE id_pregunta = $pregunta_id";
         $this->baseDeDatos->query($sql);
 

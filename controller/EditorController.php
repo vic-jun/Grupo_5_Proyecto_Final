@@ -37,7 +37,7 @@ class EditorController{
 
     public function eliminarPregunta(){
         $pregunta_id = $_POST['pregunta_id'];
-        $this->model->rechazarPregunta($pregunta_id);
+        $this->model->eliminarPregunta($pregunta_id);
         header('Location: /admin/editarPreguntas');
     }
 
