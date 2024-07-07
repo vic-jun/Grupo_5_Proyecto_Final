@@ -55,15 +55,40 @@
                     <canvas id="myChart"></canvas>
                 </div> <br> <br>
 
+                <!--  TABLA GRAFICA DE PARTIDAS  -->
+                <table id="partidasTable">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Total de las partidas</th>
+                    </tr>
+                    <!-- Las filas de datos se agregarán aquí con JavaScript -->
+                </table>
+
                 <div>
                     <h3>Cantidad total de usuarios por país</h3>
                     <canvas id="myChart2"></canvas>
                 </div> <br> <br>
-
+                <!--  TABLA GRAFICA DE Paises  -->
+                <table id="paisesTable">
+                    <tr>
+                        <th>País</th>
+                        <th>Total de usuarios</th>
+                    </tr>
+                    <!-- Las filas de datos se agregarán aquí con JavaScript -->
+                </table>
                 <div>
                     <h3>Cantidad total de usuarios por genero</h3>
                     <canvas id="myChart3"></canvas>
                 </div> <br> <br>
+
+                <!--  TABLA GRAFICA DE GENERO  -->
+                <table id="genderTable">
+                    <tr>
+                        <th>Genero</th>
+                        <th>Total usuarios</th>
+                    </tr>
+                    <!-- Las filas de datos se agregarán aquí con JavaScript -->
+                </table>
             </div>
 
             <div class="centrado">
@@ -99,6 +124,22 @@
             }
         });
 
+        function updateTable(data) {
+            var table = document.getElementById('partidasTable');
+            // Clear the table
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            // Add new rows
+            for (var i = 0; i < data.data.grafico1.labels.length; i++) {
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = data.data.grafico1.labels[i];
+                cell2.innerHTML = data.data.grafico1.values[i];
+            }
+        }
+
         // Función para actualizar el gráfico
         function updateChart1(filter) {
             fetch('/inicio/get?filter=' + filter, {
@@ -112,6 +153,7 @@
                         chart.data.labels = data.data.grafico1.labels;
                         chart.data.datasets[0].data = data.data.grafico1.values;
                         chart.update();
+                        updateTable(data);
                     });
         }
 
@@ -141,7 +183,21 @@
                 }]
             }
         });
-
+        function updateTable2(data) {
+            var table = document.getElementById('paisesTable'); // Assuming you have a table with id 'usersCountryTable'
+            // Clear the table
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            // Add new rows
+            for (var i = 0; i < data.data.grafico2.labels.length; i++) {
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = data.data.grafico2.labels[i];
+                cell2.innerHTML = data.data.grafico2.values[i];
+            }
+        }
         // Function to update the second chart
         function updateChart2() {
             fetch('/inicio/get', {
@@ -155,6 +211,7 @@
                         chart2.data.labels = data.data.grafico2.labels;
                         chart2.data.datasets[0].data = data.data.grafico2.values;
                         chart2.update();
+                        updateTable2(data);
                     });
         }
 
@@ -173,16 +230,32 @@
                 datasets: [{
                     data: [],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.95)',
-                        'rgba(54, 162, 235, 0.95)',
-                        'rgba(255, 206, 86, 0.95)',
-                        'rgba(75, 192, 192, 0.95)',
-                        'rgba(153, 102, 255, 0.95)',
-                        'rgba(255, 159, 64, 0.95)'
+                        'rgba(250,71,247,0.91)',
+                        'rgba(23,112,171,0.91)',
+                        'rgba(246,203,98,0.91)',
+                        'rgba(75,192,192,0.91)',
+                        'rgba(137,79,253,0.91)',
+                        'rgba(252,13,50,0.91)'
                     ]
                 }]
             }
         });
+
+        function updateTable3(data) {
+            var table = document.getElementById('genderTable'); // Assuming you have a table with id 'genderTable'
+            // Clear the table
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            // Add new rows
+            for (var i = 0; i < data.data.grafico3.labels.length; i++) {
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = data.data.grafico3.labels[i];
+                cell2.innerHTML = data.data.grafico3.values[i];
+            }
+        }
 
         // Function to update the third chart
         function updateChart3() {
@@ -197,6 +270,7 @@
                         chart3.data.labels = data.data.grafico3.labels;
                         chart3.data.datasets[0].data = data.data.grafico3.values;
                         chart3.update();
+                        updateTable3(data);
                     });
         }
 
@@ -204,29 +278,42 @@
         updateChart3();
     }
 
-    function exportAllChartsToPDF(chartIds, pdfName) {
+    function exportAllChartsAndTablesToPDF(chartIds, tableIds, pdfName) {
         var pageSize = [595.28, 841.89];  // Tamaño de la hoja en puntos
         var doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: pageSize });
-        var title = 'Reporte de Gráficos';
+        var title = 'Reporte de Gráficos y Tablas';
         var titlePosition = [pageSize[0] / 2, 30];  // Posición del título (centrado horizontalmente, 30 puntos de margen en la parte superior)
-        doc.text(title, titlePosition[0], titlePosition[1], { align: 'center' });
-        var chartSize = [pageSize[0] * 0.8, pageSize[1] * 0.3];  // Tamaño de los gráficos (80% del ancho de la hoja, 20% del alto de la hoja)
+        var elementSize = [pageSize[0] * 0.8, pageSize[1] * 0.3];  // Tamaño de los gráficos y tablas (80% del ancho de la hoja, 20% del alto de la hoja)
+
         var chartPromises = chartIds.map(function(chartId, index) {
             return html2canvas(document.getElementById(chartId)).then(function(canvas) {
                 var imgData = canvas.toDataURL('image/png');
-                var chartPosition = [(pageSize[0] - chartSize[0]) / 2, titlePosition[1] + 10 + (index * (chartSize[1] + 10))];  // Posición de los gráficos (centrado horizontalmente, 10 puntos de margen en la parte superior y entre gráficos)
-                doc.addImage(imgData, 'PNG', chartPosition[0], chartPosition[1], chartSize[0], chartSize[1]);
+                var elementPosition = [(pageSize[0] - elementSize[0]) / 2, titlePosition[1] + 10 + (index * (elementSize[1] + 10))];  // Posición de los gráficos (centrado horizontalmente, 10 puntos de margen en la parte superior y entre gráficos)
+                doc.addImage(imgData, 'PNG', elementPosition[0], elementPosition[1], elementSize[0], elementSize[1]);
             });
         });
 
         Promise.all(chartPromises).then(function() {
-            doc.save(pdfName);
+            doc.addPage();  // Añadir una nueva página después de agregar todos los gráficos
+
+            var tablePromises = tableIds.map(function(tableId, index) {
+                return html2canvas(document.getElementById(tableId)).then(function(canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var elementPosition = [((pageSize[0] - elementSize[0]) / 2) - 10, titlePosition[1] + 10 + (index * (elementSize[1] + 100))];  // Posición de las tablas (centrado horizontalmente, 10 puntos de margen en la parte superior y entre tablas)
+                    doc.addImage(imgData, 'PNG', elementPosition[0], elementPosition[1], canvas.width, canvas.height);
+                });
+            });
+
+            Promise.all(tablePromises).then(function() {
+                doc.save(pdfName);
+            });
         });
     }
 
     document.getElementById('exportAllCharts').addEventListener('click', function() {
-        exportAllChartsToPDF(['myChart', 'myChart2', 'myChart3'], 'AllCharts.pdf');
+        exportAllChartsAndTablesToPDF(['myChart', 'myChart2', 'myChart3'], ['partidasTable', 'paisesTable', 'genderTable'], 'AllChartsAndTables.pdf');
     });
+
 </script>
 
 </html>

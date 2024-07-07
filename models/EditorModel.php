@@ -90,6 +90,12 @@ class EditorModel{
         $this->modificarCorrecta($correcta, $pregunta_id, $idRespuesta4);
     }
 
+    private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta){
+        $sql = "SELECT id FROM respuestas WHERE descripcion = '$respuestaIncorrecta'";
+        $res = $this->baseDeDatos->query($sql);
+        return $res[0]['id'];
+    }
+
     public function modificarRespuesta($respuesta, $idRespuesta){
         $sql = "UPDATE respuestas SET descripcion = '$respuesta' WHERE id = '$idRespuesta'";
         $this->baseDeDatos->query($sql);
@@ -170,16 +176,15 @@ class EditorModel{
         return $this->devolverPreguntasYrespuestas($sql);
     }
 
+    public function aprobarReporte($pregunta_id){
+        $sql = "UPDATE preguntas SET validacion = -1 , reportada = -1 WHERE id = $pregunta_id";
+        $this->baseDeDatos->query($sql);
+    }
     public function rechazarReporte($pregunta_id){
         $sql = "UPDATE preguntas SET reportada = 0 WHERE id = $pregunta_id";
         $this->baseDeDatos->query($sql);
     }
 
-    private function buscarIdRespuestaPorDescripcion($respuestaIncorrecta){
-        $sql = "SELECT id FROM respuestas WHERE descripcion = '$respuestaIncorrecta'";
-        $res = $this->baseDeDatos->query($sql);
-        return $res[0]['id'];
 
-    }
 
 }

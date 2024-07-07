@@ -47,6 +47,7 @@ class RegistrarModel{
             }
         }
 
+        //validacion de email / hash
         $hash = hash('sha256', $email . $password);
 
         $sql1 = "SELECT 1 FROM usuario WHERE email = '$email'";
@@ -59,6 +60,9 @@ class RegistrarModel{
         $queryResult = $this->baseDeDatos->query($sql2);
         if(empty($queryResult) == false)
             return Array('error1' => "El nombre de usuario ya está registrado") ;
+
+        //hasheo contraseña
+//        $passwordHash = md5($password);
 
         $sql = "INSERT INTO usuario (nombre_de_usuario, nombre, apellido, email, password, pais, ciudad, foto, año_nacimiento, genero, rol, hash, confirmed) 
                 VALUES ('$nombreUsuario', '$nombre', '$apellido', '$email', '$password', '$pais', '$ciudad', '$nombre_foto', '$añoNacimiento', '$genero', '$rol', '$hash', 0)";

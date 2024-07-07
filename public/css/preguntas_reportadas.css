@@ -141,3 +141,21 @@ main {
     display: flex;
     justify-content: center;
 }
+
+#inicio {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: black;
+    background-color: rgba(83, 159, 152, 0.64);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    border: none;
+    text-decoration: none;
+}
+
+#inicio:hover {
+    color: black;
+    background-color: rgb(63, 121, 113);
+    font-weight: bold;
+}
