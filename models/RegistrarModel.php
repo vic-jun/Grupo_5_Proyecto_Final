@@ -87,19 +87,27 @@ class RegistrarModel{
             $mail->Port = $this->getEmailConfig()['port'];
             $mail->CharSet = 'UTF-8';
 
+            // Añadir opciones SSL
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+
             $mail->setFrom($this->getEmailConfig()['address'], 'PREGUNTADITOS');
             $mail->addAddress($email, $username);
             $mail->Subject = 'Validación de cuenta';
             $mail->isHTML(true);
             $mail->Body = '<h1> Tu URL para activar tu correo </h1>
-                            Haz click <a href="http://' . $_SERVER['SERVER_NAME'] . '/registrar/validateEmail?hash=' . $hash . '">en este link</a> para validar tu email';
+                        Haz click <a href="http://' . $_SERVER['SERVER_NAME'] . '/registrar/validateEmail?hash=' . $hash . '">en este link</a> para validar tu email';
             $mail->AltBody = 'Si no puedes ver este mensaje, por favor, habilita el soporte para HTML en tu cliente de correo.';
             $mail->send();
         } catch (Exception $e) {
             echo 'Error al enviar el correo: ' . $mail->ErrorInfo . ' ' . $e;
         }
     }
-
     private function getEmailConfig() {
         $config = json_decode(file_get_contents(__DIR__ . '/../config/email_config.json'), true);
         return $config;
